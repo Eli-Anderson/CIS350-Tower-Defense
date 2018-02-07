@@ -2,12 +2,12 @@
 
 Working Document: https://docs.google.com/document/d/1IJov2GVJCX3VaB_XxGHt3o6Q6bUhUzRZz1HasKTR85I/edit
 
-##PURPOSE
+## PURPOSE
 To fulfill CIS350's semester-long group project requirement we will
 envision, develop, and produce a 2D 'tower defense' game built with 
 Java.
 
-##SCOPE
+## SCOPE
 As with any game, the difficulty and time required to make it
 depend entirely on the scope. With this in mind we will outline the
 basic and stretch goals for the project, but in general we want to
@@ -15,15 +15,15 @@ adhere to the simple style of the classic Flash tower defense games that
 dominated the web years ago. These games were not technological marvels,
 but they were still very enjoyable.
 
-##INSPIRATION
+## INSPIRATION
 [Bloons TD 5](https://ninjakiwi.com/Games/Tower-Defense/Play/Bloons-Tower-Defense-5.html)
 
 
 
 
-##GOALS
+## GOALS
 
-####BASIC
+#### BASIC
   * ###### One difficulty setting
   
     Normal base health, monster health/armor/damage/etc., tower damage/
@@ -46,7 +46,7 @@ but they were still very enjoyable.
     finish  
     Once the base loses all health the game is over
   
-####STRETCH
+#### STRETCH
   * ###### Multiple difficulty settings (easy, medium, hard)
   
     This can affect the base's health, the starting currency, the health 
@@ -70,19 +70,19 @@ but they were still very enjoyable.
     Towers will be able to set to target either the Strongest, Weakest,
     First (closest to base), or Last (farthest from base) enemy. 
     
-##BEHAVIOURS
-####Game
+## BEHAVIOURS
+#### Game
   * The main engine of the game
   * Creates the map, all GUI components
   * Handles inputs and outputs
   * Runs the game loop
   
-####Map
+#### Map
   * Holds the tiles that make up the map (background and path)
   * Holds the towers placed on the map
   * Creates the path
   
-####Tower
+#### Tower
   * Can be placed (either drag and drop or click to place)
   * Placing (a.k.a. building) costs currency based upon the level of tower
   * Once placed, towers can only be sold (and not moved)
@@ -92,7 +92,7 @@ but they were still very enjoyable.
     (i.e. more damage or better fire rate) after they are built, which costs
     a set amount of currency based on the current level up upgrade. This can
     only be done a set number of times (3 upgrades per tower, for example)
-####Enemy
+#### Enemy
   * Is created when the wave (round) starts
   * Moves along the path towards the base
   * Once it reaches the base, it damages it according to its damage value
