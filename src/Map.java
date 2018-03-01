@@ -10,7 +10,13 @@ public class Map {
     private static final char RD = '\u21B4';
     private static final char RU = '\u2197';
 
-    Map (int width, int height) {
+    /**
+     * Creates a Map object with a randomized path. Capable of holding one Tower on
+     * each Tile.
+     * @param width the number of columns
+     * @param height the number of rows
+     */
+    public Map (int width, int height) {
         this.width = width;
         this.height = height;
         this.tiles = new Tile[height][width];
@@ -22,22 +28,56 @@ public class Map {
         this.createPath(0, height / 2);
         this.towers = new Tower[this.height][this.width];
     }
+
+    /**
+     * Get the width (number of columns) of the Map
+     * @return the width of the Map
+     */
     public int getWidth () {
         return this.width;
     }
+
+    /**
+     * Get the height (number of rows) of the Map
+     * @return the height of the Map
+     */
     public int getHeight () {
         return this.height;
     }
+
+    /**
+     * Gets the tile at the given position if possible, otherwise returns null
+     * @param x the column
+     * @param y the row
+     * @return the Tile at row y, col x
+     */
     Tile getTile (int x, int y) {
-        return this.tiles[y][x];
+        if (x < this.width && x >= 0 && y < this.height && y >= 0)
+            return this.tiles[y][x];
+        else
+            return null;
     }
 
+    /**
+     * Creates the path, starting at position col (x), row (y) and ending
+     * at the right edge of the Map. Calls its recursive counterpart
+     * @param col the starting column position
+     * @param row the starting row position
+     */
     private void createPath (int col, int row) {
         createPath(col, row, null);
         System.out.println(this);
         fixCorners();
 
     }
+
+    /**
+     * The recursive counterpart of createPath, which uses pseudo random
+     * choices and logic to develop a path going from left to right
+     * @param col the current column position
+     * @param row the current row position
+     * @param lastTilePlaced
+     */
     private void createPath (int col, int row, Tile lastTilePlaced) {
         if (col >= getWidth()) {
             return;
@@ -98,6 +138,10 @@ public class Map {
         }
     }
 
+    /**
+     * Used to modify the path so that corners are labeled correctly, so as
+     * to draw them as corners and connect the path without any breaks
+     */
     private void fixCorners () {
         // start at middle
         int currentX = 0;
@@ -137,6 +181,12 @@ public class Map {
 
     }
 
+    /**
+     * Adds a tower to the array if possible
+     * @param tower the Tower to be added
+     * @param x the column position
+     * @param y the row position
+     */
     public void addTower (Tower tower, int x, int y) {
         if (x < this.width && x >= 0 &&
             y < this.height && y >= 0) this.towers[y][x] = tower;
@@ -144,12 +194,23 @@ public class Map {
             // out of bounds
     }
 
+    /**
+     * Gets a tower at the given position, otherwise returns null
+     * @param x the column position
+     * @param y the row position
+     * @return the Tower at the given position
+     */
     public Tower getTower (int x, int y) {
         if (x < this.width && x >= 0 &&
             y < this.height && y >= 0) return this.towers[y][x];
         return null;
     }
 
+    /**
+     * Returns a string representation of the Map, consisting of the path's
+     * Tiles' directions of travel
+     * @return the String representation of the Map
+     */
     public String toString () {
         StringBuilder result = new StringBuilder();
         for (int col = 0; col < tiles.length; col++) {
