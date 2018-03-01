@@ -6,9 +6,6 @@
  * @version 1
  ********************************/
 
-/* figure out how to do this
- import Tower;
- import Map; */
 
 public class Monster {
     
