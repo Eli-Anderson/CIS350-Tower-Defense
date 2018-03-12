@@ -6,14 +6,21 @@
  * @version 1
  ********************************/
 
+import java.awt.*;
 
-public class Monster {
+public class Monster{
     
     /** Monster's attack **/
     private int attack;
+
+    /** Angle **/
+    private void angle;
     
     /** Monster's health **/
     private int health;
+
+    /** Path for monster to take **/
+    public int path;
     
     /** Hold Position X **/
     private double posX;
@@ -29,6 +36,9 @@ public class Monster {
     
     /** Movement speed  bigger = slower**/
     private int moveSpeed;
+
+    /** Reward for killing the monster **/
+    private int reward;
     
     public Monster(int attack, int health, double posX, double posY){
         this.attack = attack;
@@ -61,6 +71,14 @@ public class Monster {
     public void setAttack(int attack) {
         this.attack = attack;
     }
+
+    public void setReward(int reward) {
+        this.reward = reward;
+    }
+
+    public void getReward(int reward) {
+        return reward;
+    }
     
     public int getHealth() {
         return health;
@@ -70,19 +88,66 @@ public class Monster {
         this.health = health;
     }
     
-    public int alive(){
+    public boolean alive(){
         if(health > 0){
-            return 1;
+            return true;
         }
         else{
-            return -1;
+            reward = 20;
+            return false;
         }
     }
-    
-    public int reward(){
-        int reward = 0;
-        // add something to increment reward?
-        return reward;
+
+    public int yourReward(){
+        if(alive()){
+            reward = 0;
+        }
+        else{
+            reward = 20;
+        }
+    }
+
+    public void hurt(int damage){
+        if(health > 0){
+            health -= damage;
+        }
+        else{
+            health = 0;
+        }
+    }
+
+
+    public void move(double time){
+
+        // transform.position ?????
+        Tile position = new Tile(posX, posY);
+        int targX = posX * 128 + 64;
+        int targY = posY * 128 + 64;
+
+        distance = Math.abs(targY - posY) + Math.abs(targX - posX);
+        Tile targetPos = new Tile(targX, targY);
+
+        angle = Math.atan2(targY, targX);
+        if(angle < Math.PI){
+            angle += Math.PI * 2;
+        }
+
+        if(distance < time * moveSpeed){
+            path += 1;
+        }
+
+        // add some way to rotate?
+
+        else{
+            // get tile position
+        }
+
+
+
+    }
+
+    public void draw(){
+        // lets us draw the image
     }
     
 
