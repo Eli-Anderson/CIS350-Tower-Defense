@@ -4,6 +4,6 @@ public class Tile {
     Tile (int x, int y) {
         this.x = x;
         this.y = y;
-        this.type = '•';
+        this.type = ' ';
     }
 }

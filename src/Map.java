@@ -67,7 +67,7 @@ public class Map {
      */
     private void createPath (int col, int row) {
         createPath(col, row, null);
-        System.out.println(this);
+        //System.out.println(this);
         fixCorners();
 
     }
@@ -150,7 +150,7 @@ public class Map {
         Tile lastTile = this.tiles[currentY][currentX];
 
         while (currentX < this.width) {
-            System.out.println(lastTile.type);
+            //System.out.println(lastTile.type);
             switch (lastTile.type) {
                 case U:
                 case RU:
