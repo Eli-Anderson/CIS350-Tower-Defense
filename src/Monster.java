@@ -121,17 +121,33 @@ public class Monster{
     }
 
     // we would need an available list of nodes (which we now have)
-    public void astar(Tile[][] start, Tile[][] finish){
+    public void travel(Tile[][] start, Tile[][] finish){
         Map m = new Map(8, 8);
+        Tile here = path[0][0];
+        ArrayList<Tile> visited = new ArrayList<Tile>();
         // gives us the path we can eventually take
         for(int x = 0; x < m.getWidth(); x++){
             for(int y = 0; y < m.getHeight(); y++){
                 // path we need to take
                 path[x][y] = m.getTile(x,y);
                 // what we have not visited yet
-                remaining[x][y] = m.getTile(x,y);
+                //remaining[x][y] = m.getTile(x,y);
             }
         }
+
+        // travels the actual path starting at the tile at the first position
+        // may need to update, I am unsure if this is the correct path
+        // will need to update to account for movement speed
+        while(visited.length() < path.length()){
+            for(Tile tile : path){
+                // visits the tile and adds it to list of visited tiles
+                here = tile;
+
+                // adds tile to previous tile we have visited
+                visited.add(here);
+            }
+        }
+
 
 
     }
