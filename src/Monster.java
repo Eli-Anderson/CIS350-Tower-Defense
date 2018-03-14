@@ -14,13 +14,17 @@ public class Monster{
     private int attack;
 
     /** Angle **/
-    private void angle;
+    private double angle;
     
     /** Monster's health **/
     private int health;
 
     /** Path for monster to take **/
-    public int path;
+    public Tile[][] path;
+
+    /** remaing path for monster **/
+    public Tile[][] remaining;
+
     
     /** Hold Position X **/
     private double posX;
@@ -72,14 +76,14 @@ public class Monster{
         this.attack = attack;
     }
 
+    public int getReward() {
+        return reward;
+    }
+
     public void setReward(int reward) {
         this.reward = reward;
     }
 
-    public void getReward(int reward) {
-        return reward;
-    }
-    
     public int getHealth() {
         return health;
     }
@@ -98,7 +102,7 @@ public class Monster{
         }
     }
 
-    public int yourReward(){
+    public void yourReward(){
         if(alive()){
             reward = 0;
         }
@@ -116,7 +120,29 @@ public class Monster{
         }
     }
 
+    // we would need an available list of nodes (which we now have)
+    public void astar(Tile[][] start, Tile[][] finish){
+        Map m = new Map(8, 8);
+        // gives us the path we can eventually take
+        for(int x = 0; x < m.getWidth(); x++){
+            for(int y = 0; y < m.getHeight(); y++){
+                // path we need to take
+                path[x][y] = m.getTile(x,y);
+                // what we have not visited yet
+                remaining[x][y] = m.getTile(x,y);
+            }
+        }
 
+
+    }
+
+/*
+    public void moves(int distance){
+        distance = Math.abs(distance * this.moveSpeed);
+        int sign = (this.moveSpeed > 0) ? 2 : -2;
+        int remaining = 0;
+
+    }
     public void move(double time){
 
         // transform.position ?????
@@ -153,5 +179,5 @@ public class Monster{
 
     
     // TODO: add function to locate monster's exact position as well as tower's exact position
-    
+    */
 }

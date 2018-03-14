@@ -1,6 +1,7 @@
 public class Map {
     private int width, height;
-    private Tile[][] tiles;
+    // temporarily make tiles public so we can access in Monster
+    public Tile[][] tiles;
     private Tower[][] towers;
     private static final char R = '\u21E2';
     private static final char U = '\u21E1';
@@ -51,7 +52,7 @@ public class Map {
      * @param y the row
      * @return the Tile at row y, col x
      */
-    Tile getTile (int x, int y) {
+    public Tile getTile (int x, int y) {
         if (x < this.width && x >= 0 && y < this.height && y >= 0)
             return this.tiles[y][x];
         else
@@ -205,6 +206,7 @@ public class Map {
             y < this.height && y >= 0) return this.towers[y][x];
         return null;
     }
+    
 
     /**
      * Returns a string representation of the Map, consisting of the path's
