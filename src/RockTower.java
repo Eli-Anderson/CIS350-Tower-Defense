@@ -1,8 +1,8 @@
 /*****************************************************************
  * Rock Tower class and its methods
- * @author: Runquan Ye
- * @version: PT01
- * @date: winter/2018
+ * @author Runquan Ye
+ * @version PT01
+ * date: winter/2018
  *****************************************************************/
 
 public class RockTower extends Tower {
@@ -28,9 +28,8 @@ public class RockTower extends Tower {
 	
 	/*****************************************************************
 	 * Constructor
-	 * @param: towerX, the X coordinate of the tower.
-	 * @param: towerY, the Y coordinate of the tower.
-	 * @param: towerType, define what type the tower is.
+	 * @param towerX the X coordinate of the tower.
+	 * @param towerY the Y coordinate of the tower.
 	 *****************************************************************/
 	public RockTower(int towerX, int towerY){
 		this.towerX = towerX;
@@ -41,8 +40,8 @@ public class RockTower extends Tower {
 	
 	/*****************************************************************
 	 * to sense the monster under the fire attack range
-	 * @param: targetX, the X coordinate of the monster.
-	 * @param: targetY, the Y coordinate of the monster.
+	 * @param targetX, the X coordinate of the monster.
+	 * @param targetY, the Y coordinate of the monster.
 	 *****************************************************************/
 	public void radar(int targetX, int targetY){
 		// get monster's location
@@ -59,8 +58,7 @@ public class RockTower extends Tower {
 	
 	/*************************************************************************************
 	 * attack the monsters
-	 * @param: towerType, define what type the tower is.
-	 * @param: monsterType, define what type the monster is.
+	 * @param monsterType, define what type the monster is.
 	 ************************************************************************************/
 	public void fire(Type monsterType){
 		attackEffect(monsterType);
@@ -73,12 +71,11 @@ public class RockTower extends Tower {
 	
 	/*************************************************************************************
 	 * different types of tower faces to different types of monster has different effects.
-	 * @param: towerType, define what type the tower is.
-	 * @param: monsterType, define what type the monster is.
+	 * @param monsterType, define what type the monster is.
 	 ************************************************************************************/
-	public void attackEffect(Type MonsterType){
+	public void attackEffect(Type monsterType){
 		// Paper beats Rock, Scissor defense Paper
-			switch(MonsterType){
+			switch(monsterType){
 			case Rock:
 				attackValue += 15;
 				break;
@@ -97,7 +94,7 @@ public class RockTower extends Tower {
 	
 	/*************************************************************************************
 	 * get tower's attack value
-	 * @return: integer attackValue
+	 * @return integer attackValue
 	 ************************************************************************************/
 	public int getAttackValue() {
 		return attackValue;
@@ -107,7 +104,7 @@ public class RockTower extends Tower {
 	
 	/*************************************************************************************
 	 * get tower's attack range
-	 * @return: integer attackRange
+	 * @return integer attackRange
 	 ************************************************************************************/
 	public int getAttackRange() {
 		return attackRange;
@@ -117,7 +114,7 @@ public class RockTower extends Tower {
 	
 	/*************************************************************************************
 	 * get tower's attack speed
-	 * @return: integer attackSpeed
+	 * @return integer attackSpeed
 	 ************************************************************************************/
 	public double getAttackSpeed() {
 		return attackSpeed;
@@ -127,7 +124,7 @@ public class RockTower extends Tower {
 
 	/*************************************************************************************
 	 * get tower's building cost
-	 * @return: integer buildingFee
+	 * @return integer buildingFee
 	 ************************************************************************************/
 	public int getBuildingfee() {
 		return buildingFee;
@@ -137,7 +134,7 @@ public class RockTower extends Tower {
 
 	/*************************************************************************************
 	 * get tower's category
-	 * @return: Type, towerType
+	 * @return Type towerType
 	 ************************************************************************************/
 	public Type getTowerType() {
 		return towerType;

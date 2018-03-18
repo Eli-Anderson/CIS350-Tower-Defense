@@ -1,8 +1,8 @@
 /*****************************************************************
  * CIS 350 Group Project Tower Defense Tower class and its methods
- * @author: Runquan Ye
- * @version: T01
- * @date: winter/2018
+ * @author Runquan Ye
+ * @version T01
+ * date: winter/2018
  *****************************************************************/
 
 public class Tower {
@@ -23,16 +23,16 @@ public class Tower {
 
 	/*************************************************************************************
 	 * get tower's X coordinate
-	 * @return: integer towerX
+	 * @return towerX the tower's X coordinate
 	 ************************************************************************************/
-	public int geTowerX() {
+	public int getTowerX() {
 		return towerX;
 	}
 
 
 	/*************************************************************************************
 	 * set tower's X coordinate
-	 * @param: integer towerX
+	 * @param towerX the X coordinate
 	 ************************************************************************************/
 	public void setTowerX(int towerX) {
 		this.towerX = towerX;
@@ -41,7 +41,7 @@ public class Tower {
 
 	/*************************************************************************************
 	 * get tower's Y coordinate
-	 * @return: integer towerY
+	 * @return towerY the Y coordinate
 	 ************************************************************************************/
 	public int getTowerY() {
 		return towerY;
@@ -50,7 +50,7 @@ public class Tower {
 
 	/*************************************************************************************
 	 * set tower's Y coordinate
-	 * @param: integer towerY
+	 * @param towerY the Y coordinate
 	 ************************************************************************************/
 	public void setTowerY(int towerY) {
 		this.towerY = towerY;

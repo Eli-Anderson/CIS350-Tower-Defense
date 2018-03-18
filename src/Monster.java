@@ -14,7 +14,7 @@ public class Monster{
     private int attack;
 
     /** Angle **/
-    private void angle;
+    private float angle;
     
     /** Monster's health **/
     private int health;
@@ -76,7 +76,7 @@ public class Monster{
         this.reward = reward;
     }
 
-    public void getReward(int reward) {
+    public int getReward() {
         return reward;
     }
     
@@ -105,6 +105,7 @@ public class Monster{
         else{
             reward = 20;
         }
+        return reward;
     }
 
     public void hurt(int damage){
@@ -118,6 +119,7 @@ public class Monster{
 
 
     public void move(double time){
+        /*
 
         // transform.position ?????
         Tile position = new Tile(posX, posY);
@@ -143,7 +145,7 @@ public class Monster{
         }
 
 
-
+        */
     }
 
     public void draw(){
