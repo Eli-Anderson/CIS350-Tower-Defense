@@ -7,153 +7,222 @@
  ********************************/
 
 import java.awt.*;
+import java.util.*;
 
-public class Monster{
-    
-    /** Monster's attack **/
+public class Monster {
+
+    /**
+     * Monster's attack
+     **/
     private int attack;
 
-    /** Angle **/
-    private float angle;
-    
-    /** Monster's health **/
+    /**
+     * Angle
+     **/
+    private double angle;
+
+    /**
+     * Monster's health
+     **/
     private int health;
 
-    /** Path for monster to take **/
-    public int path;
-    
-    /** Hold Position X **/
+    /**
+     * Path for monster to take
+     **/
+    public Tile[][] path;
+
+    /**
+     * remaing path for monster
+     **/
+    public Tile[][] remaining;
+
+
+    /**
+     * Hold Position X
+     **/
     private double posX;
-    
-    /** Holds position Y **/
+
+    /**
+     * Holds position Y
+     **/
     private double posY;
-    
-    /** Attack Range **/
+
+    /**
+     * Attack Range
+     **/
     private int range;
-    
-    /** Attack speed bigger = slower**/
+
+    /**
+     * Attack speed bigger = slower
+     **/
     private int attackSpeed;
-    
-    /** Movement speed  bigger = slower**/
+
+    /**
+     * Movement speed  bigger = slower
+     **/
     private int moveSpeed;
 
-    /** Reward for killing the monster **/
+    /**
+     * Reward for killing the monster
+     **/
     private int reward;
-    
-    public Monster(int attack, int health, double posX, double posY){
+
+    /*****************************************************************
+     * Creates the monster
+     * @param attack - attack value of monster
+     * @param health - health of monster
+     * @param posX - x position of monster
+     * @param posY - y position of monster
+     *****************************************************************/
+    public Monster(int attack, int health, double posX, double posY) {
         this.attack = attack;
         this.health = health;
         this.posX = posX;
         this.posY = posY;
-        
+
     }
-    
+
+    /**************************************************
+     * gets X position of monster on map
+     * @return posX - x position of monster on map
+     **************************************************/
     public double getPosX() {
         return posX;
     }
-    
+
+    /**************************************************
+     * gets X position of monster on map
+     * @return posX - x position of monster on map
+     **************************************************/
     public void setPosX(double posX) {
         this.posX = posX;
     }
-    
+
+    /**************************************************
+     * gets Y position of monster on map
+     * @return posY - y position of monster on map
+     **************************************************/
     public double getPosY() {
         return posY;
     }
-    
+
+    /***************************************
+     * sets Y Position of monster on map
+     * @param posY - y position of monster
+     **************************************/
     public void setPosY(double posY) {
         this.posY = posY;
     }
-    
+
+    /**********************************************
+     * gets the monster's attack
+     * @return attack - monster's attack strength
+     ***********************************************/
     public int getAttack() {
         return attack;
     }
-    
+
+    /**********************************************
+     * sets the monster's attack
+     * @param attack - monster's attack strength
+     ***********************************************/
     public void setAttack(int attack) {
         this.attack = attack;
     }
 
+    /***********************************************
+     * gets the reward
+     * @return reward - reward for killing monster
+     ***********************************************/
+    public int getReward() {
+        return reward;
+    }
+
+    /***********************************************
+     * sets the reward
+     * @param reward - reward for killing monster
+     ***********************************************/
     public void setReward(int reward) {
         this.reward = reward;
     }
 
-    public int getReward() {
-        return reward;
-    }
-    
+    /**************************************
+     * gets the monster's health
+     * @return health - monster's health
+     **************************************/
     public int getHealth() {
         return health;
     }
-    
+
+    /***************************************
+     * sets the monster's health
+     * @param health - monster's health
+     ***************************************/
     public void setHealth(int health) {
         this.health = health;
     }
-    
-    public boolean alive(){
-        if(health > 0){
+
+    /*****************************************
+     * Checks if monster is alive
+     * If monster is dead rewards the player
+     * @return true if monster alive
+     *****************************************/
+    public boolean alive() {
+        if (health > 0) {
             return true;
-        }
-        else{
+        } else {
             reward = 20;
             return false;
         }
     }
 
-    public int yourReward(){
-        if(alive()){
-            reward = 0;
-        }
-        else{
-            reward = 20;
-        }
-        return reward;
-    }
 
-    public void hurt(int damage){
-        if(health > 0){
+    /************************************
+     * when the monster is attacked
+     * @param damage - health points lost
+     *************************************/
+    public void hurt(int damage) {
+        if (health > 0) {
             health -= damage;
-        }
-        else{
+        } else {
             health = 0;
         }
     }
 
-
-    public void move(double time){
-        /*
-
-        // transform.position ?????
-        Tile position = new Tile(posX, posY);
-        int targX = posX * 128 + 64;
-        int targY = posY * 128 + 64;
-
-        distance = Math.abs(targY - posY) + Math.abs(targX - posX);
-        Tile targetPos = new Tile(targX, targY);
-
-        angle = Math.atan2(targY, targX);
-        if(angle < Math.PI){
-            angle += Math.PI * 2;
+    /***********************************************
+     * Allows the monsters to travel across the map
+     ***********************************************/
+    public void travel() {
+        Map m = new Map(8, 8);
+        ArrayList<Tile> visited = new ArrayList<Tile>();
+        // gives us the path we can eventually take
+        for (int y = 0; y < m.getHeight(); y++) {
+            for (int x = 0; x < m.getWidth(); x++) {
+                // path we need to take
+                path[y][x] = m.getTile(x, y);
+                // what we have not visited yet
+                //remaining[x][y] = m.getTile(x,y);
+            }
         }
 
-        if(distance < time * moveSpeed){
-            path += 1;
+        Tile here = path[0][0];
+
+        // travels the actual path starting at the tile at the first position
+        // will need to update to account for movement speed
+        while (visited.size() < path.length) {
+            for (Tile[] position : path) {
+                for (Tile tile : position) {
+                    // visits the tile and adds it to list of visited tiles
+                    here = tile;
+
+                    // adds tile to previous tile we have visited
+                    visited.add(here);
+                }
+            }
         }
 
-        // add some way to rotate?
 
-        else{
-            // get tile position
-        }
-
-
-        */
     }
-
-    public void draw(){
-        // lets us draw the image
-    }
-    
-
-    
-    // TODO: add function to locate monster's exact position as well as tower's exact position
-    
 }
+
+
