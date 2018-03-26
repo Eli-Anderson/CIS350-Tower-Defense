@@ -1,9 +1,9 @@
 public class Tile {
-    private int x, y;
+    public int col, row;
     public char type;
-    Tile (int x, int y) {
-        this.x = x;
-        this.y = y;
+    Tile (int col, int row) {
+        this.col = col;
+        this.row = row;
         this.type = ' ';
     }
 }

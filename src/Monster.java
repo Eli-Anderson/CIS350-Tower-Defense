@@ -27,25 +27,19 @@ public class Monster {
     private int health;
 
     /**
-     * Path for monster to take
+     * Position in the path that the monster is
      **/
-    public Tile[][] path;
-
-    /**
-     * remaing path for monster
-     **/
-    public Tile[][] remaining;
-
+    private int pathIndex;
 
     /**
      * Hold Position X
      **/
-    private double posX;
+    private int col;
 
     /**
      * Holds position Y
      **/
-    private double posY;
+    private int row;
 
     /**
      * Attack Range
@@ -71,14 +65,14 @@ public class Monster {
      * Creates the monster
      * @param attack - attack value of monster
      * @param health - health of monster
-     * @param posX - x position of monster
-     * @param posY - y position of monster
+     * @param col - x position of monster
+     * @param row - y position of monster
      *****************************************************************/
-    public Monster(int attack, int health, double posX, double posY) {
+    public Monster(int attack, int health, int col, int row) {
         this.attack = attack;
         this.health = health;
-        this.posX = posX;
-        this.posY = posY;
+        this.col = col;
+        this.row = row;
 
     }
 
@@ -86,32 +80,16 @@ public class Monster {
      * gets X position of monster on map
      * @return posX - x position of monster on map
      **************************************************/
-    public double getPosX() {
-        return posX;
-    }
-
-    /**************************************************
-     * gets X position of monster on map
-     * @return posX - x position of monster on map
-     **************************************************/
-    public void setPosX(double posX) {
-        this.posX = posX;
+    public int getCol() {
+        return col;
     }
 
     /**************************************************
      * gets Y position of monster on map
      * @return posY - y position of monster on map
      **************************************************/
-    public double getPosY() {
-        return posY;
-    }
-
-    /***************************************
-     * sets Y Position of monster on map
-     * @param posY - y position of monster
-     **************************************/
-    public void setPosY(double posY) {
-        this.posY = posY;
+    public int getRow() {
+        return row;
     }
 
     /**********************************************
@@ -190,38 +168,22 @@ public class Monster {
     }
 
     /***********************************************
-     * Allows the monsters to travel across the map
+     * Moves the monster one Tile further along the path
      ***********************************************/
     public void travel() {
-        Map m = new Map(8, 8);
-        ArrayList<Tile> visited = new ArrayList<Tile>();
-        // gives us the path we can eventually take
-        for (int y = 0; y < m.getHeight(); y++) {
-            for (int x = 0; x < m.getWidth(); x++) {
-                // path we need to take
-                path[y][x] = m.getTile(x, y);
-                // what we have not visited yet
-                //remaining[x][y] = m.getTile(x,y);
-            }
-        }
-
-        Tile here = path[0][0];
-
+        ArrayList<Tile> path = Game.getInstance().getMap().getPath();
         // travels the actual path starting at the tile at the first position
         // will need to update to account for movement speed
-        while (visited.size() < path.length) {
-            for (Tile[] position : path) {
-                for (Tile tile : position) {
-                    // visits the tile and adds it to list of visited tiles
-                    here = tile;
 
-                    // adds tile to previous tile we have visited
-                    visited.add(here);
-                }
-            }
+        pathIndex ++;
+        if (pathIndex >= path.size()) {
+            // hurt base
+            Game.getInstance().getMap().getBase().removeHealth(attack);
+            // delete me
+            return;
         }
-
-
+        col = path.get(pathIndex).col;
+        row = path.get(pathIndex).row;
     }
 }
 

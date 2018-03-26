@@ -1,20 +1,33 @@
-public class Game {
-    private int goldCount, currentRound;
-    private Map currentMap;
-    private int targetFrameRatePerSec, currentFrame;
-    public boolean isRunning;
+import java.util.Observable;
 
-    public Game() {
+public class Game extends Observable {
+    private int goldCount, currentRound;
+    private Map map;
+    private double targetFrameRatePerSec;
+    private int currentFrame;
+    private boolean isRunning;
+    private static Game instance;
+    public Monster m;
+
+    public static Game getInstance() {
+        if (Game.instance == null) {
+            Game.instance = new Game();
+        }
+        return Game.instance;
+    }
+
+    private Game() {
         isRunning = false;
-        currentMap = new Map(8, 8);
-        targetFrameRatePerSec = 1;
+        map = new Map(16, 8);
+        targetFrameRatePerSec = 0.75;
         currentRound = 1;
         goldCount = 0;
         currentFrame = 0;
+        m = new Monster(1, 1, map.getPath().get(0).col, map.getPath().get(0).row);
     }
 
-    Map getCurrentMap() {
-        return currentMap;
+    public Map getMap() {
+        return map;
     }
 
     int getCurrentRound() {
@@ -25,26 +38,32 @@ public class Game {
         return goldCount;
     }
 
-    public static void main(String[] args) {
-        new Game();
-    }
-
     public void start() {
         if (!isRunning) {
-            loop();
             isRunning = true;
+            loop();
         }
     }
 
     private void loop() {
         while (isRunning) {
             currentFrame++;
-            System.out.println(currentFrame);
+            //System.out.println(currentFrame);
+            GUI.getInstance().clearMonsterImages();
+
+            m.travel();
+            setChanged();
+            notifyObservers(m);
             try {
-                Thread.sleep(1000 / targetFrameRatePerSec);
+                Thread.sleep(Math.round(1000 / targetFrameRatePerSec));
             } catch (InterruptedException e) {
+                System.out.println("An error occurred in Thread.sleep");
                 break;
             }
         }
+    }
+
+    public static void main(String[] args) {
+        Game.getInstance().start();
     }
 }

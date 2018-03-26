@@ -4,46 +4,38 @@ public class Base{
     private int health;
 
     //Base position x
-    private int posX;
+    private int col;
 
     //Base position y
-    private int posY;
+    private int row;
 
-    public Base(int health, int PosX, int PosY){
+    public Base(int health, int col, int row){
         this.health = health;
-        this.posX = PosX;
-        this.posY = PosY;
+        this.col = col;
+        this.row = row;
     }
 
-    public int getPosX() {
-        return posX;
+    public int getCol() {
+        return col;
     }
 
-    public void setPosX(int x) {
-        this.posX = x;
-    }
-
-    public int getPosY() {
-        return posY;
-    }
-
-    public void setPosY(int y){
-        this.posY = y;
+    public int getRow() {
+        return row;
     }
 
     public int getHealth() {
         return health;
     }
 
+    public void removeHealth(int dmg) {
+        this.health -=  dmg;
+    }
+
     public void setHealth(int h) {
         this.health = h;
     }
 
-    public boolean alive(){
-        if (health > 0) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean isAlive(){
+        return health > 0;
     }
 }
