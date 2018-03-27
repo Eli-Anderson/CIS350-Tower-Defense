@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Observable;
 
 public class Game extends Observable {
@@ -19,23 +20,32 @@ public class Game extends Observable {
     private Game() {
         isRunning = false;
         map = new Map(16, 8);
-        targetFrameRatePerSec = 0.75;
+        targetFrameRatePerSec = 3;
         currentRound = 1;
-        goldCount = 0;
+        goldCount = 40;
         currentFrame = 0;
-        m = new Monster(1, 1, map.getPath().get(0).col, map.getPath().get(0).row);
+        map.addMonster(new Monster(10, 3, map.getPath().get(0).col, map.getPath().get(0).row, TowerType.PAPER));
     }
 
     public Map getMap() {
         return map;
     }
 
-    int getCurrentRound() {
+    public int getCurrentRound() {
         return currentRound;
     }
 
-    int getGoldCount() {
+    public int getGold() {
         return goldCount;
+    }
+
+    public void removeGold(int cost) {
+        goldCount -= cost;
+        if (goldCount < 0) goldCount = 0;
+    }
+
+    public void claimBounty(int goldAmount) {
+        goldCount += goldAmount;
     }
 
     public void start() {
@@ -46,14 +56,31 @@ public class Game extends Observable {
     }
 
     private void loop() {
+        ArrayList<Monster> monstersToDelete;
         while (isRunning) {
             currentFrame++;
-            //System.out.println(currentFrame);
+
             GUI.getInstance().clearMonsterImages();
 
-            m.travel();
-            setChanged();
-            notifyObservers(m);
+            monstersToDelete = new ArrayList<>();
+            for (Monster m : map.getMonsters()) {
+                m.travel();
+                if (m.getDeleteOnNextFrame())
+                    monstersToDelete.add(m);
+                setChanged();
+                notifyObservers(m);
+                //@TODO Check if it is possible to notify the GUI after all monsters are updated, instead of each iteration
+            }
+            for (Monster m : monstersToDelete) {
+                map.removeMonster(m);
+            }
+
+            for (Tower t : map.getTowers()) {
+                t.attemptAttack(map.getMonsters());
+            }
+
+            monstersToDelete.clear();
+
             try {
                 Thread.sleep(Math.round(1000 / targetFrameRatePerSec));
             } catch (InterruptedException e) {
@@ -61,6 +88,17 @@ public class Game extends Observable {
                 break;
             }
         }
+    }
+
+    public void gameOver () {
+        isRunning = false;
+        new GUI.GameOverDialog();
+    }
+
+    public void reset () {
+        System.out.println("Reset");
+        map = new Map(16, 8);
+        isRunning = true;
     }
 
     public static void main(String[] args) {

@@ -29,13 +29,12 @@ public class Base{
 
     public void removeHealth(int dmg) {
         this.health -=  dmg;
+        if (this.health <= 0) {
+            Game.getInstance().gameOver();
+        }
     }
 
     public void setHealth(int h) {
         this.health = h;
-    }
-
-    public boolean isAlive(){
-        return health > 0;
     }
 }

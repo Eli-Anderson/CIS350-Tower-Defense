@@ -5,7 +5,7 @@ public class Map {
     // temporarily make tiles public so we can access in Monster
     private Tile[][] tiles;
     private ArrayList<Tile> path;
-    private Tower[][] towers;
+    private ArrayList<Tower> towers;
     private Base base;
     private ArrayList<Monster> monsters;
     static final char R = '\u21E2';
@@ -33,7 +33,8 @@ public class Map {
             }
         }
         this.createPath(0, height / 2);
-        this.towers = new Tower[this.height][this.width];
+        this.towers = new ArrayList<>();
+        this.monsters = new ArrayList<>();
         this.base = new Base(100, width-1, path.get(path.size()-1).row);
     }
 
@@ -208,10 +209,11 @@ public class Map {
      * @param y the row position
      */
     public void addTower (Tower tower, int x, int y) {
-        if (x < this.width && x >= 0 &&
-            y < this.height && y >= 0) this.towers[y][x] = tower;
-        //else
-            // out of bounds
+        if (x < this.width && x >= 0 && y < this.height && y >= 0) { // if is in bounds
+            if (getTower(x, y) == null) { // no tower already exists here
+                this.towers.add(tower);
+            }
+        }
     }
 
     /**
@@ -221,9 +223,23 @@ public class Map {
      * @return the Tower at the given position
      */
     public Tower getTower (int x, int y) {
-        if (x < this.width && x >= 0 &&
-            y < this.height && y >= 0) return this.towers[y][x];
+        for (Tower t : towers) {
+            if (t.towerX == x && t.towerY == y)
+                return t;
+        }
         return null;
+    }
+
+    public ArrayList<Tower> getTowers() {
+        return towers;
+    }
+
+    public void destroyTower(int col, int row) {
+        Tower t = getTower(col, row);
+        if (t != null) {
+            towers.remove(t);
+            Game.getInstance().claimBounty(t.getCost() / 2);
+        }
     }
 
     /**
@@ -261,6 +277,9 @@ public class Map {
     }
     public void addMonster (Monster m) {
         monsters.add(m);
+    }
+    public void removeMonster (Monster m) {
+        monsters.remove(m);
     }
     public ArrayList<Monster> getMonsters () {
         return monsters;

@@ -1,38 +1,51 @@
+import javafx.geometry.Side;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 public class GUI extends JFrame implements Observer {
-    private final int TILE_SIZE = 64;
+    public static final int TILE_SIZE = 64;
 
     private Map map;
 
     private JPanel mapPanel;
     private TilePanel[][] mapArray;
     private BufferedImage monsterImage1;
-    private BufferedImage towerImage1;
+    public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage;
     private static GUI instance;
     private ButtonListener buttonListener;
 
-    public static GUI getInstance () {
+    public enum ToolType {
+        BUILD, DESTROY
+    }
+
+    public ToolType selectedTool = ToolType.BUILD;
+    public TowerType selectedTowerType = TowerType.ROCK;
+
+    public static GUI getInstance() {
         if (instance == null) {
             instance = new GUI();
         }
         return instance;
     }
+
     private GUI() {
         setName("Tower Defense");
         try {
             monsterImage1 = ImageIO.read(new File("resources/beetle.png"));
-            towerImage1 = ImageIO.read(new File("resources/tower1.png"));
+            rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
+            paperTowerImage = ImageIO.read(new File("resources/paperTower.png"));
+            scissorTowerImage = ImageIO.read(new File("resources/scissorTower.png"));
         } catch (IOException e) {
             System.out.println("Error reading images");
             return;
@@ -47,6 +60,7 @@ public class GUI extends JFrame implements Observer {
         setVisible(true);
 
         Game.getInstance().addObserver(this);
+        new SidebarGUI();
     }
 
     private void createMapDisplay() {
@@ -65,8 +79,8 @@ public class GUI extends JFrame implements Observer {
             BufferedImage downToRight = ImageIO.read(new File("resources/downToRight.png"));
             BufferedImage upToRight = ImageIO.read(new File("resources/upToRight.png"));
 
-            for (int row=0; row < map.getHeight(); row++) {
-                for (int col=0; col < map.getWidth(); col++) {
+            for (int row = 0; row < map.getHeight(); row++) {
+                for (int col = 0; col < map.getWidth(); col++) {
                     //create a new JPanel for each Tile
                     mapArray[row][col] = new TilePanel();
 
@@ -102,15 +116,14 @@ public class GUI extends JFrame implements Observer {
             add(mapPanel);
 
 
-
         } catch (IOException e) {
             System.out.println("An error occurred when loading the images");
         }
     }
 
-    public void clearMonsterImages () {
-        for (int row=0; row < mapArray.length; row++) {
-            for (int col=0; col < mapArray[row].length; col++) {
+    public void clearMonsterImages() {
+        for (int row = 0; row < mapArray.length; row++) {
+            for (int col = 0; col < mapArray[row].length; col++) {
                 mapArray[row][col].monsterImage = null;
             }
         }
@@ -119,15 +132,20 @@ public class GUI extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Monster) {
-            mapArray[((Monster)arg).getRow()][((Monster)arg).getCol()].monsterImage = monsterImage1;
-            repaint();
+            if (((Monster) arg).getDeleteOnNextFrame()) {
+                mapArray[((Monster) arg).getRow()][((Monster) arg).getCol()].monsterImage = null;
+            } else {
+                mapArray[((Monster) arg).getRow()][((Monster) arg).getCol()].monsterImage = monsterImage1;
+            }
         }
+        repaint();
     }
 
     public class TilePanel extends JButton {
-        public BufferedImage tileImage;
-        public Image monsterImage;
-        public Image towerImage;
+        BufferedImage tileImage;
+        Image monsterImage;
+        Image towerImage;
+
         TilePanel() {
             super();
             if (buttonListener == null)
@@ -140,7 +158,7 @@ public class GUI extends JFrame implements Observer {
             super.paintComponent(g);
             Graphics2D g1 = (Graphics2D) g;
             g1.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-            g1.drawImage(tileImage,0,0,null);
+            g1.drawImage(tileImage, 0, 0, null);
 
             int tileImageWidth = tileImage.getWidth(this);
             int tileImageHeight = tileImage.getHeight(this);
@@ -164,18 +182,92 @@ public class GUI extends JFrame implements Observer {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            for (int row=0; row < map.getHeight(); row++) {
+            for (int row = 0; row < map.getHeight(); row++) {
                 for (int col = 0; col < map.getWidth(); col++) {
                     if (e.getSource() == mapArray[row][col]) {
 
-                        System.out.println("Col: " + col +", Row: " + row);
-                        if (map.isBuildable(col, row)) {
-                            Tower t = new RockTower(col, row);
-                            map.addTower(t, col, row);
-                            mapArray[row][col].towerImage = towerImage1;
+                        if (selectedTool == ToolType.BUILD) {
+                            if (map.isBuildable(col, row)) {
+                                Tower t;
+                                switch (selectedTowerType) {
+                                    case ROCK:
+                                        t = new RockTower(col, row);
+                                        if (t.getCost() <= Game.getInstance().getGold()) {
+                                            Game.getInstance().removeGold(t.getCost());
+                                            map.addTower(t, col, row);
+                                            mapArray[row][col].towerImage = rockTowerImage;
+                                        }
+                                        break;
+                                    case PAPER:
+                                        t = new PaperTower(col, row);
+                                        if (t.getCost() <= Game.getInstance().getGold()) {
+                                            Game.getInstance().removeGold(t.getCost());
+                                            map.addTower(t, col, row);
+                                            mapArray[row][col].towerImage = paperTowerImage;
+                                        }
+                                        break;
+                                    case SCISSORS:
+                                        t = new ScissorTower(col, row);
+                                        if (t.getCost() <= Game.getInstance().getGold()) {
+                                            Game.getInstance().removeGold(t.getCost());
+                                            map.addTower(t, col, row);
+                                            mapArray[row][col].towerImage = scissorTowerImage;
+                                        }
+                                        break;
+                                }
+                            }
+                        } else {
+                            // is not in BUILD mode
+                            if (map.getTower(col, row) != null) {
+                                // a tower exists here, so destroy it
+                                map.destroyTower(col, row);
+                                mapArray[row][col].towerImage = null;
+                            }
                         }
                     }
                 }
+            }
+        }
+    }
+
+    public static class GameOverDialog extends JDialog implements ActionListener {
+        JButton quitButton, newGameButton;
+
+        public GameOverDialog() {
+            setTitle("Game Over!");
+            setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent event) {
+                    Game.getInstance().reset();
+                    dispose();
+                }
+            });
+            setLayout(new FlowLayout());
+            /* create the various elements */
+
+            quitButton = new JButton("Quit");
+            quitButton.addActionListener(this);
+
+            newGameButton = new JButton("New Game");
+            newGameButton.addActionListener(this);
+
+            /* add the elements to the panel */
+            add(BorderLayout.CENTER, new JLabel("You lost on round " + Game.getInstance().getCurrentRound() + "!"));
+
+            add(BorderLayout.SOUTH, quitButton);
+            add(BorderLayout.SOUTH, newGameButton);
+
+            setVisible(true);
+            pack();
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == newGameButton) {
+                Game.getInstance().reset();
+            } else if (e.getSource() == quitButton) {
+                System.exit(0);
             }
         }
     }

@@ -42,17 +42,12 @@ public class Monster {
     private int row;
 
     /**
-     * Attack Range
-     **/
-    private int range;
-
-    /**
-     * Attack speed bigger = slower
+     * Attack speed
      **/
     private int attackSpeed;
 
     /**
-     * Movement speed  bigger = slower
+     * Movement speed
      **/
     private int moveSpeed;
 
@@ -61,6 +56,10 @@ public class Monster {
      **/
     private int reward;
 
+    public TowerType type;
+
+    private boolean deleteOnNextFrame;
+
     /*****************************************************************
      * Creates the monster
      * @param attack - attack value of monster
@@ -68,12 +67,12 @@ public class Monster {
      * @param col - x position of monster
      * @param row - y position of monster
      *****************************************************************/
-    public Monster(int attack, int health, int col, int row) {
+    public Monster(int attack, int health, int col, int row, TowerType type) {
         this.attack = attack;
         this.health = health;
         this.col = col;
         this.row = row;
-
+        deleteOnNextFrame = false;
     }
 
     /**************************************************
@@ -92,6 +91,10 @@ public class Monster {
         return row;
     }
 
+    public int getPathIndex() {
+        return pathIndex;
+    }
+
     /**********************************************
      * gets the monster's attack
      * @return attack - monster's attack strength
@@ -100,13 +103,6 @@ public class Monster {
         return attack;
     }
 
-    /**********************************************
-     * sets the monster's attack
-     * @param attack - monster's attack strength
-     ***********************************************/
-    public void setAttack(int attack) {
-        this.attack = attack;
-    }
 
     /***********************************************
      * gets the reward
@@ -114,14 +110,6 @@ public class Monster {
      ***********************************************/
     public int getReward() {
         return reward;
-    }
-
-    /***********************************************
-     * sets the reward
-     * @param reward - reward for killing monster
-     ***********************************************/
-    public void setReward(int reward) {
-        this.reward = reward;
     }
 
     /**************************************
@@ -132,26 +120,17 @@ public class Monster {
         return health;
     }
 
-    /***************************************
-     * sets the monster's health
-     * @param health - monster's health
-     ***************************************/
-    public void setHealth(int health) {
-        this.health = health;
-    }
 
     /*****************************************
      * Checks if monster is alive
-     * If monster is dead rewards the player
      * @return true if monster alive
      *****************************************/
-    public boolean alive() {
-        if (health > 0) {
-            return true;
-        } else {
-            reward = 20;
-            return false;
-        }
+    public boolean isDead() {
+        return health <= 0;
+    }
+
+    public boolean getDeleteOnNextFrame() {
+        return deleteOnNextFrame;
     }
 
 
@@ -160,10 +139,11 @@ public class Monster {
      * @param damage - health points lost
      *************************************/
     public void hurt(int damage) {
-        if (health > 0) {
-            health -= damage;
-        } else {
-            health = 0;
+        health -= damage;
+        if (health <= 0) {
+            //flag for deletion
+            deleteOnNextFrame = true;
+            // give reward @TODO
         }
     }
 
@@ -175,16 +155,23 @@ public class Monster {
         // travels the actual path starting at the tile at the first position
         // will need to update to account for movement speed
 
+        /* @TODO Move at variable speeds, skipping some tiles depending on speed. Should be based on tiles per frame,
+         where a speed of 1 will move 1 tile every frame and 2 will move 2 tiles every frame. Make sure to not allow
+         monster to move passed the end of the path
+          */
         pathIndex ++;
         if (pathIndex >= path.size()) {
             // hurt base
             Game.getInstance().getMap().getBase().removeHealth(attack);
-            // delete me
+            // flag for deletion
+            deleteOnNextFrame = true;
             return;
         }
         col = path.get(pathIndex).col;
         row = path.get(pathIndex).row;
     }
+
+
 }
 
 
