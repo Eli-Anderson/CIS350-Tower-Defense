@@ -1,5 +1,3 @@
-import javafx.geometry.Side;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -15,13 +13,14 @@ import java.util.Observer;
 
 public class GUI extends JFrame implements Observer {
     public static final int TILE_SIZE = 64;
-
+    private SidebarGUI sidebar;
     private Map map;
 
     private JPanel mapPanel;
-    private TilePanel[][] mapArray;
+    private TileButton[][] mapArray;
     private BufferedImage monsterImage1;
-    public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage;
+    public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage,
+            paperTowerImage_large, rockTowerImage_large, scissorTowerImage_large;
     private static GUI instance;
     private ButtonListener buttonListener;
 
@@ -46,6 +45,10 @@ public class GUI extends JFrame implements Observer {
             rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
             paperTowerImage = ImageIO.read(new File("resources/paperTower.png"));
             scissorTowerImage = ImageIO.read(new File("resources/scissorTower.png"));
+
+            paperTowerImage_large = ImageIO.read(new File("resources/paperTowerLarge.png"));
+            rockTowerImage_large = ImageIO.read(new File("resources/rockTowerLarge.png"));
+            scissorTowerImage_large = ImageIO.read(new File("resources/scissorTowerLarge.png"));
         } catch (IOException e) {
             System.out.println("Error reading images");
             return;
@@ -60,13 +63,13 @@ public class GUI extends JFrame implements Observer {
         setVisible(true);
 
         Game.getInstance().addObserver(this);
-        new SidebarGUI();
+        sidebar = new SidebarGUI();
     }
 
     private void createMapDisplay() {
         mapPanel = new JPanel();
         mapPanel.setLayout(new GridLayout(map.getHeight(), map.getWidth(), 0, 0));
-        mapArray = new TilePanel[map.getHeight()][map.getWidth()];
+        mapArray = new TileButton[map.getHeight()][map.getWidth()];
 
 
         try {
@@ -82,7 +85,7 @@ public class GUI extends JFrame implements Observer {
             for (int row = 0; row < map.getHeight(); row++) {
                 for (int col = 0; col < map.getWidth(); col++) {
                     //create a new JPanel for each Tile
-                    mapArray[row][col] = new TilePanel();
+                    mapArray[row][col] = new TileButton();
 
                     switch (map.getTile(col, row).type) {
                         // add an image, depending on what the Tile's type is
@@ -131,22 +134,63 @@ public class GUI extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof Monster) {
-            if (((Monster) arg).getDeleteOnNextFrame()) {
-                mapArray[((Monster) arg).getRow()][((Monster) arg).getCol()].monsterImage = null;
-            } else {
-                mapArray[((Monster) arg).getRow()][((Monster) arg).getCol()].monsterImage = monsterImage1;
+        sidebar.updateGoldLabel();
+
+        for (Monster m : map.getMonsters()) {
+            int col = m.getCol();
+            int row = m.getRow();
+            switch (m.getType()) {
+                case PAPER:
+                    mapArray[row][col].monsterImage = monsterImage1;
+                    break;
+                case ROCK:
+                    mapArray[row][col].monsterImage = monsterImage1;
+                    break;
+                case SCISSORS:
+                    mapArray[row][col].monsterImage = monsterImage1;
+                    break;
             }
         }
+
+        for (Tower t : map.getTowers()) {
+            int col = t.getCol();
+            int row = t.getRow();
+            if (t.getFramesSinceLastAttack() <= 1) {
+                switch(t.getType()) {
+                    case PAPER:
+                        mapArray[row][col].towerImage = paperTowerImage_large;
+                        break;
+                    case ROCK:
+                        mapArray[row][col].towerImage = rockTowerImage_large;
+                        break;
+                    case SCISSORS:
+                        mapArray[row][col].towerImage = scissorTowerImage_large;
+                        break;
+                }
+            } else {
+                switch(t.getType()) {
+                    case PAPER:
+                        mapArray[row][col].towerImage = paperTowerImage;
+                        break;
+                    case ROCK:
+                        mapArray[row][col].towerImage = rockTowerImage;
+                        break;
+                    case SCISSORS:
+                        mapArray[row][col].towerImage = scissorTowerImage;
+                        break;
+                }
+            }
+        }
+
         repaint();
     }
 
-    public class TilePanel extends JButton {
+    public class TileButton extends JButton {
         BufferedImage tileImage;
         Image monsterImage;
         Image towerImage;
 
-        TilePanel() {
+        TileButton() {
             super();
             if (buttonListener == null)
                 buttonListener = new ButtonListener();

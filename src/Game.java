@@ -20,7 +20,7 @@ public class Game extends Observable {
     private Game() {
         isRunning = false;
         map = new Map(16, 8);
-        targetFrameRatePerSec = 3;
+        targetFrameRatePerSec = 30;
         currentRound = 1;
         goldCount = 40;
         currentFrame = 0;
@@ -63,20 +63,24 @@ public class Game extends Observable {
             GUI.getInstance().clearMonsterImages();
 
             monstersToDelete = new ArrayList<>();
-            for (Monster m : map.getMonsters()) {
-                m.travel();
-                if (m.getDeleteOnNextFrame())
-                    monstersToDelete.add(m);
-                setChanged();
-                notifyObservers(m);
-                //@TODO Check if it is possible to notify the GUI after all monsters are updated, instead of each iteration
-            }
-            for (Monster m : monstersToDelete) {
-                map.removeMonster(m);
+            for (Monster m : map.getMonsters()) { // update monster positions
+                m.attemptTravel();
             }
 
-            for (Tower t : map.getTowers()) {
+            for (Tower t : map.getTowers()) { // have each tower try to attack
                 t.attemptAttack(map.getMonsters());
+            }
+
+            for (Monster m : map.getMonsters()) { // check if the monster is dead
+                if (m.getDeleteOnNextFrame())
+                    monstersToDelete.add(m);      // add it to a different array so we can delete it
+            }
+
+            setChanged();
+            notifyObservers();
+
+            for (Monster m : monstersToDelete) { // remove the dead monsters
+                map.removeMonster(m);
             }
 
             monstersToDelete.clear();
@@ -96,9 +100,9 @@ public class Game extends Observable {
     }
 
     public void reset () {
-        System.out.println("Reset");
         map = new Map(16, 8);
         isRunning = true;
+        //TODO: Reset game completely
     }
 
     public static void main(String[] args) {

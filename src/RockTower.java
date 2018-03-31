@@ -13,8 +13,9 @@ public class RockTower extends Tower {
 	 *****************************************************************/
 	public RockTower(int towerX, int towerY){
 		cost = 10;
-		this.towerX = towerX;
-		this.towerY = towerY;
+		this.col = towerX;
+		this.row = towerY;
+		towerType = TowerType.ROCK;
 	}
 
 	private double getAttackMultiplier(TowerType monsterType){

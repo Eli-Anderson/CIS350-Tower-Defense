@@ -42,11 +42,6 @@ public class Monster {
     private int row;
 
     /**
-     * Attack speed
-     **/
-    private int attackSpeed;
-
-    /**
      * Movement speed
      **/
     private int moveSpeed;
@@ -56,9 +51,11 @@ public class Monster {
      **/
     private int reward;
 
-    public TowerType type;
+    private TowerType type;
 
     private boolean deleteOnNextFrame;
+
+    private int framesSinceLastTravel = 0;
 
     /*****************************************************************
      * Creates the monster
@@ -72,6 +69,9 @@ public class Monster {
         this.health = health;
         this.col = col;
         this.row = row;
+        moveSpeed = 30;
+        reward = 1;
+        this.type = type;
         deleteOnNextFrame = false;
     }
 
@@ -93,6 +93,10 @@ public class Monster {
 
     public int getPathIndex() {
         return pathIndex;
+    }
+
+    public TowerType getType() {
+        return type;
     }
 
     /**********************************************
@@ -126,7 +130,7 @@ public class Monster {
      * @return true if monster alive
      *****************************************/
     public boolean isDead() {
-        return health <= 0;
+        return health <= 0 || deleteOnNextFrame;
     }
 
     public boolean getDeleteOnNextFrame() {
@@ -139,26 +143,22 @@ public class Monster {
      * @param damage - health points lost
      *************************************/
     public void hurt(int damage) {
+        if (deleteOnNextFrame) return; // monster is already dead
         health -= damage;
         if (health <= 0) {
             //flag for deletion
             deleteOnNextFrame = true;
-            // give reward @TODO
+            Game.getInstance().claimBounty(reward);
         }
     }
 
     /***********************************************
      * Moves the monster one Tile further along the path
      ***********************************************/
-    public void travel() {
+    private void travel() {
         ArrayList<Tile> path = Game.getInstance().getMap().getPath();
         // travels the actual path starting at the tile at the first position
-        // will need to update to account for movement speed
 
-        /* @TODO Move at variable speeds, skipping some tiles depending on speed. Should be based on tiles per frame,
-         where a speed of 1 will move 1 tile every frame and 2 will move 2 tiles every frame. Make sure to not allow
-         monster to move passed the end of the path
-          */
         pathIndex ++;
         if (pathIndex >= path.size()) {
             // hurt base
@@ -169,6 +169,14 @@ public class Monster {
         }
         col = path.get(pathIndex).col;
         row = path.get(pathIndex).row;
+    }
+
+    public void attemptTravel() {
+        framesSinceLastTravel ++;
+        if (framesSinceLastTravel >= moveSpeed) {
+            travel();
+            framesSinceLastTravel = 0;
+        }
     }
 
 

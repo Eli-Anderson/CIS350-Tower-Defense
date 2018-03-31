@@ -15,8 +15,9 @@ public class PaperTower extends Tower {
 	 *****************************************************************/
 	public PaperTower(int towerX, int towerY){
 		cost = 10;
-		this.towerX = towerX;
-		this.towerY = towerY;
+		this.col = towerX;
+		this.row = towerY;
+		towerType = TowerType.PAPER;
 	}
 
 	private double getAttackMultiplier(TowerType monsterType){

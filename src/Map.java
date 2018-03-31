@@ -224,7 +224,7 @@ public class Map {
      */
     public Tower getTower (int x, int y) {
         for (Tower t : towers) {
-            if (t.towerX == x && t.towerY == y)
+            if (t.getCol() == x && t.getRow() == y)
                 return t;
         }
         return null;
