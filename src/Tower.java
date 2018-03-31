@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /*****************************************************************
  * CIS 350 Group Project Tower Defense Tower class and its methods
  * @author Runquan Ye
@@ -5,37 +7,37 @@
  * date: winter/2018
  *****************************************************************/
 
-public class Tower {
-	/**get connect to the monster class*/
-	public Monster target;
+public abstract class Tower {
 	/** X is for Tower's position */
-	public int towerX;
+	public int col;
 
 	/** Y is for Tower's position */
-	public int towerY;
+	public int row;
 
-	/** The distence between tower and monster */
-	public double distance;
+	/** Tower's attack range */
+	private int attackRange = 1;
 
-	/** get the monster health from monster class */
-	public int monsterHealth;
+	/** Tower's attack value */
+	private int attackValue = 1;
+
+	/** Tower's building cost */
+	protected int cost = 1;
+
+	/** Tower's attack Speed */
+	private int attackSpeed = 15; // 1 = every frame, 30 = every 30 frames ... 30 frames is 1 second
+
+	/** Tower's type (Rock, Paper, Scissor) different type will affect the damage to the monsters*/
+	protected TowerType towerType;
+
+	private int framesSinceLastAttack = 999;
 
 
 	/*************************************************************************************
 	 * get tower's X coordinate
 	 * @return towerX the tower's X coordinate
 	 ************************************************************************************/
-	public int getTowerX() {
-		return towerX;
-	}
-
-
-	/*************************************************************************************
-	 * set tower's X coordinate
-	 * @param towerX the X coordinate
-	 ************************************************************************************/
-	public void setTowerX(int towerX) {
-		this.towerX = towerX;
+	public int getCol() {
+		return col;
 	}
 
 
@@ -43,16 +45,68 @@ public class Tower {
 	 * get tower's Y coordinate
 	 * @return towerY the Y coordinate
 	 ************************************************************************************/
-	public int getTowerY() {
-		return towerY;
+	public int getRow() {
+		return row;
 	}
 
 
+
+
 	/*************************************************************************************
-	 * set tower's Y coordinate
-	 * @param towerY the Y coordinate
+	 * get tower's building cost
+	 * @return integer cost
 	 ************************************************************************************/
-	public void setTowerY(int towerY) {
-		this.towerY = towerY;
+	public int getCost() {
+		return cost;
+	}
+
+
+	public int getFramesSinceLastAttack() {
+		return framesSinceLastAttack;
+	}
+
+	/*************************************************************************************
+	 * get tower's category
+	 * @return Type, towerType
+	 ************************************************************************************/
+	public TowerType getType() {
+		return towerType;
+	}
+
+	private Monster getTarget(ArrayList<Monster> targets) {
+		targets.sort((o1, o2) -> o2.getPathIndex() - o1.getPathIndex()); // sort by who is furthest along the path
+		for (Monster m : targets) {
+			if (	!m.getDeleteOnNextFrame() && // make sure it is not already dead
+					Math.abs(col - m.getCol()) + Math.abs(row - m.getRow()) <= attackRange) {
+				return m;
+			}
+		}
+		return null;
+	}
+
+	/*****************************************************************
+	 * Attempts to attack the
+	 * @param targets the ArrayList of Monsters on the map
+	 *****************************************************************/
+	public void attemptAttack(ArrayList<Monster> targets){
+		framesSinceLastAttack ++;
+		if (framesSinceLastAttack >= attackSpeed) {
+			Monster target = getTarget(targets);
+
+			if (target == null) return;
+			System.out.println("target attacked");
+			target.hurt((int)(attackValue * getAttackMultiplier(target.getType())));
+
+			framesSinceLastAttack = 0;
+		}
+
+	}
+
+	/*************************************************************************************
+	 * different types of tower faces to different types of monster has different effects.
+	 * @param monsterType define what type the monster is.
+	 ************************************************************************************/
+	private double getAttackMultiplier(TowerType monsterType){
+		return 1.0;
 	}
 }

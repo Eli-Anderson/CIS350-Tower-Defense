@@ -1,15 +1,20 @@
+import java.util.ArrayList;
+
 public class Map {
     private int width, height;
     // temporarily make tiles public so we can access in Monster
-    public Tile[][] tiles;
-    private Tower[][] towers;
-    private static final char R = '\u21E2';
-    private static final char U = '\u21E1';
-    private static final char D = '\u21E3';
-    private static final char UR = '\u21B1';
-    private static final char DR = '\u21B3';
-    private static final char RD = '\u21B4';
-    private static final char RU = '\u2197';
+    private Tile[][] tiles;
+    private ArrayList<Tile> path;
+    private ArrayList<Tower> towers;
+    private Base base;
+    private ArrayList<Monster> monsters;
+    static final char R = '\u21E2';
+    static final char U = '\u21E1';
+    static final char D = '\u21E3';
+    static final char UR = '\u21B1';
+    static final char DR = '\u21B3';
+    static final char RD = '\u21B4';
+    static final char RU = '\u2197';
 
     /**
      * Creates a Map object with a randomized path. Capable of holding one Tower on
@@ -18,6 +23,7 @@ public class Map {
      * @param height the number of rows
      */
     public Map (int width, int height) {
+        path = new ArrayList<>();
         this.width = width;
         this.height = height;
         this.tiles = new Tile[height][width];
@@ -27,7 +33,9 @@ public class Map {
             }
         }
         this.createPath(0, height / 2);
-        this.towers = new Tower[this.height][this.width];
+        this.towers = new ArrayList<>();
+        this.monsters = new ArrayList<>();
+        this.base = new Base(100, width-1, path.get(path.size()-1).row);
     }
 
     /**
@@ -58,6 +66,18 @@ public class Map {
         else
             return null;
     }
+    /**
+     * Gets the path that monsters will follow
+     *
+     * @return the path
+     */
+    public ArrayList<Tile> getPath () {
+        return path;
+    }
+
+    public Base getBase() {
+        return base;
+    }
 
     /**
      * Creates the path, starting at position col (x), row (y) and ending
@@ -67,7 +87,6 @@ public class Map {
      */
     private void createPath (int col, int row) {
         createPath(col, row, null);
-        //System.out.println(this);
         fixCorners();
 
     }
@@ -77,7 +96,7 @@ public class Map {
      * choices and logic to develop a path going from left to right
      * @param col the current column position
      * @param row the current row position
-     * @param lastTilePlaced
+     * @param lastTilePlaced the last Tile that was created in the path
      */
     private void createPath (int col, int row, Tile lastTilePlaced) {
         if (col >= getWidth()) {
@@ -125,6 +144,7 @@ public class Map {
         int r = (int) Math.floor(Math.random() * 3);
 
         tiles[row][col].type = options[r];
+        path.add(tiles[row][col]);
 
         switch (tiles[row][col].type) {
             case U:
@@ -189,10 +209,11 @@ public class Map {
      * @param y the row position
      */
     public void addTower (Tower tower, int x, int y) {
-        if (x < this.width && x >= 0 &&
-            y < this.height && y >= 0) this.towers[y][x] = tower;
-        //else
-            // out of bounds
+        if (x < this.width && x >= 0 && y < this.height && y >= 0) { // if is in bounds
+            if (getTower(x, y) == null) { // no tower already exists here
+                this.towers.add(tower);
+            }
+        }
     }
 
     /**
@@ -202,9 +223,40 @@ public class Map {
      * @return the Tower at the given position
      */
     public Tower getTower (int x, int y) {
-        if (x < this.width && x >= 0 &&
-            y < this.height && y >= 0) return this.towers[y][x];
+        for (Tower t : towers) {
+            if (t.getCol() == x && t.getRow() == y)
+                return t;
+        }
         return null;
+    }
+
+    public ArrayList<Tower> getTowers() {
+        return towers;
+    }
+
+    public void destroyTower(int col, int row) {
+        Tower t = getTower(col, row);
+        if (t != null) {
+            towers.remove(t);
+            Game.getInstance().claimBounty(t.getCost() / 2);
+        }
+    }
+
+    /**
+     * Gets whether a tower can be built upon a given tile. Checks bounds,
+     * whether the given position is on the path, or if a tower is already
+     * built there.
+     * @param col the column position
+     * @param row the row position
+     * @return true if a tower can be built, false otherwise
+     */
+    public boolean isBuildable (int col, int row) {
+        if (col < 0 || col >= this.width || row < 0 || row >= this.height) return false;
+        for (Tile tile : path) {
+            if (tile.col == col && tile.row == row) // if a tile on our path matches, we can't build
+                return false;
+        }
+        return getTower(col, row) == null; // if no tower is there, we can build
     }
     
 
@@ -222,6 +274,15 @@ public class Map {
             result.append("\n");
         }
         return result.toString();
+    }
+    public void addMonster (Monster m) {
+        monsters.add(m);
+    }
+    public void removeMonster (Monster m) {
+        monsters.remove(m);
+    }
+    public ArrayList<Monster> getMonsters () {
+        return monsters;
     }
 
     public static void main(String[] args) {
