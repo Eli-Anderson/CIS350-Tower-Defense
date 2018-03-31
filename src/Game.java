@@ -24,7 +24,6 @@ public class Game extends Observable {
         currentRound = 1;
         goldCount = 40;
         currentFrame = 0;
-        map.addMonster(new Monster(10, 3, map.getPath().get(0).col, map.getPath().get(0).row, TowerType.PAPER));
     }
 
     public Map getMap() {
@@ -84,6 +83,8 @@ public class Game extends Observable {
             }
 
             monstersToDelete.clear();
+
+            RoundManager.update();
 
             try {
                 Thread.sleep(Math.round(1000 / targetFrameRatePerSec));
