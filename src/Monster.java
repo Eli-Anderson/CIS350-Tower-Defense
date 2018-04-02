@@ -19,7 +19,7 @@ public class Monster {
     /**
      * Angle
      **/
-    private double angle;
+    private double rotation;
 
     /**
      * Monster's health
@@ -124,10 +124,11 @@ public class Monster {
         return health;
     }
 
+    public double getRotation() {return rotation;}
 
     /*****************************************
      * Checks if monster is alive
-     * @return true if monster alive
+     * @return true if monster dead
      *****************************************/
     public boolean isDead() {
         return health <= 0 || deleteOnNextFrame;
@@ -169,6 +170,21 @@ public class Monster {
         }
         col = path.get(pathIndex).col;
         row = path.get(pathIndex).row;
+        switch(Game.getInstance().getMap().getTile(col, row).type) {
+            case Map.D:
+            case Map.DR:
+                rotation = Math.PI / 2;
+                break;
+            case Map.U:
+            case Map.UR:
+                rotation = 3 * Math.PI / 2;
+                break;
+            case Map.R:
+            case Map.RU:
+            case Map.RD:
+                rotation = 0.0;
+                break;
+        }
     }
 
     public void attemptTravel() {

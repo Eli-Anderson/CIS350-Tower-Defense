@@ -139,6 +139,7 @@ public class GUI extends JFrame implements Observer {
         for (Monster m : map.getMonsters()) {
             int col = m.getCol();
             int row = m.getRow();
+            mapArray[row][col].rotation = m.getRotation();
             switch (m.getType()) {
                 case PAPER:
                     mapArray[row][col].monsterImage = monsterImage1;
@@ -189,6 +190,7 @@ public class GUI extends JFrame implements Observer {
         BufferedImage tileImage;
         Image monsterImage;
         Image towerImage;
+        double rotation;
 
         TileButton() {
             super();
@@ -210,6 +212,7 @@ public class GUI extends JFrame implements Observer {
             if (monsterImage != null) {
                 int monsterImageWidth = monsterImage.getWidth(this);
                 int monsterImageHeight = monsterImage.getHeight(this);
+                g1.rotate(rotation, TILE_SIZE/2, TILE_SIZE/2);
                 g1.drawImage(monsterImage, (tileImageWidth / 2) - (monsterImageWidth / 2),
                         (tileImageHeight / 2) - (monsterImageHeight / 2), this);
             }
