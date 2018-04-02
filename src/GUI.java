@@ -156,6 +156,8 @@ public class GUI extends JFrame implements Observer {
         for (Tower t : map.getTowers()) {
             int col = t.getCol();
             int row = t.getRow();
+            mapArray[row][col].rotation = t.getRotation();
+            System.out.println(t.getRotation());
             if (t.getFramesSinceLastAttack() <= 1) {
                 switch(t.getType()) {
                     case PAPER:
@@ -208,11 +210,10 @@ public class GUI extends JFrame implements Observer {
 
             int tileImageWidth = tileImage.getWidth(this);
             int tileImageHeight = tileImage.getHeight(this);
-
+            g1.rotate(rotation, TILE_SIZE/2, TILE_SIZE/2);
             if (monsterImage != null) {
                 int monsterImageWidth = monsterImage.getWidth(this);
                 int monsterImageHeight = monsterImage.getHeight(this);
-                g1.rotate(rotation, TILE_SIZE/2, TILE_SIZE/2);
                 g1.drawImage(monsterImage, (tileImageWidth / 2) - (monsterImageWidth / 2),
                         (tileImageHeight / 2) - (monsterImageHeight / 2), this);
             }
