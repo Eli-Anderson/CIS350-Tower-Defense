@@ -115,7 +115,7 @@ public abstract class Tower {
 	 * different types of tower faces to different types of monster has different effects.
 	 * @param monsterType define what type the monster is.
 	 ************************************************************************************/
-	private double getAttackMultiplier(TowerType monsterType){
-		return 1.0;
-	}
+	protected abstract double getAttackMultiplier(TowerType monsterType);
+
+
 }

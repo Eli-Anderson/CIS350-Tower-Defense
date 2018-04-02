@@ -10,17 +10,17 @@ import java.util.ArrayList;
 public class PaperTower extends Tower {
 	/*****************************************************************
 	 * Constructor
-	 * @param towerX the X coordinate of the tower.
-	 * @param towerY the Y coordinate of the tower.
+	 * @param col the X coordinate of the tower.
+	 * @param row the Y coordinate of the tower.
 	 *****************************************************************/
-	public PaperTower(int towerX, int towerY){
+	public PaperTower(int col, int row){
 		cost = 10;
-		this.col = towerX;
-		this.row = towerY;
+		this.col = col;
+		this.row = row;
 		towerType = TowerType.PAPER;
 	}
-
-	private double getAttackMultiplier(TowerType monsterType){
+	@Override
+	protected double getAttackMultiplier(TowerType monsterType){
 		// Paper beats Rock, Scissor defense Paper
 		switch(monsterType){
 			case ROCK:

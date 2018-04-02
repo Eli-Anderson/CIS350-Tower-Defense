@@ -8,26 +8,26 @@
 public class RockTower extends Tower {
 	/*****************************************************************
 	 * Constructor
-	 * @param towerX the X coordinate of the tower.
-	 * @param towerY the Y coordinate of the tower.
+	 * @param col the X coordinate of the tower.
+	 * @param row the Y coordinate of the tower.
 	 *****************************************************************/
-	public RockTower(int towerX, int towerY){
+	public RockTower(int col, int row){
 		cost = 10;
-		this.col = towerX;
-		this.row = towerY;
+		this.col = col;
+		this.row = row;
 		towerType = TowerType.ROCK;
 	}
-
-	private double getAttackMultiplier(TowerType monsterType){
+	@Override
+	protected double getAttackMultiplier(TowerType monsterType){
 		// Paper beats Rock, Scissor defense Paper
 		switch(monsterType){
 			case SCISSORS:
-				return 3/2; // 1.5
+				return 3/2; // 1.5 (1.5x increase)
 			case ROCK:
-				return 1;
+				return 1.0;
 			case PAPER:
 				return 2/3; // 0.66 (1.5x decrease)
 		}
-		return 1;
+		return 1.0;
 	}
 }
