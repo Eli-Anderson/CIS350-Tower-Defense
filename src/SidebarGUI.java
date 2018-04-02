@@ -10,10 +10,10 @@ import java.io.IOException;
 public class SidebarGUI extends JFrame implements ActionListener{
     private JButton rockTower, scissorTower, paperTower, destroyButton;
     private BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage;
-    private JLabel roundLabel, goldLabel;
+    private JLabel roundLabel, goldLabel, healthLabel;
     public SidebarGUI() {
         setName("Tools");
-        setLayout(new GridLayout(6, 1));
+        setLayout(new GridLayout(7, 1));
         setSize(GUI.TILE_SIZE, 22 + GUI.TILE_SIZE * 5);
         setLocation(GUI.TILE_SIZE * Game.getInstance().getMap().getWidth(), 0);
 
@@ -29,6 +29,7 @@ public class SidebarGUI extends JFrame implements ActionListener{
         scissorTower = new TowerSelectButton(scissorTowerImage, "Scissors");
         paperTower = new TowerSelectButton(paperTowerImage, "Paper");
         destroyButton = new JButton("Destroy");
+        healthLabel = new JLabel("Lives: "+Game.getInstance().getMap().getBase().getHealth());
         roundLabel = new JLabel("Round: "+Game.getInstance().getCurrentRound());
         goldLabel = new JLabel("Gold: "+Game.getInstance().getGold());
 
@@ -42,6 +43,7 @@ public class SidebarGUI extends JFrame implements ActionListener{
         add(paperTower);
         add(destroyButton);
         add(roundLabel);
+        add(healthLabel);
         add(goldLabel);
 
         setVisible(true);
@@ -76,6 +78,9 @@ public class SidebarGUI extends JFrame implements ActionListener{
     }
     public void updateRoundLabel() {
         roundLabel.setText("Round: "+Game.getInstance().getCurrentRound());
+    }
+    public void updateHealthLabel() {
+        healthLabel.setText("Lives: "+Game.getInstance().getMap().getBase().getHealth());
     }
 
     private class TowerSelectButton extends JButton {

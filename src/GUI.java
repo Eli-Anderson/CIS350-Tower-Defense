@@ -136,6 +136,7 @@ public class GUI extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         sidebar.updateGoldLabel();
         sidebar.updateRoundLabel();
+        sidebar.updateHealthLabel();
 
         for (Monster m : map.getMonsters()) {
             int col = m.getCol();
