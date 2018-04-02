@@ -31,6 +31,8 @@ public abstract class Tower {
 
 	private int framesSinceLastAttack = 999;
 
+	private double rotation = 0.0; // rotation in Radians
+
 
 	/*************************************************************************************
 	 * get tower's X coordinate
@@ -73,6 +75,10 @@ public abstract class Tower {
 		return towerType;
 	}
 
+	public double getRotation() {
+		return rotation;
+	}
+
 	private Monster getTarget(ArrayList<Monster> targets) {
 		targets.sort((o1, o2) -> o2.getPathIndex() - o1.getPathIndex()); // sort by who is furthest along the path
 		for (Monster m : targets) {
@@ -90,15 +96,18 @@ public abstract class Tower {
 	 *****************************************************************/
 	public void attemptAttack(ArrayList<Monster> targets){
 		framesSinceLastAttack ++;
+		Monster target = getTarget(targets);
 		if (framesSinceLastAttack >= attackSpeed) {
-			Monster target = getTarget(targets);
-
 			if (target == null) return;
-			System.out.println("target attacked");
+			int dCol = target.getCol() - col;
+			int dRow = target.getRow() - row;
+			rotation = (-1 * Math.atan2(dCol, dRow)) + (Math.PI / 2);
+
 			target.hurt((int)(attackValue * getAttackMultiplier(target.getType())));
 
 			framesSinceLastAttack = 0;
 		}
+
 
 	}
 
