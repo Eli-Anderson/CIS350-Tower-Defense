@@ -24,7 +24,7 @@ public class Monster {
     /**
      * Monster's health
      **/
-    private int health;
+    private double health;
 
     /**
      * Position in the path that the monster is
@@ -120,7 +120,7 @@ public class Monster {
      * gets the monster's health
      * @return health - monster's health
      **************************************/
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
@@ -143,10 +143,10 @@ public class Monster {
      * when the monster is attacked
      * @param damage - health points lost
      *************************************/
-    public void hurt(int damage) {
+    public void hurt(double damage) {
         if (deleteOnNextFrame) return; // monster is already dead
         health -= damage;
-        if (health <= 0) {
+        if (Double.compare(health, 0.0) <= 0) {
             //flag for deletion
             deleteOnNextFrame = true;
             Game.getInstance().claimBounty(reward);

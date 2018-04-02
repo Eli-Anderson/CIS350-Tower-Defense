@@ -103,7 +103,7 @@ public abstract class Tower {
 			int dRow = target.getRow() - row;
 			rotation = (-1 * Math.atan2(dCol, dRow)) + (Math.PI / 2);
 
-			target.hurt((int)(attackValue * getAttackMultiplier(target.getType())));
+			target.hurt(attackValue * getAttackMultiplier(target.getType()));
 
 			framesSinceLastAttack = 0;
 		}
