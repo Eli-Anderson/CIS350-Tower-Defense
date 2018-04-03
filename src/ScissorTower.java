@@ -22,12 +22,12 @@ public class ScissorTower extends Tower {
 		// Paper beats Rock, Scissor defense Paper
 		switch(monsterType){
 			case PAPER:
-				return 3/2; // 1.5
+				return 3.0/2.0; // 1.5
 			case SCISSORS:
-				return 1;
+				return 1.0;
 			case ROCK:
-				return 2/3; // 0.66 (1.5x decrease)
+				return 2.0/3.0; // 0.66 (1.5x decrease)
 		}
-		return 1;
+		return 1.0;
 	}
 }
