@@ -18,7 +18,7 @@ public class GUI extends JFrame implements Observer {
 
     private JPanel mapPanel;
     private TileButton[][] mapArray;
-    private BufferedImage monsterImage1;
+    private BufferedImage paperMonsterImage, rockMonsterImage, scissorMonsterImage;
     public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage,
             paperTowerImage_large, rockTowerImage_large, scissorTowerImage_large;
     private static GUI instance;
@@ -41,7 +41,10 @@ public class GUI extends JFrame implements Observer {
     private GUI() {
         setName("Tower Defense");
         try {
-            monsterImage1 = ImageIO.read(new File("resources/beetle.png"));
+            paperMonsterImage = ImageIO.read(new File("resources/paperMonster.png"));
+            rockMonsterImage = ImageIO.read(new File("resources/rockMonster.png"));
+            scissorMonsterImage = ImageIO.read(new File("resources/scissorMonster.png"));
+
             rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
             paperTowerImage = ImageIO.read(new File("resources/paperTower.png"));
             scissorTowerImage = ImageIO.read(new File("resources/scissorTower.png"));
@@ -142,15 +145,16 @@ public class GUI extends JFrame implements Observer {
             int col = m.getCol();
             int row = m.getRow();
             mapArray[row][col].rotation = m.getRotation();
+
             switch (m.getType()) {
                 case PAPER:
-                    mapArray[row][col].monsterImage = monsterImage1;
+                    mapArray[row][col].monsterImage = paperMonsterImage;
                     break;
                 case ROCK:
-                    mapArray[row][col].monsterImage = monsterImage1;
+                    mapArray[row][col].monsterImage = rockMonsterImage;
                     break;
                 case SCISSORS:
-                    mapArray[row][col].monsterImage = monsterImage1;
+                    mapArray[row][col].monsterImage = scissorMonsterImage;
                     break;
             }
         }
@@ -159,7 +163,7 @@ public class GUI extends JFrame implements Observer {
             int col = t.getCol();
             int row = t.getRow();
             mapArray[row][col].rotation = t.getRotation();
-            System.out.println(t.getRotation());
+
             if (t.getFramesSinceLastAttack() <= 1) {
                 switch(t.getType()) {
                     case PAPER:

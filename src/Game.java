@@ -84,7 +84,7 @@ public class Game extends Observable {
 
             monstersToDelete.clear();
 
-            RoundManager.update();
+            RoundManager.getInstance().update();
 
             try {
                 Thread.sleep(Math.round(1000 / targetFrameRatePerSec));
