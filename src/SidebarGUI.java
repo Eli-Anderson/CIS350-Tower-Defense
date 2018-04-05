@@ -14,8 +14,10 @@ public class SidebarGUI extends JFrame implements ActionListener{
     public SidebarGUI() {
         setName("Tools");
         setLayout(new GridLayout(7, 1));
-        setSize(GUI.TILE_SIZE, 22 + GUI.TILE_SIZE * 5);
-        setLocation(GUI.TILE_SIZE * Game.getInstance().getMap().getWidth(), 0);
+        int GUI_WIDTH = GUI.TILE_SIZE * Game.getInstance().getMap().getWidth();
+        int GUI_HEIGHT = GUI.TILE_SIZE * Game.getInstance().getMap().getHeight();
+        setSize(GUI.TILE_SIZE, 22 + GUI_HEIGHT);
+        setLocation(GUI_WIDTH, 0);
 
         try {
             loadImages();
@@ -37,6 +39,10 @@ public class SidebarGUI extends JFrame implements ActionListener{
         scissorTower.addActionListener(this);
         paperTower.addActionListener(this);
         destroyButton.addActionListener(this);
+
+        rockTower.setToolTipText("Rock Tower - 10 gold");
+        scissorTower.setToolTipText("Scissor Tower - 10 gold");
+        paperTower.setToolTipText("Paper Tower - 10 gold");
 
         add(rockTower);
         add(scissorTower);
