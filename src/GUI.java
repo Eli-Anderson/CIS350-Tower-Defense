@@ -25,10 +25,10 @@ public class GUI extends JFrame implements Observer {
     private ButtonListener buttonListener;
 
     public enum ToolType {
-        BUILD, DESTROY
+        BUILD, DESTROY, SELECT
     }
 
-    public ToolType selectedTool = ToolType.BUILD;
+    public ToolType selectedTool = ToolType.SELECT;
     public TowerType selectedTowerType = TowerType.ROCK;
 
     public static GUI getInstance() {
@@ -159,7 +159,6 @@ public class GUI extends JFrame implements Observer {
             int col = t.getCol();
             int row = t.getRow();
             mapArray[row][col].rotation = t.getRotation();
-            System.out.println(t.getRotation());
             if (t.getFramesSinceLastAttack() <= 1) {
                 switch(t.getType()) {
                     case PAPER:
@@ -216,6 +215,7 @@ public class GUI extends JFrame implements Observer {
             if (monsterImage != null) {
                 int monsterImageWidth = monsterImage.getWidth(this);
                 int monsterImageHeight = monsterImage.getHeight(this);
+                //@TODO: Null pointer here?
                 g1.drawImage(monsterImage, (tileImageWidth / 2) - (monsterImageWidth / 2),
                         (tileImageHeight / 2) - (monsterImageHeight / 2), this);
             }
@@ -266,8 +266,8 @@ public class GUI extends JFrame implements Observer {
                                         break;
                                 }
                             }
-                        } else {
-                            // is not in BUILD mode
+                        } else if (selectedTool == ToolType.DESTROY){
+                            // is in DESTROY mode
                             if (map.getTower(col, row) != null) {
                                 // a tower exists here, so destroy it
                                 map.destroyTower(col, row);
