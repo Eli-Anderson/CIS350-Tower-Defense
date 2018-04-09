@@ -15,6 +15,7 @@ public class GUI extends JFrame implements Observer {
     public static final int TILE_SIZE = 64;
     private SidebarGUI sidebar;
     private Map map;
+    private GameMusic music = new GameMusic();
 
     private JPanel mapPanel;
     private TileButton[][] mapArray;
@@ -40,6 +41,7 @@ public class GUI extends JFrame implements Observer {
 
     private GUI() {
         setName("Tower Defense");
+        music;
         try {
             monsterImage1 = ImageIO.read(new File("resources/beetle.png"));
             rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
