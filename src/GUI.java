@@ -19,8 +19,7 @@ public class GUI extends JFrame implements Observer {
     private JPanel mapPanel;
     private TileButton[][] mapArray;
     private BufferedImage monsterImage1;
-    public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage,
-            paperTowerImage_large, rockTowerImage_large, scissorTowerImage_large;
+    public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage;
     private static GUI instance;
     private ButtonListener buttonListener;
 
@@ -45,10 +44,6 @@ public class GUI extends JFrame implements Observer {
             rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
             paperTowerImage = ImageIO.read(new File("resources/paperTower.png"));
             scissorTowerImage = ImageIO.read(new File("resources/scissorTower.png"));
-
-            paperTowerImage_large = ImageIO.read(new File("resources/paperTowerLarge.png"));
-            rockTowerImage_large = ImageIO.read(new File("resources/rockTowerLarge.png"));
-            scissorTowerImage_large = ImageIO.read(new File("resources/scissorTowerLarge.png"));
         } catch (IOException e) {
             System.out.println("Error reading images");
             return;
@@ -162,13 +157,13 @@ public class GUI extends JFrame implements Observer {
             if (t.getFramesSinceLastAttack() <= 1) {
                 switch(t.getType()) {
                     case PAPER:
-                        mapArray[row][col].towerImage = paperTowerImage_large;
+                        mapArray[row][col].towerImage = paperTowerImage;
                         break;
                     case ROCK:
-                        mapArray[row][col].towerImage = rockTowerImage_large;
+                        mapArray[row][col].towerImage = rockTowerImage;
                         break;
                     case SCISSORS:
-                        mapArray[row][col].towerImage = scissorTowerImage_large;
+                        mapArray[row][col].towerImage = scissorTowerImage;
                         break;
                 }
             } else {
