@@ -41,7 +41,7 @@ public class GUI extends JFrame implements Observer {
 
     private GUI() {
         setName("Tower Defense");
-        music;
+        music.startMusic();
         try {
             monsterImage1 = ImageIO.read(new File("resources/beetle.png"));
             rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
