@@ -16,7 +16,6 @@ public class GUI extends JFrame implements Observer {
     private SidebarGUI sidebar;
     private Map map;
 
-    private JPanel mapPanel;
     private TileButton[][] mapArray;
     private BufferedImage monsterImage1;
     public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage,
@@ -54,20 +53,22 @@ public class GUI extends JFrame implements Observer {
             return;
         }
 
-
+        setLayout(new BorderLayout());
         Game.getInstance(); // initialize the Game
         map = Game.getInstance().getMap();
-        setSize(map.getWidth() * TILE_SIZE, 22 + map.getHeight() * TILE_SIZE);
+        //setSize(map.getWidth() * TILE_SIZE, 22 + map.getHeight() * TILE_SIZE);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        createMapDisplay();
+        add(createMapPanel(), BorderLayout.CENTER);
         setVisible(true);
 
         Game.getInstance().addObserver(this);
         sidebar = new SidebarGUI();
+        add(sidebar, BorderLayout.EAST);
+        pack();
     }
 
-    private void createMapDisplay() {
-        mapPanel = new JPanel();
+    private JPanel createMapPanel() {
+        JPanel mapPanel = new JPanel();
         mapPanel.setLayout(new GridLayout(map.getHeight(), map.getWidth(), 0, 0));
         mapArray = new TileButton[map.getHeight()][map.getWidth()];
 
@@ -116,12 +117,12 @@ public class GUI extends JFrame implements Observer {
                     mapPanel.add(mapArray[row][col]);
                 }
             }
-            add(mapPanel);
 
 
         } catch (IOException e) {
             System.out.println("An error occurred when loading the images");
         }
+        return mapPanel;
     }
 
     public void clearMonsterImages() {
@@ -197,6 +198,7 @@ public class GUI extends JFrame implements Observer {
 
         TileButton() {
             super();
+            setSize(GUI.TILE_SIZE, GUI.TILE_SIZE);
             if (buttonListener == null)
                 buttonListener = new ButtonListener();
             addActionListener(buttonListener);
@@ -204,26 +206,31 @@ public class GUI extends JFrame implements Observer {
 
         @Override
         public void paintComponent(Graphics g) {
-            super.paintComponent(g);
+            //super.paintComponent(g);
             Graphics2D g1 = (Graphics2D) g;
             g1.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-            g1.drawImage(tileImage, 0, 0, null);
+            g1.drawImage(tileImage, 0, 0, getWidth(), getHeight(), null);
 
             int tileImageWidth = tileImage.getWidth(this);
             int tileImageHeight = tileImage.getHeight(this);
-            g1.rotate(rotation, TILE_SIZE/2, TILE_SIZE/2);
+            g1.rotate(rotation, getWidth()/2, getHeight()/2);
+
+            double widthPercent = (double) getWidth() / (double) tileImageWidth;
+            double heightPercent = (double) getHeight() / (double) tileImageHeight;
             if (monsterImage != null) {
-                int monsterImageWidth = monsterImage.getWidth(this);
-                int monsterImageHeight = monsterImage.getHeight(this);
+                int monsterImageWidth = (int) (monsterImage.getWidth(this) * widthPercent);
+                int monsterImageHeight = (int) (monsterImage.getHeight(this) * heightPercent);
                 //@TODO: Null pointer here?
-                g1.drawImage(monsterImage, (tileImageWidth / 2) - (monsterImageWidth / 2),
-                        (tileImageHeight / 2) - (monsterImageHeight / 2), this);
+                g1.drawImage(monsterImage, (getWidth() / 2) - (monsterImageWidth / 2),
+                        (getHeight() / 2) - (monsterImageHeight / 2),
+                        monsterImageWidth,
+                        monsterImageHeight, this);
             }
             if (towerImage != null) {
-                int towerImageWidth = towerImage.getWidth(this);
-                int towerImageHeight = towerImage.getHeight(this);
-                g1.drawImage(towerImage, (tileImageWidth / 2) - (towerImageWidth / 2),
-                        (tileImageHeight / 2) - (towerImageHeight / 2), this);
+                int towerImageWidth = (int) (towerImage.getWidth(this) * widthPercent);
+                int towerImageHeight = (int) (towerImage.getHeight(this) * widthPercent);
+                g1.drawImage(towerImage, (getWidth() / 2) - (towerImageWidth / 2),
+                        (getHeight() / 2) - (towerImageHeight / 2), towerImageWidth, towerImageHeight, this);
             }
         }
     }
