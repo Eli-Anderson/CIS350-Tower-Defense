@@ -1,3 +1,11 @@
+/********************************
+ * CIS 359 Base Class
+ * Creates base
+ * tower defense game
+ * @author Rose Ault
+ * @version 1
+ ********************************/
+
 public class Base{
 
     // Base health
@@ -9,24 +17,49 @@ public class Base{
     //Base position y
     private int row;
 
+    /**
+     * creates base at row and column
+     * @param row
+     * @param col
+     */
     public Base(int health, int col, int row){
         this.health = health;
         this.col = col;
         this.row = row;
     }
 
+ /**
+     * Gets column location of base
+     *
+     * @return col
+     */
     public int getCol() {
         return col;
     }
 
+ /**
+     * Gets row location of base
+     *
+     * @return row
+     */
     public int getRow() {
         return row;
     }
 
+ /**
+     * Gets health of base
+     *
+     * @return health
+     */
     public int getHealth() {
         return health;
     }
 
+ /**
+     * Removes health from base, if health is less then 0, game over.
+     *
+     * @param dmg
+     */
     public void removeHealth(int dmg) {
         this.health -=  dmg;
         if (this.health <= 0) {
@@ -34,6 +67,11 @@ public class Base{
         }
     }
 
+ /**
+     * Sets the health
+     *
+     * @param health
+     */
     public void setHealth(int h) {
         this.health = h;
     }
