@@ -56,7 +56,6 @@ public class GUI extends JFrame implements Observer {
         setLayout(new BorderLayout());
         Game.getInstance(); // initialize the Game
         map = Game.getInstance().getMap();
-        //setSize(map.getWidth() * TILE_SIZE, 22 + map.getHeight() * TILE_SIZE);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         add(createMapPanel(), BorderLayout.CENTER);
         setVisible(true);
@@ -64,7 +63,7 @@ public class GUI extends JFrame implements Observer {
         Game.getInstance().addObserver(this);
         sidebar = new SidebarGUI();
         add(sidebar, BorderLayout.EAST);
-        pack();
+        setSize(sidebar.getWidth() + map.getWidth() * TILE_SIZE, 22 + map.getHeight() * TILE_SIZE);
     }
 
     private JPanel createMapPanel() {
