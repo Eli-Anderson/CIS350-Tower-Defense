@@ -7,23 +7,22 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class SidebarGUI extends JFrame implements ActionListener{
+public class SidebarGUI extends JPanel implements ActionListener{
     private JButton rockTower, scissorTower, paperTower, destroyButton;
     private BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage;
     private JLabel roundLabel, goldLabel, healthLabel;
     public SidebarGUI() {
-        setName("Tools");
         setLayout(new GridLayout(7, 1));
         int GUI_WIDTH = GUI.TILE_SIZE * Game.getInstance().getMap().getWidth();
         int GUI_HEIGHT = GUI.TILE_SIZE * Game.getInstance().getMap().getHeight();
-        setSize(GUI.TILE_SIZE, 22 + GUI_HEIGHT);
-        setLocation(GUI_WIDTH, 0);
+        //setSize(GUI.TILE_SIZE, 22 + GUI_HEIGHT);
+        //setLocation(GUI_WIDTH, 0);
 
         try {
             loadImages();
         } catch (IOException e) {
             System.out.println("An error occurred when attempting to load images");
-            dispose();
+            //dispose();
             return;
         }
 
