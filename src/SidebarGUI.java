@@ -15,23 +15,20 @@ public class SidebarGUI extends JPanel implements ActionListener{
         setLayout(new GridLayout(7, 1));
         int GUI_WIDTH = GUI.TILE_SIZE * Game.getInstance().getMap().getWidth();
         int GUI_HEIGHT = GUI.TILE_SIZE * Game.getInstance().getMap().getHeight();
-        //setSize(GUI.TILE_SIZE, 22 + GUI_HEIGHT);
-        //setLocation(GUI_WIDTH, 0);
 
         try {
             loadImages();
         } catch (IOException e) {
             System.out.println("An error occurred when attempting to load images");
-            //dispose();
             return;
         }
 
         rockTower = new TowerSelectButton(rockTowerImage, "Rock");
         scissorTower = new TowerSelectButton(scissorTowerImage, "Scissors");
         paperTower = new TowerSelectButton(paperTowerImage, "Paper");
-        destroyButton = new JButton("Destroy");
+        destroyButton = new JButton("Sell");
         healthLabel = new JLabel("Lives: "+Game.getInstance().getMap().getBase().getHealth());
-        roundLabel = new JLabel("Round: "+Game.getInstance().getCurrentRound());
+        roundLabel = new JLabel("Round: "+RoundManager.getRound());
         goldLabel = new JLabel("Gold: "+Game.getInstance().getGold());
 
         rockTower.addActionListener(this);
@@ -82,7 +79,7 @@ public class SidebarGUI extends JPanel implements ActionListener{
         goldLabel.setText("Gold: "+Game.getInstance().getGold());
     }
     public void updateRoundLabel() {
-        roundLabel.setText("Round: "+Game.getInstance().getCurrentRound());
+        roundLabel.setText("Round: "+RoundManager.getRound());
     }
     public void updateHealthLabel() {
         healthLabel.setText("Lives: "+Game.getInstance().getMap().getBase().getHealth());
@@ -103,8 +100,10 @@ public class SidebarGUI extends JPanel implements ActionListener{
             super.paintComponent(g);
             Graphics2D g1 = (Graphics2D) g;
             g1.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-            g1.drawImage(image, 0, 8, null);
-            g1.drawString(text, 32, 14);
+            int imageWidth = image.getWidth();
+            int imageHeight = image.getHeight();
+            g1.drawImage(image, (getWidth() / 2) - (imageWidth / 2), (getHeight() / 2) - (imageHeight / 2), null);
+            //g1.drawString(text, (getWidth() / 2), (getHeight() / 2));
             //@TODO: Figure out how to center text and position image and text nicely
         }
     }

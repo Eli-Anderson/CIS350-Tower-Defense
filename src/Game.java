@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 public class Game extends Observable {
-    private int goldCount, currentRound;
+    private int goldCount;
     private Map map;
     private double targetFrameRatePerSec;
     private int currentFrame;
@@ -29,7 +29,6 @@ public class Game extends Observable {
         isRunning = false;
         map = new Map(16, 8);
         targetFrameRatePerSec = 30;
-        currentRound = 1;
         goldCount = 40;
         currentFrame = 0;
     }
@@ -40,15 +39,6 @@ public class Game extends Observable {
      */
     public Map getMap() {
         return map;
-    }
-
-    /**
-     * Get the current round
-     * @return {int} The current round
-     */
-    public int getCurrentRound() {
-        //@TODO: Move the round counter completely to the RoundManager?
-        return currentRound;
     }
 
     /**

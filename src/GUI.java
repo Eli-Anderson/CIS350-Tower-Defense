@@ -309,7 +309,7 @@ public class GUI extends JFrame implements Observer {
             newGameButton.addActionListener(this);
 
             /* add the elements to the panel */
-            add(BorderLayout.CENTER, new JLabel("You lost on round " + Game.getInstance().getCurrentRound() + "!"));
+            add(BorderLayout.CENTER, new JLabel("You lost on round " + RoundManager.getRound() + "!"));
 
             add(BorderLayout.SOUTH, quitButton);
             add(BorderLayout.SOUTH, newGameButton);
