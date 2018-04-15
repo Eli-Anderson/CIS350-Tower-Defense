@@ -12,9 +12,12 @@ public class ScissorTower extends Tower {
 	 * @param row the Y coordinate of the tower.
 	 *****************************************************************/
 	public ScissorTower(int col, int row){
-		cost = 10;
+
 		this.col = col;
 		this.row = row;
+		attackRange = 5;
+		attackValue = 1;
+		attackSpeed = 15; // twice a second
 		towerType = TowerType.SCISSORS;
 	}
 	@Override
@@ -22,12 +25,16 @@ public class ScissorTower extends Tower {
 		// Paper beats Rock, Scissor defense Paper
 		switch(monsterType){
 			case PAPER:
-				return 3.0/2.0; // 1.5
+				return 2.0;
 			case SCISSORS:
 				return 1.0;
 			case ROCK:
-				return 2.0/3.0; // 0.66 (1.5x decrease)
+				return 0.5;
 		}
 		return 1.0;
+	}
+
+	public static int getCost() {
+		return 10;
 	}
 }

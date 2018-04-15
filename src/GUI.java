@@ -17,7 +17,7 @@ public class GUI extends JFrame implements Observer {
     private Map map;
 
     private TileButton[][] mapArray;
-    private BufferedImage monsterImage1;
+    private BufferedImage paperMonsterImage, rockMonsterImage, scissorMonsterImage;
     public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage,
             paperTowerImage_large, rockTowerImage_large, scissorTowerImage_large;
     private static GUI instance;
@@ -40,7 +40,10 @@ public class GUI extends JFrame implements Observer {
     private GUI() {
         setName("Tower Defense");
         try {
-            monsterImage1 = ImageIO.read(new File("resources/beetle.png"));
+            paperMonsterImage = ImageIO.read(new File("resources/paperMonster.png"));
+            rockMonsterImage = ImageIO.read(new File("resources/rockMonster.png"));
+            scissorMonsterImage = ImageIO.read(new File("resources/scissorMonster.png"));
+
             rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
             paperTowerImage = ImageIO.read(new File("resources/paperTower.png"));
             scissorTowerImage = ImageIO.read(new File("resources/scissorTower.png"));
@@ -144,13 +147,13 @@ public class GUI extends JFrame implements Observer {
             mapArray[row][col].rotation = m.getRotation();
             switch (m.getType()) {
                 case PAPER:
-                    mapArray[row][col].monsterImage = monsterImage1;
+                    mapArray[row][col].monsterImage = paperMonsterImage;
                     break;
                 case ROCK:
-                    mapArray[row][col].monsterImage = monsterImage1;
+                    mapArray[row][col].monsterImage = rockMonsterImage;
                     break;
                 case SCISSORS:
-                    mapArray[row][col].monsterImage = monsterImage1;
+                    mapArray[row][col].monsterImage = scissorMonsterImage;
                     break;
             }
         }
@@ -244,29 +247,25 @@ public class GUI extends JFrame implements Observer {
 
                         if (selectedTool == ToolType.BUILD) {
                             if (map.isBuildable(col, row)) {
-                                Tower t;
                                 switch (selectedTowerType) {
                                     case ROCK:
-                                        t = new RockTower(col, row);
-                                        if (t.getCost() <= Game.getInstance().getGold()) {
-                                            Game.getInstance().removeGold(t.getCost());
-                                            map.addTower(t, col, row);
+                                        if (RockTower.getCost() <= Game.getInstance().getGold()) {
+                                            Game.getInstance().removeGold(RockTower.getCost());
+                                            map.addTower(new RockTower(col, row), col, row);
                                             mapArray[row][col].towerImage = rockTowerImage;
                                         }
                                         break;
                                     case PAPER:
-                                        t = new PaperTower(col, row);
-                                        if (t.getCost() <= Game.getInstance().getGold()) {
-                                            Game.getInstance().removeGold(t.getCost());
-                                            map.addTower(t, col, row);
+                                        if (PaperTower.getCost() <= Game.getInstance().getGold()) {
+                                            Game.getInstance().removeGold(PaperTower.getCost());
+                                            map.addTower(new PaperTower(col, row), col, row);
                                             mapArray[row][col].towerImage = paperTowerImage;
                                         }
                                         break;
                                     case SCISSORS:
-                                        t = new ScissorTower(col, row);
-                                        if (t.getCost() <= Game.getInstance().getGold()) {
-                                            Game.getInstance().removeGold(t.getCost());
-                                            map.addTower(t, col, row);
+                                        if (ScissorTower.getCost() <= Game.getInstance().getGold()) {
+                                            Game.getInstance().removeGold(ScissorTower.getCost());
+                                            map.addTower(new ScissorTower(col, row), col, row);
                                             mapArray[row][col].towerImage = scissorTowerImage;
                                         }
                                         break;
@@ -330,6 +329,11 @@ public class GUI extends JFrame implements Observer {
 
     public static void main(String[] args) {
         GUI.getInstance();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Game.getInstance().start();
     }
 }

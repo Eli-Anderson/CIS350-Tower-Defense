@@ -138,6 +138,9 @@ public class Monster {
         return deleteOnNextFrame;
     }
 
+    protected void setMoveSpeed(int speed) {
+        moveSpeed = speed;
+    }
 
     /************************************
      * when the monster is attacked
