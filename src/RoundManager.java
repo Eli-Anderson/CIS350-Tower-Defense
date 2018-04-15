@@ -34,6 +34,12 @@ public class RoundManager {
         }
     }
 
+    public static void reset() {
+        round = 0;
+        sendingMonsters = false;
+        monstersSent = 0;
+    }
+
     public static void update() {
         if (Game.getInstance().getMap().getMonsters().size() == 0 && !sendingMonsters) {
             sendingMonsters = true;

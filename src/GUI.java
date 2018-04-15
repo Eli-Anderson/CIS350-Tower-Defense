@@ -14,7 +14,7 @@ import java.util.Observer;
 public class GUI extends JFrame implements Observer {
     public static final int TILE_SIZE = 64;
     private SidebarGUI sidebar;
-    private Map map;
+    private JPanel mapPanel;
 
     private TileButton[][] mapArray;
     private BufferedImage paperMonsterImage, rockMonsterImage, scissorMonsterImage;
@@ -58,19 +58,21 @@ public class GUI extends JFrame implements Observer {
 
         setLayout(new BorderLayout());
         Game.getInstance(); // initialize the Game
-        map = Game.getInstance().getMap();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        add(createMapPanel(), BorderLayout.CENTER);
+        createMapPanel();
+        add(mapPanel, BorderLayout.CENTER);
         setVisible(true);
 
         Game.getInstance().addObserver(this);
         sidebar = new SidebarGUI();
         add(sidebar, BorderLayout.EAST);
+        Map map = Game.getInstance().getMap();
         setSize(sidebar.getWidth() + map.getWidth() * TILE_SIZE, 22 + map.getHeight() * TILE_SIZE);
     }
 
-    private JPanel createMapPanel() {
-        JPanel mapPanel = new JPanel();
+    private void createMapPanel() {
+        Map map = Game.getInstance().getMap();
+        mapPanel = new JPanel();
         mapPanel.setLayout(new GridLayout(map.getHeight(), map.getWidth(), 0, 0));
         mapArray = new TileButton[map.getHeight()][map.getWidth()];
 
@@ -119,12 +121,9 @@ public class GUI extends JFrame implements Observer {
                     mapPanel.add(mapArray[row][col]);
                 }
             }
-
-
         } catch (IOException e) {
             System.out.println("An error occurred when loading the images");
         }
-        return mapPanel;
     }
 
     public void clearMonsterImages() {
@@ -141,7 +140,7 @@ public class GUI extends JFrame implements Observer {
         sidebar.updateRoundLabel();
         sidebar.updateHealthLabel();
 
-        for (Monster m : map.getMonsters()) {
+        for (Monster m : Game.getInstance().getMap().getMonsters()) {
             int col = m.getCol();
             int row = m.getRow();
             mapArray[row][col].rotation = m.getRotation();
@@ -158,7 +157,7 @@ public class GUI extends JFrame implements Observer {
             }
         }
 
-        for (Tower t : map.getTowers()) {
+        for (Tower t : Game.getInstance().getMap().getTowers()) {
             int col = t.getCol();
             int row = t.getRow();
             mapArray[row][col].rotation = t.getRotation();
@@ -241,6 +240,7 @@ public class GUI extends JFrame implements Observer {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            Map map = Game.getInstance().getMap();
             for (int row = 0; row < map.getHeight(); row++) {
                 for (int col = 0; col < map.getWidth(); col++) {
                     if (e.getSource() == mapArray[row][col]) {
@@ -321,10 +321,17 @@ public class GUI extends JFrame implements Observer {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == newGameButton) {
                 Game.getInstance().reset();
+                dispose();
             } else if (e.getSource() == quitButton) {
                 System.exit(0);
             }
         }
+    }
+
+    public void reset() {
+        remove(mapPanel);
+        createMapPanel();
+        add(mapPanel);
     }
 
     public static void main(String[] args) {

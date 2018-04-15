@@ -85,37 +85,39 @@ public class Game extends Observable {
      */
     private void loop() {
         ArrayList<Monster> monstersToDelete;
-        while (isRunning) {
-            currentFrame++;
+        while (true) {
+            if (isRunning) {
+                currentFrame++;
 
-            GUI.getInstance().clearMonsterImages();
+                GUI.getInstance().clearMonsterImages();
 
-            monstersToDelete = new ArrayList<>();
-            for (Monster m : map.getMonsters()) { // update monster positions
-                m.attemptTravel();
+                monstersToDelete = new ArrayList<>();
+                for (Monster m : map.getMonsters()) { // update monster positions
+                    m.attemptTravel();
+                }
+
+                for (Tower t : map.getTowers()) { // have each tower try to attack
+                    t.attemptAttack(map.getMonsters());
+                }
+
+                for (Monster m : map.getMonsters()) { // check if the monster is dead
+                    if (m.getDeleteOnNextFrame())
+                        monstersToDelete.add(m);      // add it to a different array so we can delete it
+                    // we delete at the end of the frame to avoid deleting
+                    // a Monster mid-way through a for loop, causing bugs
+                }
+
+                setChanged();
+                notifyObservers(); // notify our observers (GUI)
+
+                for (Monster m : monstersToDelete) {
+                    map.removeMonster(m); // remove the dead monsters
+                }
+
+                monstersToDelete.clear();
+
+                RoundManager.update(); // RoundManager needs to update every frame, for sending Monsters properly
             }
-
-            for (Tower t : map.getTowers()) { // have each tower try to attack
-                t.attemptAttack(map.getMonsters());
-            }
-
-            for (Monster m : map.getMonsters()) { // check if the monster is dead
-                if (m.getDeleteOnNextFrame())
-                    monstersToDelete.add(m);      // add it to a different array so we can delete it
-                // we delete at the end of the frame to avoid deleting
-                // a Monster mid-way through a for loop, causing bugs
-            }
-
-            setChanged();
-            notifyObservers(); // notify our observers (GUI)
-
-            for (Monster m : monstersToDelete) {
-                map.removeMonster(m); // remove the dead monsters
-            }
-
-            monstersToDelete.clear();
-
-            RoundManager.update(); // RoundManager needs to update every frame, for sending Monsters properly
 
             try {
                 Thread.sleep(Math.round(1000 / targetFrameRatePerSec));
@@ -139,7 +141,10 @@ public class Game extends Observable {
      */
     public void reset () {
         map = new Map(16, 8);
+        goldCount = 20;
+        currentFrame = 0;
+        RoundManager.reset();
+        GUI.getInstance().reset();
         isRunning = true;
-        //@TODO: Reset game completely
     }
 }
