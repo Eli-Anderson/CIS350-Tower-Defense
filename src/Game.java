@@ -29,7 +29,7 @@ public class Game extends Observable {
         isRunning = false;
         map = new Map(16, 8);
         targetFrameRatePerSec = 30;
-        goldCount = 40;
+        goldCount = 20;
         currentFrame = 0;
     }
 
@@ -140,6 +140,6 @@ public class Game extends Observable {
     public void reset () {
         map = new Map(16, 8);
         isRunning = true;
-        //TODO: Reset game completely
+        //@TODO: Reset game completely
     }
 }

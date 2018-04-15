@@ -14,23 +14,29 @@ public class PaperTower extends Tower {
 	 * @param row the Y coordinate of the tower.
 	 *****************************************************************/
 	public PaperTower(int col, int row){
-		cost = 10;
 		this.col = col;
 		this.row = row;
 		towerType = TowerType.PAPER;
+		attackRange = 3;
+		attackValue = 2;
+		attackSpeed = 30; // once a second
 	}
 	@Override
 	protected double getAttackMultiplier(TowerType monsterType){
 		// Paper beats Rock, Scissor defense Paper
 		switch(monsterType){
 			case ROCK:
-				return 3.0/2.0; // 1.5
+				return 2.0;
 			case PAPER:
 				return 1.0;
 			case SCISSORS:
-				return 2.0/3.0; // 0.66 (1.5x decrease)
+				return 0.5;
 		}
 		return 1.0;
+	}
+
+	public static int getCost() {
+		return 15;
 	}
 }
 
