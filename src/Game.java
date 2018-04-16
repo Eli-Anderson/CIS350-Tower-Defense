@@ -30,7 +30,7 @@ public class Game extends Observable {
         map = new Map(16, 8);
         targetFrameRatePerSec = 30;
         currentRound = 1;
-        goldCount = 40;
+        goldCount = 100;
         currentFrame = 0;
     }
 
