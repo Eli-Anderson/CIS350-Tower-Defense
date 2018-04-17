@@ -6,6 +6,7 @@
  *****************************************************************/
 
 public class RockTower extends Tower {
+	private static int attackRange = 2;
 	/*****************************************************************
 	 * Constructor
 	 * @param col the X coordinate of the tower.
@@ -15,8 +16,7 @@ public class RockTower extends Tower {
 		this.col = col;
 		this.row = row;
 		towerType = TowerType.ROCK;
-		attackRange = 1;
-		attackValue = 5;
+		attackValue = 8;
 		attackSpeed = 45; // once every 1.5 seconds
 	}
 
@@ -37,4 +37,9 @@ public class RockTower extends Tower {
 	public static int getCost() {
 		return 20;
 	}
+
+	@Override
+	public int getAttackRange() {return attackRange;}
+
+	public static int getStaticAttackRange() {return attackRange;}
 }

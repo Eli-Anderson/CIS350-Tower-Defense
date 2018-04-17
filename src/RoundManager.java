@@ -3,7 +3,7 @@ public class RoundManager {
     private static int monstersSent = 0;
     private static boolean sendingMonsters = false;
     private static int upgradeRate = 5; // upgrade Monsters every 5 rounds
-    private static int upgradeBonus = 3;
+    private static int upgradeBonus = 5;
 
     public static int getRound() {
         return round;
