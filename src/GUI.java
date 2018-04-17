@@ -1,3 +1,5 @@
+import javafx.application.Application;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -39,6 +41,7 @@ public class GUI extends JFrame implements Observer {
 
     private GUI() {
         setName("Tower Defense");
+
         try {
             paperMonsterImage = ImageIO.read(new File("resources/paperMonster.png"));
             rockMonsterImage = ImageIO.read(new File("resources/rockMonster.png"));
@@ -161,7 +164,7 @@ public class GUI extends JFrame implements Observer {
             int col = t.getCol();
             int row = t.getRow();
             mapArray[row][col].rotation = t.getRotation();
-            if (t.getFramesSinceLastAttack() <= 1) {
+            if (t.getFramesSinceLastAttack() == 1) {
                 switch(t.getType()) {
                     case PAPER:
                         mapArray[row][col].towerImage = paperTowerImage_large;
@@ -336,11 +339,14 @@ public class GUI extends JFrame implements Observer {
 
     public static void main(String[] args) {
         GUI.getInstance();
+
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Game.getInstance().start();
+        Thread gameThread = new Thread(() -> Game.getInstance().start());
+        gameThread.start();
+        Application.launch(BackgroundMusic.class, "resources/song1.wav", "true", "248");
     }
 }
