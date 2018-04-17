@@ -8,6 +8,7 @@ import java.util.ArrayList;
  *****************************************************************/
 
 public class PaperTower extends Tower {
+	private static int attackRange = 3;
 	/*****************************************************************
 	 * Constructor
 	 * @param col the X coordinate of the tower.
@@ -17,7 +18,6 @@ public class PaperTower extends Tower {
 		this.col = col;
 		this.row = row;
 		towerType = TowerType.PAPER;
-		attackRange = 3;
 		attackValue = 2;
 		attackSpeed = 30; // once a second
 	}
@@ -38,5 +38,10 @@ public class PaperTower extends Tower {
 	public static int getCost() {
 		return 15;
 	}
+
+	@Override
+	public int getAttackRange() {return attackRange;}
+
+	public static int getStaticAttackRange() {return attackRange;}
 }
 

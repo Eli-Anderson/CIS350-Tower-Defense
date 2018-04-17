@@ -6,6 +6,7 @@
  *****************************************************************/
 
 public class ScissorTower extends Tower {
+	private static int attackRange = 5;
 	/*****************************************************************
 	 * Constructor
 	 * @param col the X coordinate of the tower.
@@ -15,7 +16,6 @@ public class ScissorTower extends Tower {
 
 		this.col = col;
 		this.row = row;
-		attackRange = 5;
 		attackValue = 1;
 		attackSpeed = 15; // twice a second
 		towerType = TowerType.SCISSORS;
@@ -37,4 +37,9 @@ public class ScissorTower extends Tower {
 	public static int getCost() {
 		return 10;
 	}
+
+	@Override
+	public int getAttackRange() {return attackRange;}
+
+	public static int getStaticAttackRange() {return attackRange;}
 }

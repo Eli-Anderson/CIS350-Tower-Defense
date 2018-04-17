@@ -9,13 +9,17 @@ import java.io.IOException;
 
 public class SidebarGUI extends JPanel implements ActionListener{
     private JButton rockTower, scissorTower, paperTower, destroyButton;
-    private BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage;
     private JLabel roundLabel, goldLabel, healthLabel;
     SidebarGUI() {
         setLayout(new GridLayout(7, 1));
 
+        BufferedImage rockTowerImage;
+        BufferedImage scissorTowerImage;
+        BufferedImage paperTowerImage;
         try {
-            loadImages();
+            rockTowerImage = ImageIO.read(new File("resources/towers/rockTower.png"));
+            paperTowerImage = ImageIO.read(new File("resources/towers/paperTower.png"));
+            scissorTowerImage = ImageIO.read(new File("resources/towers/scissorTower.png"));
         } catch (IOException e) {
             System.out.println("An error occurred when attempting to load images");
             return;
@@ -34,9 +38,16 @@ public class SidebarGUI extends JPanel implements ActionListener{
         paperTower.addActionListener(this);
         destroyButton.addActionListener(this);
 
-        rockTower.setToolTipText("Rock Tower - " + RockTower.getCost() + " gold");
-        scissorTower.setToolTipText("Scissor Tower - " + ScissorTower.getCost() + " gold");
-        paperTower.setToolTipText("Paper Tower - " + PaperTower.getCost() + " gold");
+        rockTower.setToolTipText("<html><p>Rock Tower</p><br>" +
+                "<p>Cost - " + RockTower.getCost() + "</p><br>" +
+                "<p>Range - " + RockTower.getStaticAttackRange() + "</p></html>");
+
+        scissorTower.setToolTipText("<html><p>Scissor Tower</p><br>" +
+                "<p>Cost - " + ScissorTower.getCost() + "</p><br>" +
+                "<p>Range - " + ScissorTower.getStaticAttackRange() + "</p></html>");
+        paperTower.setToolTipText("<html><p>Paper Tower</p><br>" +
+                "<p>Cost - " + PaperTower.getCost() + "</p><br>" +
+                "<p>Range - " + PaperTower.getStaticAttackRange() + "</p></html>");
 
         add(rockTower);
         add(scissorTower);
@@ -48,12 +59,6 @@ public class SidebarGUI extends JPanel implements ActionListener{
         add(goldLabel);
 
         setVisible(true);
-    }
-
-    private void loadImages() throws IOException {
-        rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
-        paperTowerImage = ImageIO.read(new File("resources/paperTower.png"));
-        scissorTowerImage = ImageIO.read(new File("resources/scissorTower.png"));
     }
 
     @Override

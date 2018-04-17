@@ -14,9 +14,6 @@ public abstract class Tower {
 	/** Y is for Tower's position */
 	protected int row;
 
-	/** Tower's attack range */
-	protected int attackRange = 1;
-
 	/** Tower's attack value */
 	protected int attackValue = 1;
 
@@ -62,6 +59,7 @@ public abstract class Tower {
 		return 0;
 	}
 
+	public int getAttackRange() {return 0;}
 
 	public int getFramesSinceLastAttack() {
 		return framesSinceLastAttack;
@@ -83,7 +81,7 @@ public abstract class Tower {
 		targets.sort((o1, o2) -> o2.getPathIndex() - o1.getPathIndex()); // sort by who is furthest along the path
 		for (Monster m : targets) {
 			if (	!m.getDeleteOnNextFrame() && // make sure it is not already dead
-					Math.abs(col - m.getCol()) + Math.abs(row - m.getRow()) <= attackRange) {
+					Math.abs(col - m.getCol()) + Math.abs(row - m.getRow()) <= this.getAttackRange()) {
 				return m;
 			}
 		}

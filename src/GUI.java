@@ -20,8 +20,7 @@ public class GUI extends JFrame implements Observer {
 
     private TileButton[][] mapArray;
     private BufferedImage paperMonsterImage, rockMonsterImage, scissorMonsterImage;
-    public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage,
-            paperTowerImage_large, rockTowerImage_large, scissorTowerImage_large;
+    public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage;
     private static GUI instance;
     private ButtonListener buttonListener;
 
@@ -43,17 +42,13 @@ public class GUI extends JFrame implements Observer {
         setName("Tower Defense");
 
         try {
-            paperMonsterImage = ImageIO.read(new File("resources/paperMonster.png"));
-            rockMonsterImage = ImageIO.read(new File("resources/rockMonster.png"));
-            scissorMonsterImage = ImageIO.read(new File("resources/scissorMonster.png"));
+            paperMonsterImage = ImageIO.read(new File("resources/monsters/paperMonster.png"));
+            rockMonsterImage = ImageIO.read(new File("resources/monsters/rockMonster.png"));
+            scissorMonsterImage = ImageIO.read(new File("resources/monsters/scissorMonster.png"));
 
-            rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
-            paperTowerImage = ImageIO.read(new File("resources/paperTower.png"));
-            scissorTowerImage = ImageIO.read(new File("resources/scissorTower.png"));
-
-            paperTowerImage_large = ImageIO.read(new File("resources/paperTowerLarge.png"));
-            rockTowerImage_large = ImageIO.read(new File("resources/rockTowerLarge.png"));
-            scissorTowerImage_large = ImageIO.read(new File("resources/scissorTowerLarge.png"));
+            rockTowerImage = ImageIO.read(new File("resources/towers/rockTower.png"));
+            paperTowerImage = ImageIO.read(new File("resources/towers/paperTower.png"));
+            scissorTowerImage = ImageIO.read(new File("resources/towers/scissorTower.png"));
         } catch (IOException e) {
             System.out.println("Error reading images");
             return;
@@ -82,13 +77,13 @@ public class GUI extends JFrame implements Observer {
 
         try {
             // create the images
-            BufferedImage grass = ImageIO.read(new File("resources/grass.png"));
-            BufferedImage vertical = ImageIO.read(new File("resources/vertical.png"));
-            BufferedImage horizontal = ImageIO.read(new File("resources/horizontal.png"));
-            BufferedImage rightToDown = ImageIO.read(new File("resources/rightToDown.png"));
-            BufferedImage rightToUp = ImageIO.read(new File("resources/rightToUp.png"));
-            BufferedImage downToRight = ImageIO.read(new File("resources/downToRight.png"));
-            BufferedImage upToRight = ImageIO.read(new File("resources/upToRight.png"));
+            BufferedImage grass = ImageIO.read(new File("resources/tiles/grass.png"));
+            BufferedImage vertical = ImageIO.read(new File("resources/tiles/vertical.png"));
+            BufferedImage horizontal = ImageIO.read(new File("resources/tiles/horizontal.png"));
+            BufferedImage rightToDown = ImageIO.read(new File("resources/tiles/rightToDown.png"));
+            BufferedImage rightToUp = ImageIO.read(new File("resources/tiles/rightToUp.png"));
+            BufferedImage downToRight = ImageIO.read(new File("resources/tiles/downToRight.png"));
+            BufferedImage upToRight = ImageIO.read(new File("resources/tiles/upToRight.png"));
 
             for (int row = 0; row < map.getHeight(); row++) {
                 for (int col = 0; col < map.getWidth(); col++) {
@@ -164,19 +159,10 @@ public class GUI extends JFrame implements Observer {
             int col = t.getCol();
             int row = t.getRow();
             mapArray[row][col].rotation = t.getRotation();
-            if (t.getFramesSinceLastAttack() == 1) {
-                switch(t.getType()) {
-                    case PAPER:
-                        mapArray[row][col].towerImage = paperTowerImage_large;
-                        break;
-                    case ROCK:
-                        mapArray[row][col].towerImage = rockTowerImage_large;
-                        break;
-                    case SCISSORS:
-                        mapArray[row][col].towerImage = scissorTowerImage_large;
-                        break;
-                }
+            if (t.getFramesSinceLastAttack() <= 1) {
+                mapArray[row][col].sizeDiff = 2;
             } else {
+                mapArray[row][col].sizeDiff = 0;
                 switch(t.getType()) {
                     case PAPER:
                         mapArray[row][col].towerImage = paperTowerImage;
@@ -199,10 +185,12 @@ public class GUI extends JFrame implements Observer {
         Image monsterImage;
         Image towerImage;
         double rotation;
+        int sizeDiff;
 
         TileButton() {
             super();
             setSize(GUI.TILE_SIZE, GUI.TILE_SIZE);
+            sizeDiff = 0;
             if (buttonListener == null)
                 buttonListener = new ButtonListener();
             addActionListener(buttonListener);
@@ -210,7 +198,6 @@ public class GUI extends JFrame implements Observer {
 
         @Override
         public void paintComponent(Graphics g) {
-            //super.paintComponent(g);
             Graphics2D g1 = (Graphics2D) g;
             g1.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
             g1.drawImage(tileImage, 0, 0, getWidth(), getHeight(), null);
@@ -233,8 +220,11 @@ public class GUI extends JFrame implements Observer {
             if (towerImage != null) {
                 int towerImageWidth = (int) (towerImage.getWidth(this) * widthPercent);
                 int towerImageHeight = (int) (towerImage.getHeight(this) * widthPercent);
-                g1.drawImage(towerImage, (getWidth() / 2) - (towerImageWidth / 2),
-                        (getHeight() / 2) - (towerImageHeight / 2), towerImageWidth, towerImageHeight, this);
+                g1.drawImage(towerImage,
+                        (getWidth() / 2) - (towerImageWidth / 2),
+                        (getHeight() / 2) - (towerImageHeight / 2),
+                        towerImageWidth + sizeDiff,
+                        towerImageHeight + sizeDiff, this);
             }
         }
     }
@@ -347,6 +337,6 @@ public class GUI extends JFrame implements Observer {
         }
         Thread gameThread = new Thread(() -> Game.getInstance().start());
         gameThread.start();
-        Application.launch(BackgroundMusic.class, "resources/song1.wav", "true", "248");
+        Application.launch(BackgroundMusic.class, "resources/music/FCMusic.mp3", "true", "344");
     }
 }
