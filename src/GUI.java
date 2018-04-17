@@ -16,11 +16,10 @@ import java.util.Observer;
 public class GUI extends JFrame implements Observer {
     public static final int TILE_SIZE = 64;
     private SidebarGUI sidebar;
-    private Map map;
-
     private JPanel mapPanel;
+
     private TileButton[][] mapArray;
-    private BufferedImage monsterImage1;
+    private BufferedImage paperMonsterImage, rockMonsterImage, scissorMonsterImage;
     public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage,
             paperTowerImage_large, rockTowerImage_large, scissorTowerImage_large;
     private static GUI instance;
@@ -44,7 +43,10 @@ public class GUI extends JFrame implements Observer {
         setName("Tower Defense");
 
         try {
-            monsterImage1 = ImageIO.read(new File("resources/beetle.png"));
+            paperMonsterImage = ImageIO.read(new File("resources/paperMonster.png"));
+            rockMonsterImage = ImageIO.read(new File("resources/rockMonster.png"));
+            scissorMonsterImage = ImageIO.read(new File("resources/scissorMonster.png"));
+
             rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
             paperTowerImage = ImageIO.read(new File("resources/paperTower.png"));
             scissorTowerImage = ImageIO.read(new File("resources/scissorTower.png"));
@@ -57,19 +59,22 @@ public class GUI extends JFrame implements Observer {
             return;
         }
 
-
+        setLayout(new BorderLayout());
         Game.getInstance(); // initialize the Game
-        map = Game.getInstance().getMap();
-        setSize(map.getWidth() * TILE_SIZE, 22 + map.getHeight() * TILE_SIZE);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        createMapDisplay();
+        createMapPanel();
+        add(mapPanel, BorderLayout.CENTER);
         setVisible(true);
 
         Game.getInstance().addObserver(this);
         sidebar = new SidebarGUI();
+        add(sidebar, BorderLayout.EAST);
+        Map map = Game.getInstance().getMap();
+        setSize(sidebar.getWidth() + map.getWidth() * TILE_SIZE, 22 + map.getHeight() * TILE_SIZE);
     }
 
-    private void createMapDisplay() {
+    private void createMapPanel() {
+        Map map = Game.getInstance().getMap();
         mapPanel = new JPanel();
         mapPanel.setLayout(new GridLayout(map.getHeight(), map.getWidth(), 0, 0));
         mapArray = new TileButton[map.getHeight()][map.getWidth()];
@@ -119,9 +124,6 @@ public class GUI extends JFrame implements Observer {
                     mapPanel.add(mapArray[row][col]);
                 }
             }
-            add(mapPanel);
-
-
         } catch (IOException e) {
             System.out.println("An error occurred when loading the images");
         }
@@ -141,24 +143,24 @@ public class GUI extends JFrame implements Observer {
         sidebar.updateRoundLabel();
         sidebar.updateHealthLabel();
 
-        for (Monster m : map.getMonsters()) {
+        for (Monster m : Game.getInstance().getMap().getMonsters()) {
             int col = m.getCol();
             int row = m.getRow();
             mapArray[row][col].rotation = m.getRotation();
             switch (m.getType()) {
                 case PAPER:
-                    mapArray[row][col].monsterImage = monsterImage1;
+                    mapArray[row][col].monsterImage = paperMonsterImage;
                     break;
                 case ROCK:
-                    mapArray[row][col].monsterImage = monsterImage1;
+                    mapArray[row][col].monsterImage = rockMonsterImage;
                     break;
                 case SCISSORS:
-                    mapArray[row][col].monsterImage = monsterImage1;
+                    mapArray[row][col].monsterImage = scissorMonsterImage;
                     break;
             }
         }
 
-        for (Tower t : map.getTowers()) {
+        for (Tower t : Game.getInstance().getMap().getTowers()) {
             int col = t.getCol();
             int row = t.getRow();
             mapArray[row][col].rotation = t.getRotation();
@@ -200,6 +202,7 @@ public class GUI extends JFrame implements Observer {
 
         TileButton() {
             super();
+            setSize(GUI.TILE_SIZE, GUI.TILE_SIZE);
             if (buttonListener == null)
                 buttonListener = new ButtonListener();
             addActionListener(buttonListener);
@@ -207,26 +210,31 @@ public class GUI extends JFrame implements Observer {
 
         @Override
         public void paintComponent(Graphics g) {
-            super.paintComponent(g);
+            //super.paintComponent(g);
             Graphics2D g1 = (Graphics2D) g;
             g1.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-            g1.drawImage(tileImage, 0, 0, null);
+            g1.drawImage(tileImage, 0, 0, getWidth(), getHeight(), null);
 
             int tileImageWidth = tileImage.getWidth(this);
             int tileImageHeight = tileImage.getHeight(this);
-            g1.rotate(rotation, TILE_SIZE/2, TILE_SIZE/2);
+            g1.rotate(rotation, getWidth()/2, getHeight()/2);
+
+            double widthPercent = (double) getWidth() / (double) tileImageWidth;
+            double heightPercent = (double) getHeight() / (double) tileImageHeight;
             if (monsterImage != null) {
-                int monsterImageWidth = monsterImage.getWidth(this);
-                int monsterImageHeight = monsterImage.getHeight(this);
+                int monsterImageWidth = (int) (monsterImage.getWidth(this) * widthPercent);
+                int monsterImageHeight = (int) (monsterImage.getHeight(this) * heightPercent);
                 //@TODO: Null pointer here?
-                g1.drawImage(monsterImage, (tileImageWidth / 2) - (monsterImageWidth / 2),
-                        (tileImageHeight / 2) - (monsterImageHeight / 2), this);
+                g1.drawImage(monsterImage, (getWidth() / 2) - (monsterImageWidth / 2),
+                        (getHeight() / 2) - (monsterImageHeight / 2),
+                        monsterImageWidth,
+                        monsterImageHeight, this);
             }
             if (towerImage != null) {
-                int towerImageWidth = towerImage.getWidth(this);
-                int towerImageHeight = towerImage.getHeight(this);
-                g1.drawImage(towerImage, (tileImageWidth / 2) - (towerImageWidth / 2),
-                        (tileImageHeight / 2) - (towerImageHeight / 2), this);
+                int towerImageWidth = (int) (towerImage.getWidth(this) * widthPercent);
+                int towerImageHeight = (int) (towerImage.getHeight(this) * widthPercent);
+                g1.drawImage(towerImage, (getWidth() / 2) - (towerImageWidth / 2),
+                        (getHeight() / 2) - (towerImageHeight / 2), towerImageWidth, towerImageHeight, this);
             }
         }
     }
@@ -235,35 +243,32 @@ public class GUI extends JFrame implements Observer {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            Map map = Game.getInstance().getMap();
             for (int row = 0; row < map.getHeight(); row++) {
                 for (int col = 0; col < map.getWidth(); col++) {
                     if (e.getSource() == mapArray[row][col]) {
 
                         if (selectedTool == ToolType.BUILD) {
                             if (map.isBuildable(col, row)) {
-                                Tower t;
                                 switch (selectedTowerType) {
                                     case ROCK:
-                                        t = new RockTower(col, row);
-                                        if (t.getCost() <= Game.getInstance().getGold()) {
-                                            Game.getInstance().removeGold(t.getCost());
-                                            map.addTower(t, col, row);
+                                        if (RockTower.getCost() <= Game.getInstance().getGold()) {
+                                            Game.getInstance().removeGold(RockTower.getCost());
+                                            map.addTower(new RockTower(col, row), col, row);
                                             mapArray[row][col].towerImage = rockTowerImage;
                                         }
                                         break;
                                     case PAPER:
-                                        t = new PaperTower(col, row);
-                                        if (t.getCost() <= Game.getInstance().getGold()) {
-                                            Game.getInstance().removeGold(t.getCost());
-                                            map.addTower(t, col, row);
+                                        if (PaperTower.getCost() <= Game.getInstance().getGold()) {
+                                            Game.getInstance().removeGold(PaperTower.getCost());
+                                            map.addTower(new PaperTower(col, row), col, row);
                                             mapArray[row][col].towerImage = paperTowerImage;
                                         }
                                         break;
                                     case SCISSORS:
-                                        t = new ScissorTower(col, row);
-                                        if (t.getCost() <= Game.getInstance().getGold()) {
-                                            Game.getInstance().removeGold(t.getCost());
-                                            map.addTower(t, col, row);
+                                        if (ScissorTower.getCost() <= Game.getInstance().getGold()) {
+                                            Game.getInstance().removeGold(ScissorTower.getCost());
+                                            map.addTower(new ScissorTower(col, row), col, row);
                                             mapArray[row][col].towerImage = scissorTowerImage;
                                         }
                                         break;
@@ -306,7 +311,7 @@ public class GUI extends JFrame implements Observer {
             newGameButton.addActionListener(this);
 
             /* add the elements to the panel */
-            add(BorderLayout.CENTER, new JLabel("You lost on round " + Game.getInstance().getCurrentRound() + "!"));
+            add(BorderLayout.CENTER, new JLabel("You lost on round " + RoundManager.getRound() + "!"));
 
             add(BorderLayout.SOUTH, quitButton);
             add(BorderLayout.SOUTH, newGameButton);
@@ -319,14 +324,27 @@ public class GUI extends JFrame implements Observer {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == newGameButton) {
                 Game.getInstance().reset();
+                dispose();
             } else if (e.getSource() == quitButton) {
                 System.exit(0);
             }
         }
     }
 
+    public void reset() {
+        remove(mapPanel);
+        createMapPanel();
+        add(mapPanel);
+    }
+
     public static void main(String[] args) {
         GUI.getInstance();
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Thread gameThread = new Thread(() -> Game.getInstance().start());
         gameThread.start();
         Application.launch(BackgroundMusic.class, "resources/song1.wav", "true", "248");

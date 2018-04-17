@@ -35,7 +35,7 @@ public class Map {
         this.createPath(0, height / 2);
         this.towers = new ArrayList<>();
         this.monsters = new ArrayList<>();
-        this.base = new Base(100, width-1, path.get(path.size()-1).row);
+        this.base = new Base(1, width-1, path.get(path.size()-1).row);
     }
 
     /**

@@ -9,22 +9,19 @@ import java.util.ArrayList;
 
 public abstract class Tower {
 	/** X is for Tower's position */
-	public int col;
+	protected int col;
 
 	/** Y is for Tower's position */
-	public int row;
+	protected int row;
 
 	/** Tower's attack range */
-	private int attackRange = 1;
+	protected int attackRange = 1;
 
 	/** Tower's attack value */
-	private int attackValue = 1;
-
-	/** Tower's building cost */
-	protected int cost = 1;
+	protected int attackValue = 1;
 
 	/** Tower's attack Speed */
-	private int attackSpeed = 15; // 1 = every frame, 30 = every 30 frames ... 30 frames is 1 second
+	protected int attackSpeed = 15; // 1 = every frame, 30 = every 30 frames ... 30 frames is 1 second
 
 	/** Tower's type (Rock, Paper, Scissor) different type will affect the damage to the monsters*/
 	protected TowerType towerType;
@@ -56,10 +53,13 @@ public abstract class Tower {
 
 	/*************************************************************************************
 	 * get tower's building cost
+	 * This is a static method, because the cost of each Tower type will be consistent
+	 * between all Towers of that type, and this way we can access it straight from the
+	 * class instead of needing to create a Tower object solely to check its cost.
 	 * @return integer cost
 	 ************************************************************************************/
-	public int getCost() {
-		return cost;
+	public static int getCost() {
+		return 0;
 	}
 
 
