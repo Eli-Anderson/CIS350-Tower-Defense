@@ -1,0 +1,149 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ScissorTower</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">&lt;empty package name&gt;</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ScissorTower (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ScissorTower</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ScissorTower$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 14)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*****************************************************************
+<i>2</i>&nbsp; * Scissor Tower class and its methods
+<i>3</i>&nbsp; * @author Runquan Ye
+<i>4</i>&nbsp; * @version PT01
+<i>5</i>&nbsp; * date: winter/2018
+<i>6</i>&nbsp; *****************************************************************/
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class ScissorTower extends Tower {
+<i>9</i>&nbsp;	/*****************************************************************
+<i>10</i>&nbsp;	 * Constructor
+<i>11</i>&nbsp;	 * @param col the X coordinate of the tower.
+<i>12</i>&nbsp;	 * @param row the Y coordinate of the tower.
+<i>13</i>&nbsp;	 *****************************************************************/
+<b class="nc"><i>14</i>&nbsp;	public ScissorTower(int col, int row){</b>
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;		this.col = col;</b>
+<b class="nc"><i>17</i>&nbsp;		this.row = row;</b>
+<b class="nc"><i>18</i>&nbsp;		attackRange = 5;</b>
+<b class="nc"><i>19</i>&nbsp;		attackValue = 1;</b>
+<b class="nc"><i>20</i>&nbsp;		attackSpeed = 15; // twice a second</b>
+<b class="nc"><i>21</i>&nbsp;		towerType = TowerType.SCISSORS;</b>
+<i>22</i>&nbsp;	}
+<i>23</i>&nbsp;	@Override
+<i>24</i>&nbsp;	protected double getAttackMultiplier(TowerType monsterType){
+<i>25</i>&nbsp;		// Paper beats Rock, Scissor defense Paper
+<b class="nc"><i>26</i>&nbsp;		switch(monsterType){</b>
+<i>27</i>&nbsp;			case PAPER:
+<b class="nc"><i>28</i>&nbsp;				return 2.0;</b>
+<i>29</i>&nbsp;			case SCISSORS:
+<b class="nc"><i>30</i>&nbsp;				return 1.0;</b>
+<i>31</i>&nbsp;			case ROCK:
+<b class="nc"><i>32</i>&nbsp;				return 0.5;</b>
+<i>33</i>&nbsp;		}
+<b class="nc"><i>34</i>&nbsp;		return 1.0;</b>
+<i>35</i>&nbsp;	}
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;	public static int getCost() {
+<b class="nc"><i>38</i>&nbsp;		return 10;</b>
+<i>39</i>&nbsp;	}
+<i>40</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-04-17 21:51</div>
+</div>
+</body>
+</html>
