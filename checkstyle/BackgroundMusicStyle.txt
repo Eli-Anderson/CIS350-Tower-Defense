@@ -1,0 +1,6 @@
+BackgroundMusic.java : 5 item(s)
+Missing package-info.java file. (0:0) [JavadocPackageCheck]
+Missing a Javadoc comment. (9:0) [JavadocTypeCheck]
+Missing a Javadoc comment. (10:5) [JavadocVariableCheck]
+Parameter primaryStage should be final. (18:23) [FinalParametersCheck]
+Missing a Javadoc comment. (39:5) [JavadocMethodCheck]

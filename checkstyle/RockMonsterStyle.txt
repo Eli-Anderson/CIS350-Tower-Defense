@@ -1,0 +1,12 @@
+RockMonster.java : 11 item(s)
+File does not end with a newline. (0:0) [NewlineAtEndOfFileCheck]
+Missing package-info.java file. (0:0) [JavadocPackageCheck]
+Missing a Javadoc comment. (1:0) [JavadocTypeCheck]
+Missing a Javadoc comment. (2:5) [JavadocMethodCheck]
+Parameter attackBoost should be final. (2:24) [FinalParametersCheck]
+Parameter healthBoost should be final. (2:41) [FinalParametersCheck]
+Line is longer than 80 characters (found 98). (3:0) [LineLengthCheck]
+'5' is a magic number. (3:15) [MagicNumberCheck]
+'15' is a magic number. (3:32) [MagicNumberCheck]
+Line is longer than 80 characters (found 82). (4:0) [LineLengthCheck]
+'45' is a magic number. (5:22) [MagicNumberCheck]
