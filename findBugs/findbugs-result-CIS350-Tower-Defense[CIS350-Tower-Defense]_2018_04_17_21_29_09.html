@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>FindBugs Report</title>
+<style type="text/css">
+		.tablerow0 {
+			background: #EEEEEE;
+		}
+
+		.tablerow1 {
+			background: white;
+		}
+
+		.detailrow0 {
+			background: #EEEEEE;
+		}
+
+		.detailrow1 {
+			background: white;
+		}
+
+		.tableheader {
+			background: #b9b9fe;
+			font-size: larger;
+		}
+		</style>
+</head>
+<body>
+<h1>FindBugs Report</h1>
+<p>Produced using <a href="http://findbugs.sourceforge.net">FindBugs</a>3.0.1.</p>
+<p>Project: 
+			CIS350-Tower-Defense[CIS350-Tower-Defense]</p>
+<h2>Metrics</h2>
+<p>887 lines of code analyzed,
+	in 23 classes, 
+	in 1 packages.</p>
+<table width="500" cellpadding="5" cellspacing="2">
+<tr class="tableheader">
+<th align="left">Metric</th>
+<th align="right">Total</th>
+<th align="right">Density*</th>
+</tr>
+<tr class="tablerow0">
+<td>High Priority Warnings</td>
+<td align="right"/>
+<td align="right">NaN</td>
+</tr>
+<tr class="tablerow1">
+<td>Medium Priority Warnings</td>
+<td align="right">8</td>
+<td align="right">9.02</td>
+</tr>
+<tr class="$totalClass">
+<td>
+<b>Total Warnings</b>
+</td>
+<td align="right">
+<b>8</b>
+</td>
+<td align="right">
+<b>9.02</b>
+</td>
+</tr>
+</table>
+<p>
+<i>(* Defects per Thousand lines of non-commenting source statements)</i>
+</p>
+<p>
+<br/>
+<br/>
+</p>
+<h2>Summary</h2>
+<table width="500" cellpadding="5" cellspacing="2">
+<tr class="tableheader">
+<th align="left">Warning Type</th>
+<th align="right">Number</th>
+</tr>
+<tr class="tablerow0">
+<td>
+<a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+</td>
+<td align="right">1</td>
+</tr>
+<tr class="tablerow1">
+<td>
+<a href="#Warnings_PERFORMANCE">Performance Warnings</a>
+</td>
+<td align="right">2</td>
+</tr>
+<tr class="tablerow0">
+<td>
+<a href="#Warnings_STYLE">Dodgy code Warnings</a>
+</td>
+<td align="right">5</td>
+</tr>
+<tr class="tablerow1">
+<td>
+<b>Total</b>
+</td>
+<td align="right">
+<b>8</b>
+</td>
+</tr>
+</table>
+<p>
+<br/>
+<br/>
+</p>
+<h1>Warnings</h1>
+<p>Click on each warning link to see a full description of the issue, and
+	    details of how to resolve it.</p>
+<h2>
+<a name="Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+</h2>
+<table class="warningtable" width="100%" cellspacing="2" cellpadding="5">
+<tr class="tableheader">
+<th align="left">Warning</th>
+<th align="left">Priority</th>
+<th align="left">Details</th>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#DM_EXIT">Method invokes System.exit(...)</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>GUI$GameOverDialog.actionPerformed(ActionEvent) invokes System.exit(...), which shuts down the entire virtual machine<br/>
+<br/>
+<br/>In file GUI.java,
+					
+						line 319<br/>In class GUI$GameOverDialog<br/>In method GUI$GameOverDialog.actionPerformed(ActionEvent)<br/>At GUI.java:[line 319]<br/>At GUI.java:[line 319]</p>
+</td>
+</tr>
+</table>
+<p>
+<br/>
+<br/>
+</p>
+<h2>
+<a name="Warnings_PERFORMANCE">Performance Warnings</a>
+</h2>
+<table class="warningtable" width="100%" cellspacing="2" cellpadding="5">
+<tr class="tableheader">
+<th align="left">Warning</th>
+<th align="left">Priority</th>
+<th align="left">Details</th>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#DM_NEXTINT_VIA_NEXTDOUBLE">Use the nextInt method of Random rather than nextDouble to generate a random integer</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>RoundManager.sendNextMonster() uses the nextDouble method of Random to generate a random integer; using nextInt is more efficient<br/>
+<br/>
+<br/>In file RoundManager.java,
+					
+						line 13<br/>In class RoundManager<br/>In method RoundManager.sendNextMonster()<br/>At RoundManager.java:[line 13]<br/>At RoundManager.java:[line 13]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#SIC_INNER_SHOULD_BE_STATIC">Should be a static inner class</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>Should SidebarGUI$TowerSelectButton be a _static_ inner class?<br/>
+<br/>
+<br/>In file SidebarGUI.java,
+					
+						lines 94
+						    to 108<br/>In class SidebarGUI$TowerSelectButton<br/>At SidebarGUI.java:[lines 94-108]</p>
+</td>
+</tr>
+</table>
+<p>
+<br/>
+<br/>
+</p>
+<h2>
+<a name="Warnings_STYLE">Dodgy code Warnings</a>
+</h2>
+<table class="warningtable" width="100%" cellspacing="2" cellpadding="5">
+<tr class="tableheader">
+<th align="left">Warning</th>
+<th align="left">Priority</th>
+<th align="left">Details</th>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#ICAST_IDIV_CAST_TO_DOUBLE">Integral division result cast to double or float</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>Integral division result cast to double or float in GUI$TileButton.paintComponent(Graphics)<br/>
+<br/>
+<br/>In file GUI.java,
+					
+						line 207<br/>In class GUI$TileButton<br/>In method GUI$TileButton.paintComponent(Graphics)<br/>At GUI.java:[line 207]<br/>At GUI.java:[line 207]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#SF_SWITCH_NO_DEFAULT">Switch statement found where default case is missing</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>Switch statement found in Map.createPath(int, int, Tile) where default case is missing<br/>
+<br/>
+<br/>In file Map.java,
+					
+						lines 149
+						    to 157<br/>In class Map<br/>In method Map.createPath(int, int, Tile)<br/>At Map.java:[lines 149-157]<br/>At Map.java:[lines 149-157]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#SF_SWITCH_NO_DEFAULT">Switch statement found where default case is missing</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>Switch statement found in Map.fixCorners() where default case is missing<br/>
+<br/>
+<br/>In file Map.java,
+					
+						lines 174
+						    to 197<br/>In class Map<br/>In method Map.fixCorners()<br/>At Map.java:[lines 174-197]<br/>At Map.java:[lines 174-197]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#SF_SWITCH_NO_DEFAULT">Switch statement found where default case is missing</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>Switch statement found in Monster.travel() where default case is missing<br/>
+<br/>
+<br/>In file Monster.java,
+					
+						lines 176
+						    to 188<br/>In class Monster<br/>In method Monster.travel()<br/>At Monster.java:[lines 176-188]<br/>At Monster.java:[lines 176-188]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD">Unused public or protected field</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>Unused public or protected field: Game.m<br/>
+<br/>
+<br/>In file Game.java,
+					
+						lines 
+						    to <br/>In class Game<br/>Field Game.m<br/>In Game.java</p>
+</td>
+</tr>
+</table>
+<p>
+<br/>
+<br/>
+</p>
+<p>
+<br/>
+<br/>
+</p>
+<h1>
+<a name="Details">Warning Types</a>
+</h1>
+<h2>
+<a name="DM_EXIT">Method invokes System.exit(...)</a>
+</h2>
+
+  <p> Invoking System.exit shuts down the entire Java virtual machine. This
+   should only been done when it is appropriate. Such calls make it
+   hard or impossible for your code to be invoked by other code.
+   Consider throwing a RuntimeException instead.</p>
+
+    
+<p>
+<br/>
+<br/>
+</p>
+<h2>
+<a name="DM_NEXTINT_VIA_NEXTDOUBLE">Use the nextInt method of Random rather than nextDouble to generate a random integer</a>
+</h2>
+
+  <p>If <code>r</code> is a <code>java.util.Random</code>, you can generate a random number from <code>0</code> to <code>n-1</code>
+using <code>r.nextInt(n)</code>, rather than using <code>(int)(r.nextDouble() * n)</code>.
+</p>
+<p>The argument to nextInt must be positive. If, for example, you want to generate a random
+value from -99 to 0, use <code>-r.nextInt(100)</code>.
+</p>
+
+    
+<p>
+<br/>
+<br/>
+</p>
+<h2>
+<a name="ICAST_IDIV_CAST_TO_DOUBLE">Integral division result cast to double or float</a>
+</h2>
+
+<p>
+This code casts the result of an integral division (e.g., int or long division)
+operation to double or
+float.
+Doing division on integers truncates the result
+to the integer value closest to zero.  The fact that the result
+was cast to double suggests that this precision should have been retained.
+What was probably meant was to cast one or both of the operands to
+double <em>before</em> performing the division.  Here is an example:
+</p>
+<blockquote>
+<pre>
+int x = 2;
+int y = 5;
+// Wrong: yields result 0.0
+double value1 =  x / y;
+
+// Right: yields result 0.4
+double value2 =  x / (double) y;
+</pre>
+</blockquote>
+
+    
+<p>
+<br/>
+<br/>
+</p>
+<h2>
+<a name="SF_SWITCH_NO_DEFAULT">Switch statement found where default case is missing</a>
+</h2>
+
+  <p> This method contains a switch statement where default case is missing.
+  Usually you need to provide a default case.</p>
+  <p>Because the analysis only looks at the generated bytecode, this warning can be incorrect triggered if
+the default case is at the end of the switch statement and the switch statement doesn't contain break statements for other
+cases.
+
+    
+<p>
+<br/>
+<br/>
+</p>
+<h2>
+<a name="SIC_INNER_SHOULD_BE_STATIC">Should be a static inner class</a>
+</h2>
+
+  <p> This class is an inner class, but does not use its embedded reference
+  to the object which created it.&nbsp; This reference makes the instances
+  of the class larger, and may keep the reference to the creator object
+  alive longer than necessary.&nbsp; If possible, the class should be
+   made static.
+</p>
+
+    
+<p>
+<br/>
+<br/>
+</p>
+<h2>
+<a name="UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD">Unused public or protected field</a>
+</h2>
+
+  <p> This field is never used.&nbsp;
+The field is public or protected, so perhaps
+    it is intended to be used with classes not seen as part of the analysis. If not,
+consider removing it from the class.</p>
+
+    
+<p>
+<br/>
+<br/>
+</p>
+</body>
+</html>
