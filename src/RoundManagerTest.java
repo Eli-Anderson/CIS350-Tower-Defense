@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 public class RoundManagerTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @Test
