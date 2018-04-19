@@ -61,6 +61,12 @@ public class JUnitGameTest {
         assertEquals("Gold should be 20", gold, 25);
     }
 
+    // tests game over
+    @Test
+    public void gameOver() {
+        towerGame.gameOver();
+    }
+
 
 }
 
