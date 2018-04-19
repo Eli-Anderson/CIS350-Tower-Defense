@@ -1,0 +1,8 @@
+Tile.java : 7 item(s)
+Variable 'col' must be private and have accessor methods. (7:16) [VisibilityModifierCheck]
+Variable 'row' must be private and have accessor methods. (7:21) [VisibilityModifierCheck]
+Variable 'type' must be private and have accessor methods. (10:17) [VisibilityModifierCheck]
+Parameter col should be final. (17:10) [FinalParametersCheck]
+'col' hides a field. (17:14) [HiddenFieldCheck]
+Parameter row should be final. (17:19) [FinalParametersCheck]
+'row' hides a field. (17:23) [HiddenFieldCheck]

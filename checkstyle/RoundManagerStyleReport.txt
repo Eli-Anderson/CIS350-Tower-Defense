@@ -1,0 +1,8 @@
+RoundManager.java : 7 item(s)
+Missing package-info.java file. (0:0) [JavadocPackageCheck]
+Utility classes should not have a public or default constructor. (6:1) [HideUtilityClassConstructorCheck]
+'5' is a magic number. (18:38) [MagicNumberCheck]
+'5' is a magic number. (21:39) [MagicNumberCheck]
+'3' is a magic number. (36:27) [MagicNumberCheck]
+Line is longer than 80 characters (found 88). (73:0) [LineLengthCheck]
+Line is longer than 80 characters (found 81). (81:0) [LineLengthCheck]

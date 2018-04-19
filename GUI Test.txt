@@ -1,0 +1,25 @@
+CIS350-Tower-Defense
+
+===== Manual GUI Test =====
+
+1. Does the window properly appear after execution?
+2. Do the window and program close properly after closing the window and quitting the program?
+3. Does resizing the window scale the GUI properly?
+4. Does the game begin automatically?
+5. Does the sidebar show the tower buttons properly?
+6. Does the sidebar show the round, lives, and gold labels properly?
+7. Do the monsters visually follow the path?
+8. Do the monsters 'die' when they reach the end of the path?
+9. Does the lives label update properly after a monster reaches the end of the path?
+10. For each tower button, test the following:
+    a. Does clicking on the path do nothing?
+    b. Does clicking on a grass tile place a tower of proper type (if the required gold is met)
+    c. Does clicking on a grass tile NOT place a tower (if the required gold is NOT met)
+    d. Does clicking on another tower NOT place a tower
+11. Does clicking the sell button, then a tower, delete the tower and reward the proper amount of gold?
+12. When all of the monsters in the round are killed, does the next round start?
+13. Do the monsters move with their varying speeds?
+14. Do the towers attack at their varying speeds?
+15. Do the tower button tooltips show up and properly display the tower information?
+16. Does the background music play when the GUI opens?
+17. Does the background music loop?

@@ -1,0 +1,8 @@
+ScissorMonster.java : 7 item(s)
+Parameter attackBoost should be final. (10:27) [FinalParametersCheck]
+Parameter healthBoost should be final. (10:44) [FinalParametersCheck]
+Line is longer than 80 characters (found 97). (11:0) [LineLengthCheck]
+'3' is a magic number. (11:15) [MagicNumberCheck]
+'7' is a magic number. (11:32) [MagicNumberCheck]
+Line is longer than 80 characters (found 86). (12:0) [LineLengthCheck]
+'30' is a magic number. (13:22) [MagicNumberCheck]
