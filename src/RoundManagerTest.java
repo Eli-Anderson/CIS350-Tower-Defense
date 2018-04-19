@@ -19,6 +19,6 @@ public class RoundManagerTest {
 
     @Test
     public void update() {
-
+        fail();
     }
 }
