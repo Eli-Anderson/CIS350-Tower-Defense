@@ -1,0 +1,375 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Map</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">&lt;empty package name&gt;</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Map (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Map</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.5%
+  </span>
+  <span class="absValue">
+    (17/ 19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (99/ 110)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;import java.util.ArrayList;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;public class Map {
+<i>4</i>&nbsp;    private int width, height;
+<i>5</i>&nbsp;    // temporarily make tiles public so we can access in Monster
+<i>6</i>&nbsp;    private Tile[][] tiles;
+<i>7</i>&nbsp;    private ArrayList&lt;Tile&gt; path;
+<i>8</i>&nbsp;    private ArrayList&lt;Tower&gt; towers;
+<i>9</i>&nbsp;    private Base base;
+<i>10</i>&nbsp;    private ArrayList&lt;Monster&gt; monsters;
+<i>11</i>&nbsp;    static final char R = &#39;\u21E2&#39;;
+<i>12</i>&nbsp;    static final char U = &#39;\u21E1&#39;;
+<i>13</i>&nbsp;    static final char D = &#39;\u21E3&#39;;
+<i>14</i>&nbsp;    static final char UR = &#39;\u21B1&#39;;
+<i>15</i>&nbsp;    static final char DR = &#39;\u21B3&#39;;
+<i>16</i>&nbsp;    static final char RD = &#39;\u21B4&#39;;
+<i>17</i>&nbsp;    static final char RU = &#39;\u2197&#39;;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * Creates a Map object with a randomized path. Capable of holding one Tower on
+<i>21</i>&nbsp;     * each Tile.
+<i>22</i>&nbsp;     * @param width the number of columns
+<i>23</i>&nbsp;     * @param height the number of rows
+<i>24</i>&nbsp;     */
+<b class="fc"><i>25</i>&nbsp;    public Map (int width, int height) {</b>
+<b class="fc"><i>26</i>&nbsp;        path = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>27</i>&nbsp;        this.width = width;</b>
+<b class="fc"><i>28</i>&nbsp;        this.height = height;</b>
+<b class="fc"><i>29</i>&nbsp;        this.tiles = new Tile[height][width];</b>
+<b class="fc"><i>30</i>&nbsp;        for (int y=0; y&lt;height; y++) {</b>
+<b class="fc"><i>31</i>&nbsp;            for (int x=0; x&lt;width; x++) {</b>
+<b class="fc"><i>32</i>&nbsp;                tiles[y][x] = new Tile(x, y);</b>
+<i>33</i>&nbsp;            }
+<i>34</i>&nbsp;        }
+<b class="fc"><i>35</i>&nbsp;        this.createPath(0, height / 2);</b>
+<b class="fc"><i>36</i>&nbsp;        this.towers = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>37</i>&nbsp;        this.monsters = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>38</i>&nbsp;        this.base = new Base(1, width-1, path.get(path.size()-1).row);</b>
+<b class="fc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Get the width (number of columns) of the Map
+<i>43</i>&nbsp;     * @return the width of the Map
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    public int getWidth () {
+<b class="fc"><i>46</i>&nbsp;        return this.width;</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * Get the height (number of rows) of the Map
+<i>51</i>&nbsp;     * @return the height of the Map
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    public int getHeight () {
+<b class="fc"><i>54</i>&nbsp;        return this.height;</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * Gets the tile at the given position if possible, otherwise returns null
+<i>59</i>&nbsp;     * @param x the column
+<i>60</i>&nbsp;     * @param y the row
+<i>61</i>&nbsp;     * @return the Tile at row y, col x
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    public Tile getTile (int x, int y) {
+<b class="fc"><i>64</i>&nbsp;        if (x &lt; this.width &amp;&amp; x &gt;= 0 &amp;&amp; y &lt; this.height &amp;&amp; y &gt;= 0)</b>
+<b class="fc"><i>65</i>&nbsp;            return this.tiles[y][x];</b>
+<i>66</i>&nbsp;        else
+<b class="nc"><i>67</i>&nbsp;            return null;</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * Gets the path that monsters will follow
+<i>71</i>&nbsp;     *
+<i>72</i>&nbsp;     * @return the path
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    public ArrayList&lt;Tile&gt; getPath () {
+<b class="fc"><i>75</i>&nbsp;        return path;</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    public Base getBase() {
+<b class="fc"><i>79</i>&nbsp;        return base;</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    /**
+<i>83</i>&nbsp;     * Creates the path, starting at position col (x), row (y) and ending
+<i>84</i>&nbsp;     * at the right edge of the Map. Calls its recursive counterpart
+<i>85</i>&nbsp;     * @param col the starting column position
+<i>86</i>&nbsp;     * @param row the starting row position
+<i>87</i>&nbsp;     */
+<i>88</i>&nbsp;    private void createPath (int col, int row) {
+<b class="fc"><i>89</i>&nbsp;        createPath(col, row, null);</b>
+<b class="fc"><i>90</i>&nbsp;        fixCorners();</b>
+<i>91</i>&nbsp;
+<b class="fc"><i>92</i>&nbsp;    }</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    /**
+<i>95</i>&nbsp;     * The recursive counterpart of createPath, which uses pseudo random
+<i>96</i>&nbsp;     * choices and logic to develop a path going from left to right
+<i>97</i>&nbsp;     * @param col the current column position
+<i>98</i>&nbsp;     * @param row the current row position
+<i>99</i>&nbsp;     * @param lastTilePlaced the last Tile that was created in the path
+<i>100</i>&nbsp;     */
+<i>101</i>&nbsp;    private void createPath (int col, int row, Tile lastTilePlaced) {
+<b class="fc"><i>102</i>&nbsp;        if (col &gt;= getWidth()) {</b>
+<b class="fc"><i>103</i>&nbsp;            return;</b>
+<i>104</i>&nbsp;        }
+<b class="fc"><i>105</i>&nbsp;        boolean canGoUp = true;</b>
+<b class="fc"><i>106</i>&nbsp;        boolean canGoDown = true;</b>
+<b class="fc"><i>107</i>&nbsp;        if (lastTilePlaced != null) {</b>
+<b class="fc"><i>108</i>&nbsp;            if (lastTilePlaced.type == U) {</b>
+<i>109</i>&nbsp;                // last tile was going up, so we can&#39;t go down (no overwriting)
+<b class="fc"><i>110</i>&nbsp;                canGoDown = false;</b>
+<b class="fc"><i>111</i>&nbsp;            } else if (lastTilePlaced.type == D) {</b>
+<i>112</i>&nbsp;                // last tile was going down, so we can&#39;t go up
+<b class="fc"><i>113</i>&nbsp;                canGoUp = false;</b>
+<i>114</i>&nbsp;            }
+<i>115</i>&nbsp;        }
+<i>116</i>&nbsp;
+<b class="fc"><i>117</i>&nbsp;        char[] options = {R,R,R};</b>
+<b class="fc"><i>118</i>&nbsp;        if (row &lt;= 0) {</b>
+<i>119</i>&nbsp;            // at the top of the map
+<b class="fc"><i>120</i>&nbsp;            if (canGoDown) {</b>
+<b class="fc"><i>121</i>&nbsp;                options[1] = D;</b>
+<b class="fc"><i>122</i>&nbsp;                options[2] = D;</b>
+<i>123</i>&nbsp;            }
+<i>124</i>&nbsp;        } else {
+<i>125</i>&nbsp;            // not at the top
+<b class="fc"><i>126</i>&nbsp;            if (row &gt;= getHeight() - 1) {</b>
+<i>127</i>&nbsp;                // at the bottom
+<b class="fc"><i>128</i>&nbsp;                if (canGoUp) {</b>
+<b class="fc"><i>129</i>&nbsp;                    options[1] = U;</b>
+<b class="fc"><i>130</i>&nbsp;                    options[2] = U;</b>
+<i>131</i>&nbsp;                }
+<i>132</i>&nbsp;            } else {
+<i>133</i>&nbsp;                // in the middle somewhere
+<b class="fc"><i>134</i>&nbsp;                if (canGoUp) {</b>
+<b class="fc"><i>135</i>&nbsp;                    options[1] = U;</b>
+<i>136</i>&nbsp;                }
+<b class="fc"><i>137</i>&nbsp;                if (canGoDown) {</b>
+<b class="fc"><i>138</i>&nbsp;                    options[2] = D;</b>
+<i>139</i>&nbsp;                }
+<i>140</i>&nbsp;            }
+<i>141</i>&nbsp;        }
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;
+<b class="fc"><i>144</i>&nbsp;        int r = (int) Math.floor(Math.random() * 3);</b>
+<i>145</i>&nbsp;
+<b class="fc"><i>146</i>&nbsp;        tiles[row][col].type = options[r];</b>
+<b class="fc"><i>147</i>&nbsp;        path.add(tiles[row][col]);</b>
+<i>148</i>&nbsp;
+<b class="fc"><i>149</i>&nbsp;        switch (tiles[row][col].type) {</b>
+<i>150</i>&nbsp;            case U:
+<b class="fc"><i>151</i>&nbsp;                createPath(col, row-1, tiles[row][col]);</b>
+<b class="fc"><i>152</i>&nbsp;                break;</b>
+<i>153</i>&nbsp;            case R:
+<b class="fc"><i>154</i>&nbsp;                createPath(col+1, row, tiles[row][col]);</b>
+<b class="fc"><i>155</i>&nbsp;                break;</b>
+<i>156</i>&nbsp;            case D:
+<b class="fc"><i>157</i>&nbsp;                createPath(col, row+1, tiles[row][col]);</b>
+<i>158</i>&nbsp;                break;
+<i>159</i>&nbsp;        }
+<b class="fc"><i>160</i>&nbsp;    }</b>
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;    /**
+<i>163</i>&nbsp;     * Used to modify the path so that corners are labeled correctly, so as
+<i>164</i>&nbsp;     * to draw them as corners and connect the path without any breaks
+<i>165</i>&nbsp;     */
+<i>166</i>&nbsp;    private void fixCorners () {
+<i>167</i>&nbsp;        // start at middle
+<b class="fc"><i>168</i>&nbsp;        int currentX = 0;</b>
+<b class="fc"><i>169</i>&nbsp;        int currentY = this.height / 2;</b>
+<b class="fc"><i>170</i>&nbsp;        Tile lastTile = this.tiles[currentY][currentX];</b>
+<i>171</i>&nbsp;
+<b class="fc"><i>172</i>&nbsp;        while (currentX &lt; this.width) {</b>
+<i>173</i>&nbsp;            //System.out.println(lastTile.type);
+<b class="fc"><i>174</i>&nbsp;            switch (lastTile.type) {</b>
+<i>175</i>&nbsp;                case U:
+<i>176</i>&nbsp;                case RU:
+<b class="fc"><i>177</i>&nbsp;                    currentY--;</b>
+<b class="fc"><i>178</i>&nbsp;                    if (this.tiles[currentY][currentX].type == R)</b>
+<b class="fc"><i>179</i>&nbsp;                        this.tiles[currentY][currentX].type = UR;</b>
+<i>180</i>&nbsp;                    break;
+<i>181</i>&nbsp;                case D:
+<i>182</i>&nbsp;                case RD:
+<b class="fc"><i>183</i>&nbsp;                    currentY++;</b>
+<b class="fc"><i>184</i>&nbsp;                    if (this.tiles[currentY][currentX].type == R)</b>
+<b class="fc"><i>185</i>&nbsp;                        this.tiles[currentY][currentX].type = DR;</b>
+<i>186</i>&nbsp;                    break;
+<i>187</i>&nbsp;                case R:
+<i>188</i>&nbsp;                case UR:
+<i>189</i>&nbsp;                case DR:
+<b class="fc"><i>190</i>&nbsp;                    currentX++;</b>
+<b class="fc"><i>191</i>&nbsp;                    if (currentX &gt;= this.width)</b>
+<b class="fc"><i>192</i>&nbsp;                        return;</b>
+<i>193</i>&nbsp;
+<b class="fc"><i>194</i>&nbsp;                    if (this.tiles[currentY][currentX].type == U)</b>
+<b class="fc"><i>195</i>&nbsp;                        this.tiles[currentY][currentX].type = RU;</b>
+<b class="fc"><i>196</i>&nbsp;                    else if (this.tiles[currentY][currentX].type == D)</b>
+<b class="fc"><i>197</i>&nbsp;                        this.tiles[currentY][currentX].type = RD;</b>
+<i>198</i>&nbsp;                    break;
+<i>199</i>&nbsp;            }
+<b class="fc"><i>200</i>&nbsp;            lastTile = this.tiles[currentY][currentX];</b>
+<i>201</i>&nbsp;        }
+<i>202</i>&nbsp;
+<b class="nc"><i>203</i>&nbsp;    }</b>
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    /**
+<i>206</i>&nbsp;     * Adds a tower to the array if possible
+<i>207</i>&nbsp;     * @param tower the Tower to be added
+<i>208</i>&nbsp;     * @param x the column position
+<i>209</i>&nbsp;     * @param y the row position
+<i>210</i>&nbsp;     */
+<i>211</i>&nbsp;    public void addTower (Tower tower, int x, int y) {
+<b class="fc"><i>212</i>&nbsp;        if (x &lt; this.width &amp;&amp; x &gt;= 0 &amp;&amp; y &lt; this.height &amp;&amp; y &gt;= 0) { // if is in bounds</b>
+<b class="fc"><i>213</i>&nbsp;            if (getTower(x, y) == null) { // no tower already exists here</b>
+<b class="fc"><i>214</i>&nbsp;                this.towers.add(tower);</b>
+<i>215</i>&nbsp;            }
+<i>216</i>&nbsp;        }
+<b class="fc"><i>217</i>&nbsp;    }</b>
+<i>218</i>&nbsp;
+<i>219</i>&nbsp;    /**
+<i>220</i>&nbsp;     * Gets a tower at the given position, otherwise returns null
+<i>221</i>&nbsp;     * @param x the column position
+<i>222</i>&nbsp;     * @param y the row position
+<i>223</i>&nbsp;     * @return the Tower at the given position
+<i>224</i>&nbsp;     */
+<i>225</i>&nbsp;    public Tower getTower (int x, int y) {
+<b class="fc"><i>226</i>&nbsp;        for (Tower t : towers) {</b>
+<b class="fc"><i>227</i>&nbsp;            if (t.getCol() == x &amp;&amp; t.getRow() == y)</b>
+<b class="fc"><i>228</i>&nbsp;                return t;</b>
+<b class="fc"><i>229</i>&nbsp;        }</b>
+<b class="fc"><i>230</i>&nbsp;        return null;</b>
+<i>231</i>&nbsp;    }
+<i>232</i>&nbsp;
+<i>233</i>&nbsp;    public ArrayList&lt;Tower&gt; getTowers() {
+<b class="fc"><i>234</i>&nbsp;        return towers;</b>
+<i>235</i>&nbsp;    }
+<i>236</i>&nbsp;
+<i>237</i>&nbsp;    public void destroyTower(int col, int row) {
+<b class="fc"><i>238</i>&nbsp;        Tower t = getTower(col, row);</b>
+<b class="fc"><i>239</i>&nbsp;        if (t != null) {</b>
+<b class="fc"><i>240</i>&nbsp;            towers.remove(t);</b>
+<b class="fc"><i>241</i>&nbsp;            Game.getInstance().claimBounty(t.getCost() / 2);</b>
+<i>242</i>&nbsp;        }
+<b class="fc"><i>243</i>&nbsp;    }</b>
+<i>244</i>&nbsp;
+<i>245</i>&nbsp;    /**
+<i>246</i>&nbsp;     * Gets whether a tower can be built upon a given tile. Checks bounds,
+<i>247</i>&nbsp;     * whether the given position is on the path, or if a tower is already
+<i>248</i>&nbsp;     * built there.
+<i>249</i>&nbsp;     * @param col the column position
+<i>250</i>&nbsp;     * @param row the row position
+<i>251</i>&nbsp;     * @return true if a tower can be built, false otherwise
+<i>252</i>&nbsp;     */
+<i>253</i>&nbsp;    public boolean isBuildable (int col, int row) {
+<b class="fc"><i>254</i>&nbsp;        if (col &lt; 0 || col &gt;= this.width || row &lt; 0 || row &gt;= this.height) return false;</b>
+<b class="fc"><i>255</i>&nbsp;        for (Tile tile : path) {</b>
+<b class="fc"><i>256</i>&nbsp;            if (tile.col == col &amp;&amp; tile.row == row) // if a tile on our path matches, we can&#39;t build</b>
+<b class="fc"><i>257</i>&nbsp;                return false;</b>
+<b class="fc"><i>258</i>&nbsp;        }</b>
+<b class="fc"><i>259</i>&nbsp;        return getTower(col, row) == null; // if no tower is there, we can build</b>
+<i>260</i>&nbsp;    }
+<i>261</i>&nbsp;    
+<i>262</i>&nbsp;
+<i>263</i>&nbsp;    /**
+<i>264</i>&nbsp;     * Returns a string representation of the Map, consisting of the path&#39;s
+<i>265</i>&nbsp;     * Tiles&#39; directions of travel
+<i>266</i>&nbsp;     * @return the String representation of the Map
+<i>267</i>&nbsp;     */
+<i>268</i>&nbsp;    public String toString () {
+<b class="nc"><i>269</i>&nbsp;        StringBuilder result = new StringBuilder();</b>
+<b class="nc"><i>270</i>&nbsp;        for (int col = 0; col &lt; tiles.length; col++) {</b>
+<b class="nc"><i>271</i>&nbsp;            for (int row = 0; row &lt; tiles[col].length; row++) {</b>
+<b class="nc"><i>272</i>&nbsp;                result.append(tiles[col][row].type);</b>
+<i>273</i>&nbsp;            }
+<b class="nc"><i>274</i>&nbsp;            result.append(&quot;\n&quot;);</b>
+<i>275</i>&nbsp;        }
+<b class="nc"><i>276</i>&nbsp;        return result.toString();</b>
+<i>277</i>&nbsp;    }
+<i>278</i>&nbsp;    public void addMonster (Monster m) {
+<b class="fc"><i>279</i>&nbsp;        monsters.add(m);</b>
+<b class="fc"><i>280</i>&nbsp;    }</b>
+<i>281</i>&nbsp;    public void removeMonster (Monster m) {
+<b class="fc"><i>282</i>&nbsp;        monsters.remove(m);</b>
+<b class="fc"><i>283</i>&nbsp;    }</b>
+<i>284</i>&nbsp;    public ArrayList&lt;Monster&gt; getMonsters () {
+<b class="fc"><i>285</i>&nbsp;        return monsters;</b>
+<i>286</i>&nbsp;    }
+<i>287</i>&nbsp;
+<i>288</i>&nbsp;    public static void main(String[] args) {
+<b class="nc"><i>289</i>&nbsp;        Map m = new Map(8,8);</b>
+<b class="nc"><i>290</i>&nbsp;        System.out.println(m);</b>
+<b class="nc"><i>291</i>&nbsp;    }</b>
+<i>292</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-04-17 21:51</div>
+</div>
+</body>
+</html>

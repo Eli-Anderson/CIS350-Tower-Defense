@@ -25,7 +25,7 @@ public class Game extends Observable {
     /**
      * The Game constructor. Should only be called from the getInstance() method.
      */
-    private Game() {
+    public Game() {
         isRunning = false;
         map = new Map(16, 8);
         targetFrameRatePerSec = 30;

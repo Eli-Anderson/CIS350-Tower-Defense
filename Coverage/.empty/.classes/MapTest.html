@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MapTest</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">&lt;empty package name&gt;</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MapTest (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MapTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.5%
+  </span>
+  <span class="absValue">
+    (67/ 68)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;import org.junit.*;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import static org.junit.Assert.*;
+<i>4</i>&nbsp;
+<b class="fc"><i>5</i>&nbsp;public class MapTest {</b>
+<i>6</i>&nbsp;    static Map map;
+<b class="fc"><i>7</i>&nbsp;    static int WIDTH = 8;</b>
+<b class="fc"><i>8</i>&nbsp;    static int HEIGHT = 8;</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    @BeforeClass
+<i>11</i>&nbsp;    public static void setUp() {
+<b class="fc"><i>12</i>&nbsp;        map = new Map(WIDTH, HEIGHT);</b>
+<b class="fc"><i>13</i>&nbsp;    }</b>
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    @After
+<i>16</i>&nbsp;    public void tearDown() {
+<b class="fc"><i>17</i>&nbsp;        while (map.getTowers().size() &gt; 0)</b>
+<b class="fc"><i>18</i>&nbsp;            map.destroyTower(map.getTowers().get(0).col, map.getTowers().get(0).row);</b>
+<b class="fc"><i>19</i>&nbsp;        while (map.getMonsters().size() &gt; 0)</b>
+<b class="fc"><i>20</i>&nbsp;            map.removeMonster(map.getMonsters().get(0));</b>
+<b class="fc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Test
+<i>24</i>&nbsp;    public void checkPathIsValid() {
+<b class="fc"><i>25</i>&nbsp;        assertEquals(0, map.getPath().get(0).col);</b>
+<b class="fc"><i>26</i>&nbsp;        assertEquals(WIDTH-1, map.getPath().get(map.getPath().size()-1).col);</b>
+<i>27</i>&nbsp;
+<b class="fc"><i>28</i>&nbsp;        Tile lastTile = map.getPath().get(0);</b>
+<b class="fc"><i>29</i>&nbsp;        for (Tile t : map.getPath()) {</b>
+<b class="fc"><i>30</i>&nbsp;            if (t == lastTile) continue;</b>
+<i>31</i>&nbsp;            // make sure the distance between each path Tile is exactly 1
+<b class="fc"><i>32</i>&nbsp;            assertEquals(1, Math.abs(t.col - lastTile.col) + Math.abs(t.row - lastTile.row));</b>
+<b class="fc"><i>33</i>&nbsp;            lastTile = t;</b>
+<b class="fc"><i>34</i>&nbsp;        }</b>
+<b class="fc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    @Test
+<i>38</i>&nbsp;    public void addTower() {
+<b class="fc"><i>39</i>&nbsp;        Tower p = new PaperTower(0,0);</b>
+<b class="fc"><i>40</i>&nbsp;        Tower r = new RockTower(WIDTH-1,HEIGHT-1);</b>
+<b class="fc"><i>41</i>&nbsp;        map.addTower(p, 0, 0);</b>
+<b class="fc"><i>42</i>&nbsp;        map.addTower(r, WIDTH-1, HEIGHT-1);</b>
+<b class="fc"><i>43</i>&nbsp;        assertEquals(p, map.getTower(0,0));</b>
+<b class="fc"><i>44</i>&nbsp;        assertEquals(r, map.getTower(WIDTH-1,HEIGHT-1));</b>
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;        map.addTower(p, WIDTH-1, HEIGHT-1);</b>
+<b class="fc"><i>47</i>&nbsp;        assertEquals(r, map.getTower(WIDTH-1,HEIGHT-1));</b>
+<b class="fc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Test
+<i>51</i>&nbsp;    public void destroyTower() {
+<b class="fc"><i>52</i>&nbsp;        int row = 0;</b>
+<b class="fc"><i>53</i>&nbsp;        if (!map.isBuildable(0,0)) {</b>
+<b class="nc"><i>54</i>&nbsp;            row = HEIGHT-1; // makes sure it is buildable to begin with</b>
+<i>55</i>&nbsp;        }
+<b class="fc"><i>56</i>&nbsp;        Tower p = new PaperTower(0, row);</b>
+<b class="fc"><i>57</i>&nbsp;        map.addTower(p, 0, row);</b>
+<i>58</i>&nbsp;
+<b class="fc"><i>59</i>&nbsp;        map.destroyTower(0,0);</b>
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;        assertEquals(null, map.getTower(0,row));</b>
+<b class="fc"><i>62</i>&nbsp;        assertEquals(null, map.getTower(WIDTH-1, row));</b>
+<b class="fc"><i>63</i>&nbsp;    }</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    @Test
+<i>66</i>&nbsp;    public void isBuildable() {
+<b class="fc"><i>67</i>&nbsp;        System.out.println(map.getTowers().size());</b>
+<b class="fc"><i>68</i>&nbsp;        for (int row = 0; row &lt; HEIGHT; row++) {</b>
+<b class="fc"><i>69</i>&nbsp;            for (int col = 0; col &lt; WIDTH; col++) {</b>
+<b class="fc"><i>70</i>&nbsp;                boolean isOnPath = false;</b>
+<b class="fc"><i>71</i>&nbsp;                for (Tile t : map.getPath()) {</b>
+<b class="fc"><i>72</i>&nbsp;                    if (t.col == col &amp;&amp; t.row == row) {</b>
+<b class="fc"><i>73</i>&nbsp;                        isOnPath = true;</b>
+<b class="fc"><i>74</i>&nbsp;                        break;</b>
+<i>75</i>&nbsp;                    }
+<b class="fc"><i>76</i>&nbsp;                }</b>
+<b class="fc"><i>77</i>&nbsp;                if (!isOnPath)</b>
+<b class="fc"><i>78</i>&nbsp;                    assertTrue(map.isBuildable(col, row));</b>
+<i>79</i>&nbsp;                else
+<b class="fc"><i>80</i>&nbsp;                    assertFalse(map.isBuildable(col, row));</b>
+<i>81</i>&nbsp;            }
+<i>82</i>&nbsp;        }
+<b class="fc"><i>83</i>&nbsp;    }</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    @Test
+<i>86</i>&nbsp;    public void addMonster() {
+<b class="fc"><i>87</i>&nbsp;        assertEquals(0, map.getMonsters().size());</b>
+<b class="fc"><i>88</i>&nbsp;        map.addMonster(new PaperMonster(0,0));</b>
+<b class="fc"><i>89</i>&nbsp;        assertEquals(1, map.getMonsters().size());</b>
+<b class="fc"><i>90</i>&nbsp;        map.addMonster(new PaperMonster(0,0));</b>
+<b class="fc"><i>91</i>&nbsp;        assertEquals(2, map.getMonsters().size());</b>
+<b class="fc"><i>92</i>&nbsp;    }</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    @Test
+<i>95</i>&nbsp;    public void removeMonster() {
+<b class="fc"><i>96</i>&nbsp;        assertEquals(0, map.getMonsters().size());</b>
+<b class="fc"><i>97</i>&nbsp;        map.addMonster(new PaperMonster(0,0));</b>
+<b class="fc"><i>98</i>&nbsp;        map.addMonster(new PaperMonster(0,0));</b>
+<b class="fc"><i>99</i>&nbsp;        map.addMonster(new PaperMonster(0,0));</b>
+<i>100</i>&nbsp;
+<b class="fc"><i>101</i>&nbsp;        assertEquals(3, map.getMonsters().size());</b>
+<b class="fc"><i>102</i>&nbsp;        map.removeMonster(map.getMonsters().get(0));</b>
+<b class="fc"><i>103</i>&nbsp;        assertEquals(2, map.getMonsters().size());</b>
+<b class="fc"><i>104</i>&nbsp;        map.removeMonster(map.getMonsters().get(0));</b>
+<b class="fc"><i>105</i>&nbsp;        assertEquals(1, map.getMonsters().size());</b>
+<b class="fc"><i>106</i>&nbsp;        map.removeMonster(map.getMonsters().get(0));</b>
+<b class="fc"><i>107</i>&nbsp;        assertEquals(0, map.getMonsters().size());</b>
+<b class="fc"><i>108</i>&nbsp;    }</b>
+<i>109</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-04-17 21:51</div>
+</div>
+</body>
+</html>
