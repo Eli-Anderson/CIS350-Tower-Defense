@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://findbugs.sourceforge.net/xsl/default.xsl"?>
+
+<BugCollection version="3.0.1" sequence="0" timestamp="1524170208339" analysisTimestamp="1524170204764" release="">
+  <Project projectName="CIS350-Tower-Defense[CIS350-Tower-Defense]">
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/ScissorTower.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/GUI$TileButton.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/Monster.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/TowerType.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/RockMonster.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/Game.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/RoundManager.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/SidebarGUI$TowerSelectButton.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/ScissorTower$1.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/GUI$GameOverDialog.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/PaperTower$1.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/GUI.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/GUI$ButtonListener.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/SidebarGUI.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/Tower.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/GUI$1.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/RockTower$1.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/Base.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/RockTower.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/Tile.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/Map.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/GUI$ToolType.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/ScissorMonster.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/PaperTower.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/PaperMonster.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/BackgroundMusic.class</Jar>
+    <Jar>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense/GUI$GameOverDialog$1.class</Jar>
+    <AuxClasspathEntry>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/out/production/CIS350-Tower-Defense</AuxClasspathEntry>
+    <SrcDir>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/src</SrcDir>
+    <SrcDir>/Users/kaylinzaroukian/GitHub/CIS350-Tower-Defense/resources</SrcDir>
+  </Project>
+  <BugInstance type="DM_EXIT" priority="2" rank="16" abbrev="Dm" category="BAD_PRACTICE" instanceHash="5d22bb380a07ddb751e1985a33da901e" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="382">
+    <ShortMessage>Method invokes System.exit(...)</ShortMessage>
+    <LongMessage>GUI$GameOverDialog.actionPerformed(ActionEvent) invokes System.exit(...), which shuts down the entire virtual machine</LongMessage>
+    <Class classname="GUI$GameOverDialog" primary="true">
+      <SourceLine classname="GUI$GameOverDialog" sourcefile="GUI.java" sourcepath="GUI.java" relSourcepath="src/GUI.java">
+        <Message>In GUI.java</Message>
+      </SourceLine>
+      <Message>In class GUI$GameOverDialog</Message>
+    </Class>
+    <Method classname="GUI$GameOverDialog" name="actionPerformed" signature="(Ljava/awt/event/ActionEvent;)V" isStatic="false" primary="true">
+      <SourceLine classname="GUI$GameOverDialog" start="396" end="402" startBytecode="0" endBytecode="121" sourcefile="GUI.java" sourcepath="GUI.java" relSourcepath="src/GUI.java"/>
+      <Message>In method GUI$GameOverDialog.actionPerformed(ActionEvent)</Message>
+    </Method>
+    <SourceLine classname="GUI$GameOverDialog" primary="true" start="400" end="400" startBytecode="36" endBytecode="36" sourcefile="GUI.java" sourcepath="GUI.java" relSourcepath="src/GUI.java">
+      <Message>At GUI.java:[line 400]</Message>
+    </SourceLine>
+    <SourceLine classname="GUI$GameOverDialog" primary="true" start="400" end="400" startBytecode="36" endBytecode="36" sourcefile="GUI.java" sourcepath="GUI.java" relSourcepath="src/GUI.java">
+      <Message>At GUI.java:[line 400]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD" priority="2" rank="17" abbrev="UuF" category="STYLE" instanceHash="6f2d0b55c820eb201f984950333d5fea" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
+    <ShortMessage>Unused public or protected field</ShortMessage>
+    <LongMessage>Unused public or protected field: Game.m</LongMessage>
+    <Class classname="Game" primary="true">
+      <SourceLine classname="Game" sourcefile="Game.java" sourcepath="Game.java" relSourcepath="src/Game.java">
+        <Message>In Game.java</Message>
+      </SourceLine>
+      <Message>In class Game</Message>
+    </Class>
+    <Field classname="Game" name="m" signature="LMonster;" isStatic="false" primary="true">
+      <SourceLine classname="Game" sourcefile="Game.java" sourcepath="Game.java" relSourcepath="src/Game.java">
+        <Message>In Game.java</Message>
+      </SourceLine>
+      <Message>Field Game.m</Message>
+    </Field>
+    <SourceLine classname="Game" sourcefile="Game.java" sourcepath="Game.java" relSourcepath="src/Game.java" synthetic="true">
+      <Message>In Game.java</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugCategory category="BAD_PRACTICE">
+    <Description>Bad practice</Description>
+  </BugCategory>
+  <BugCategory category="STYLE">
+    <Description>Dodgy code</Description>
+  </BugCategory>
+  <BugPattern type="UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD" abbrev="UuF" category="STYLE">
+    <ShortDescription>Unused public or protected field</ShortDescription>
+    <Details><![CDATA[
+
+  <p> This field is never used.&nbsp;
+The field is public or protected, so perhaps
+    it is intended to be used with classes not seen as part of the analysis. If not,
+consider removing it from the class.</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="DM_EXIT" abbrev="Dm" category="BAD_PRACTICE" cweid="382">
+    <ShortDescription>Method invokes System.exit(...)</ShortDescription>
+    <Details><![CDATA[
+
+  <p> Invoking System.exit shuts down the entire Java virtual machine. This
+   should only been done when it is appropriate. Such calls make it
+   hard or impossible for your code to be invoked by other code.
+   Consider throwing a RuntimeException instead.</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugCode abbrev="UuF">
+    <Description>Unused field</Description>
+  </BugCode>
+  <BugCode abbrev="Dm">
+    <Description>Dubious method used</Description>
+  </BugCode>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Thu, 19 Apr 2018 16:36:44 -0400" total_classes="27" referenced_classes="417" total_bugs="2" total_size="914" num_packages="1" java_version="1.8.0_152-release" vm_version="25.152-b11" cpu_seconds="48.86" clock_seconds="264.14" peak_mbytes="967.32" alloc_mbytes="725.00" gc_seconds="0.57" priority_2="2">
+    <FileStats path="BackgroundMusic.java" bugCount="0" size="23"/>
+    <FileStats path="Base.java" bugCount="0" size="24"/>
+    <FileStats path="GUI.java" bugCount="1" size="258" bugHash="f91aab4f50d40d819b35da06d3f07aad"/>
+    <FileStats path="Game.java" bugCount="1" size="77" bugHash="250cb34b80322948d7eaa222de4833c5"/>
+    <FileStats path="Map.java" bugCount="0" size="146"/>
+    <FileStats path="Monster.java" bugCount="0" size="78"/>
+    <FileStats path="PaperMonster.java" bugCount="0" size="6"/>
+    <FileStats path="PaperTower.java" bugCount="0" size="28"/>
+    <FileStats path="RockMonster.java" bugCount="0" size="6"/>
+    <FileStats path="RockTower.java" bugCount="0" size="28"/>
+    <FileStats path="RoundManager.java" bugCount="0" size="51"/>
+    <FileStats path="ScissorMonster.java" bugCount="0" size="6"/>
+    <FileStats path="ScissorTower.java" bugCount="0" size="28"/>
+    <FileStats path="SidebarGUI.java" bugCount="0" size="84"/>
+    <FileStats path="Tile.java" bugCount="0" size="10"/>
+    <FileStats path="Tower.java" bugCount="0" size="50"/>
+    <FileStats path="TowerType.java" bugCount="0" size="11"/>
+    <PackageStats package="" total_bugs="2" total_types="27" total_size="914" priority_2="2">
+      <ClassStats class="BackgroundMusic" sourceFile="BackgroundMusic.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="Base" sourceFile="Base.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="GUI" sourceFile="GUI.java" interface="false" size="141" bugs="0"/>
+      <ClassStats class="GUI$1" sourceFile="GUI.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="GUI$ButtonListener" sourceFile="GUI.java" interface="false" size="31" bugs="0"/>
+      <ClassStats class="GUI$GameOverDialog" sourceFile="GUI.java" interface="false" size="26" bugs="1" priority_2="1"/>
+      <ClassStats class="GUI$GameOverDialog$1" sourceFile="GUI.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="GUI$TileButton" sourceFile="GUI.java" interface="false" size="37" bugs="0"/>
+      <ClassStats class="GUI$ToolType" sourceFile="GUI.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="Game" sourceFile="Game.java" interface="false" size="77" bugs="1" priority_2="1"/>
+      <ClassStats class="Map" sourceFile="Map.java" interface="false" size="146" bugs="0"/>
+      <ClassStats class="Monster" sourceFile="Monster.java" interface="false" size="78" bugs="0"/>
+      <ClassStats class="PaperMonster" sourceFile="PaperMonster.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="PaperTower" sourceFile="PaperTower.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="PaperTower$1" sourceFile="PaperTower.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="RockMonster" sourceFile="RockMonster.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="RockTower" sourceFile="RockTower.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="RockTower$1" sourceFile="RockTower.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="RoundManager" sourceFile="RoundManager.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="ScissorMonster" sourceFile="ScissorMonster.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="ScissorTower" sourceFile="ScissorTower.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="ScissorTower$1" sourceFile="ScissorTower.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="SidebarGUI" sourceFile="SidebarGUI.java" interface="false" size="69" bugs="0"/>
+      <ClassStats class="SidebarGUI$TowerSelectButton" sourceFile="SidebarGUI.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="Tile" sourceFile="Tile.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="Tower" sourceFile="Tower.java" interface="false" size="50" bugs="0"/>
+      <ClassStats class="TowerType" sourceFile="TowerType.java" interface="false" size="11" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="595" invocations="1848" avgMicrosecondsPerInvocation="322" maxMicrosecondsPerInvocation="30524" standardDeviationMircosecondsPerInvocation="1456"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="358" invocations="417" avgMicrosecondsPerInvocation="859" maxMicrosecondsPerInvocation="19619" standardDeviationMircosecondsPerInvocation="2161"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="321" invocations="417" avgMicrosecondsPerInvocation="769" maxMicrosecondsPerInvocation="32934" standardDeviationMircosecondsPerInvocation="2396"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.Methods" totalMilliseconds="213" invocations="417" avgMicrosecondsPerInvocation="511" maxMicrosecondsPerInvocation="207991" standardDeviationMircosecondsPerInvocation="10172"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="211" invocations="957" avgMicrosecondsPerInvocation="220" maxMicrosecondsPerInvocation="16518" standardDeviationMircosecondsPerInvocation="837"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="195" invocations="1851" avgMicrosecondsPerInvocation="105" maxMicrosecondsPerInvocation="38016" standardDeviationMircosecondsPerInvocation="1214"/>
+      <ClassProfile name="edu.umd.cs.findbugs.FindBugs2" totalMilliseconds="174" invocations="2" avgMicrosecondsPerInvocation="87490" maxMicrosecondsPerInvocation="89939" standardDeviationMircosecondsPerInvocation="2431"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="97" invocations="490" avgMicrosecondsPerInvocation="198" maxMicrosecondsPerInvocation="21089" standardDeviationMircosecondsPerInvocation="1131"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="94" invocations="417" avgMicrosecondsPerInvocation="226" maxMicrosecondsPerInvocation="22964" standardDeviationMircosecondsPerInvocation="1201"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="84" invocations="417" avgMicrosecondsPerInvocation="203" maxMicrosecondsPerInvocation="21878" standardDeviationMircosecondsPerInvocation="1211"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="78" invocations="417" avgMicrosecondsPerInvocation="188" maxMicrosecondsPerInvocation="24804" standardDeviationMircosecondsPerInvocation="1262"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="69" invocations="146" avgMicrosecondsPerInvocation="477" maxMicrosecondsPerInvocation="6592" standardDeviationMircosecondsPerInvocation="1019"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="67" invocations="417" avgMicrosecondsPerInvocation="160" maxMicrosecondsPerInvocation="8410" standardDeviationMircosecondsPerInvocation="552"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="65" invocations="135" avgMicrosecondsPerInvocation="486" maxMicrosecondsPerInvocation="9424" standardDeviationMircosecondsPerInvocation="1204"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="61" invocations="417" avgMicrosecondsPerInvocation="148" maxMicrosecondsPerInvocation="17425" standardDeviationMircosecondsPerInvocation="1002"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>

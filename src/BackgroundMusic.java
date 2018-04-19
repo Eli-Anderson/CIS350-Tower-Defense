@@ -6,14 +6,20 @@ import javafx.util.Duration;
 
 import java.io.File;
 
+/**********************************************************************
+ * Background Music class to implement music in our GUI.
+ * @author Eli Anderson and Runquan Ye
+ * @version Winter 2018
+ **********************************************************************/
 public class BackgroundMusic extends Application implements Runnable {
+
+    /** Creates media player object. **/
     private MediaPlayer mediaPlayer;
 
-
-    /*
-        This is called when the JavaFX Application is launched.
-        It creates our audio data and starts our thread
-     */
+    /********************************************************
+     * This is called when the JavaFX Application is launched.
+     * It creates our audio data and starts our thread
+     ********************************************************/
     @Override
     public void start(Stage primaryStage) {
         String path = getParameters().getRaw().get(0);
@@ -33,14 +39,14 @@ public class BackgroundMusic extends Application implements Runnable {
         t.start();
     }
 
-    /*
-        Needed for JavaFX's Application to run properly
-     */
+    /**************************************************
+     * Needed for JavaFX's Application to run properly.
+     **************************************************/
     public void init() { }
 
-    /*
-        Run is called when our Thread's start() is called
-     */
+    /*****************************************************
+     * Run is called when our Thread's start() is called.
+     *****************************************************/
     @Override
     public void run() {
         mediaPlayer.play();

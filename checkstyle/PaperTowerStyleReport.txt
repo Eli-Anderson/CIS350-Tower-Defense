@@ -1,0 +1,9 @@
+PaperTower.java : 8 item(s)
+File contains tab characters (this is the first instance). (12:1) [FileTabCharacterCheck]
+'3' is a magic number. (12:42) [MagicNumberCheck]
+Parameter col should be final. (19:27) [FinalParametersCheck]
+Parameter row should be final. (19:36) [FinalParametersCheck]
+'30' is a magic number. (24:31) [MagicNumberCheck]
+Parameter monsterType should be final. (33:46) [FinalParametersCheck]
+'0.5' is a magic number. (41:40) [MagicNumberCheck]
+'15' is a magic number. (54:24) [MagicNumberCheck]

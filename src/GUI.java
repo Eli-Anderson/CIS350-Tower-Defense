@@ -13,24 +13,46 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-public class GUI extends JFrame implements Observer {
-    public static final int TILE_SIZE = 64;
-    private SidebarGUI sidebar;
-    private JPanel mapPanel;
+/***************************************
+ * GUI for tower defense game.
+ ***************************************/
+ public class GUI extends JFrame implements Observer {
 
+    /** Size of game window. **/
+    public static final int TILE_SIZE = 64;
+    /** Creates sidebar. **/
+    private SidebarGUI sidebar;
+    /** JPanel of map. **/
+    private JPanel mapPanel;
+    /** Map of tiles. **/
     private TileButton[][] mapArray;
+    /** Images of monsters. **/
     private BufferedImage paperMonsterImage, rockMonsterImage, scissorMonsterImage;
-    public BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage;
+    /** Images of towers. **/
+    private BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage;
+    /** Instance of our GUI. **/
     private static GUI instance;
+    /** Adds button listener. **/
     private ButtonListener buttonListener;
 
+    /*****************
+     * GUI tools.
+     *****************/
     public enum ToolType {
+        /** Tool Types. **/
         BUILD, DESTROY, SELECT
     }
 
+    /** Way to select a tool. **/
     public ToolType selectedTool = ToolType.SELECT;
+
+    /** Default tower. **/
     public TowerType selectedTowerType = TowerType.ROCK;
 
+    /**************************************
+     * Gets GUI instance.
+     * @return instance
+     **************************************/
     public static GUI getInstance() {
         if (instance == null) {
             instance = new GUI();
@@ -38,6 +60,9 @@ public class GUI extends JFrame implements Observer {
         return instance;
     }
 
+    /**************************
+     * Constructor for GUI.
+     **************************/
     private GUI() {
         setName("Tower Defense");
 
@@ -68,6 +93,9 @@ public class GUI extends JFrame implements Observer {
         setSize(sidebar.getWidth() + map.getWidth() * TILE_SIZE, 22 + map.getHeight() * TILE_SIZE);
     }
 
+    /**********************************
+     * Creates map panel to play game.
+     **********************************/
     private void createMapPanel() {
         Map map = Game.getInstance().getMap();
         mapPanel = new JPanel();
@@ -124,6 +152,9 @@ public class GUI extends JFrame implements Observer {
         }
     }
 
+    /***********************************
+     * Clears monsters from GUI.
+     ***********************************/
     public void clearMonsterImages() {
         for (int row = 0; row < mapArray.length; row++) {
             for (int col = 0; col < mapArray[row].length; col++) {
@@ -132,6 +163,11 @@ public class GUI extends JFrame implements Observer {
         }
     }
 
+    /**************************
+     * Updates observer.
+     * @param o - observable
+     * @param arg - object
+     **************************/
     @Override
     public void update(Observable o, Object arg) {
         sidebar.updateGoldLabel();
@@ -152,6 +188,9 @@ public class GUI extends JFrame implements Observer {
                 case SCISSORS:
                     mapArray[row][col].monsterImage = scissorMonsterImage;
                     break;
+                default:
+                    // do nothing
+                    break;
             }
         }
 
@@ -163,7 +202,7 @@ public class GUI extends JFrame implements Observer {
                 mapArray[row][col].sizeDiff = 2;
             } else {
                 mapArray[row][col].sizeDiff = 0;
-                switch(t.getType()) {
+                switch (t.getType()) {
                     case PAPER:
                         mapArray[row][col].towerImage = paperTowerImage;
                         break;
@@ -173,29 +212,49 @@ public class GUI extends JFrame implements Observer {
                     case SCISSORS:
                         mapArray[row][col].towerImage = scissorTowerImage;
                         break;
+                    default:
+                        // do nothing
+                        break;
                 }
+
             }
         }
 
         repaint();
     }
 
+    /********************************
+     * Creates a TileButton object.
+     ********************************/
     public class TileButton extends JButton {
+        /** Tile image. **/
         BufferedImage tileImage;
+        /** Monster image. **/
         Image monsterImage;
+        /** Tower image. **/
         Image towerImage;
+        /** rotation. **/
         double rotation;
+        /** size difference. **/
         int sizeDiff;
 
+        /***************************
+         * TileButton constructor.
+         ****************************/
         TileButton() {
             super();
             setSize(GUI.TILE_SIZE, GUI.TILE_SIZE);
             sizeDiff = 0;
-            if (buttonListener == null)
+            if (buttonListener == null) {
                 buttonListener = new ButtonListener();
+            }
             addActionListener(buttonListener);
         }
 
+        /************************************
+         * Draws the map.
+         * @param g - graphics
+         ************************************/
         @Override
         public void paintComponent(Graphics g) {
             Graphics2D g1 = (Graphics2D) g;
@@ -204,14 +263,13 @@ public class GUI extends JFrame implements Observer {
 
             int tileImageWidth = tileImage.getWidth(this);
             int tileImageHeight = tileImage.getHeight(this);
-            g1.rotate(rotation, getWidth()/2, getHeight()/2);
+            g1.rotate(rotation, getWidth() / 2.0, getHeight() / 2.0);
 
             double widthPercent = (double) getWidth() / (double) tileImageWidth;
             double heightPercent = (double) getHeight() / (double) tileImageHeight;
             if (monsterImage != null) {
                 int monsterImageWidth = (int) (monsterImage.getWidth(this) * widthPercent);
                 int monsterImageHeight = (int) (monsterImage.getHeight(this) * heightPercent);
-                //@TODO: Null pointer here?
                 g1.drawImage(monsterImage, (getWidth() / 2) - (monsterImageWidth / 2),
                         (getHeight() / 2) - (monsterImageHeight / 2),
                         monsterImageWidth,
@@ -229,8 +287,17 @@ public class GUI extends JFrame implements Observer {
         }
     }
 
+    /**********************************
+     * ButtonListener class.
+     * Checks for button events.
+     **********************************/
     private class ButtonListener implements ActionListener {
 
+        /**************************************
+         * Waits for action event and performs
+         * the action.
+         * @param e - ActionEvent
+         **************************************/
         @Override
         public void actionPerformed(ActionEvent e) {
             Map map = Game.getInstance().getMap();
@@ -262,9 +329,12 @@ public class GUI extends JFrame implements Observer {
                                             mapArray[row][col].towerImage = scissorTowerImage;
                                         }
                                         break;
+                                    default:
+                                        // do nothing
+                                        break;
                                 }
                             }
-                        } else if (selectedTool == ToolType.DESTROY){
+                        } else if (selectedTool == ToolType.DESTROY) {
                             // is in DESTROY mode
                             if (map.getTower(col, row) != null) {
                                 // a tower exists here, so destroy it
@@ -278,9 +348,16 @@ public class GUI extends JFrame implements Observer {
         }
     }
 
+    /**************************************************
+     * Creates Dialog message when game is over.
+     **************************************************/
     public static class GameOverDialog extends JDialog implements ActionListener {
+        /** Buttons on game over message. **/
         JButton quitButton, newGameButton;
 
+        /*************************************
+         * Constructor for game over message.
+         *************************************/
         public GameOverDialog() {
             setTitle("Game Over!");
             setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -310,6 +387,10 @@ public class GUI extends JFrame implements Observer {
             pack();
         }
 
+        /************************************
+         * Performs game over actions.
+         * @param e - Action Event
+         *************************************/
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == newGameButton) {
@@ -321,12 +402,19 @@ public class GUI extends JFrame implements Observer {
         }
     }
 
+    /*********************************
+     * Resets the GUI (map).
+     *********************************/
     public void reset() {
         remove(mapPanel);
         createMapPanel();
         add(mapPanel);
     }
 
+    /*********************************************
+     * Main method to create the GUI.
+     * @param args - music argument
+     *********************************************/
     public static void main(String[] args) {
         GUI.getInstance();
 

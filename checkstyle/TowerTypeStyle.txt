@@ -1,6 +1,0 @@
-TowerType.java : 5 item(s)
-Missing package-info.java file. (0:0) [JavadocPackageCheck]
-Missing a Javadoc comment. (1:0) [JavadocTypeCheck]
-Missing a Javadoc comment. (2:5) [JavadocVariableCheck]
-Missing a Javadoc comment. (2:11) [JavadocVariableCheck]
-Missing a Javadoc comment. (2:18) [JavadocVariableCheck]

@@ -1,0 +1,9 @@
+RockTower.java : 8 item(s)
+File contains tab characters (this is the first instance). (11:1) [FileTabCharacterCheck]
+Parameter col should be final. (18:26) [FinalParametersCheck]
+Parameter row should be final. (18:35) [FinalParametersCheck]
+'8' is a magic number. (22:31) [MagicNumberCheck]
+'45' is a magic number. (23:31) [MagicNumberCheck]
+Parameter monsterType should be final. (32:46) [FinalParametersCheck]
+'0.5' is a magic number. (40:40) [MagicNumberCheck]
+'20' is a magic number. (53:20) [MagicNumberCheck]
