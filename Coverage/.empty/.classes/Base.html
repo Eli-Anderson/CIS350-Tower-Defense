@@ -1,0 +1,161 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Base</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">&lt;empty package name&gt;</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Base (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Base</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (3/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (10/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/********************************
+<i>2</i>&nbsp; * CIS 359 Base Class
+<i>3</i>&nbsp; * Creates base
+<i>4</i>&nbsp; * tower defense game
+<i>5</i>&nbsp; * @author Rose Ault
+<i>6</i>&nbsp; * @version 1
+<i>7</i>&nbsp; ********************************/
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class Base{
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    // Base health
+<i>12</i>&nbsp;    private int health;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    //Base position x
+<i>15</i>&nbsp;    private int col;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    //Base position y
+<i>18</i>&nbsp;    private int row;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * creates base at row and column
+<i>22</i>&nbsp;     * @param row
+<i>23</i>&nbsp;     * @param col
+<i>24</i>&nbsp;     */
+<b class="fc"><i>25</i>&nbsp;    public Base(int health, int col, int row){</b>
+<b class="fc"><i>26</i>&nbsp;        this.health = health;</b>
+<b class="fc"><i>27</i>&nbsp;        this.col = col;</b>
+<b class="fc"><i>28</i>&nbsp;        this.row = row;</b>
+<b class="fc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp; /**
+<i>32</i>&nbsp;     * Gets column location of base
+<i>33</i>&nbsp;     *
+<i>34</i>&nbsp;     * @return col
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    public int getCol() {
+<b class="nc"><i>37</i>&nbsp;        return col;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp; /**
+<i>41</i>&nbsp;     * Gets row location of base
+<i>42</i>&nbsp;     *
+<i>43</i>&nbsp;     * @return row
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    public int getRow() {
+<b class="nc"><i>46</i>&nbsp;        return row;</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp; /**
+<i>50</i>&nbsp;     * Gets health of base
+<i>51</i>&nbsp;     *
+<i>52</i>&nbsp;     * @return health
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    public int getHealth() {
+<b class="fc"><i>55</i>&nbsp;        return health;</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp; /**
+<i>59</i>&nbsp;     * Removes health from base, if health is less then 0, game over.
+<i>60</i>&nbsp;     *
+<i>61</i>&nbsp;     * @param dmg
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    public void removeHealth(int dmg) {
+<b class="fc"><i>64</i>&nbsp;        this.health -=  dmg;</b>
+<b class="fc"><i>65</i>&nbsp;        if (this.health &lt;= 0) {</b>
+<b class="fc"><i>66</i>&nbsp;            Game.getInstance().gameOver();</b>
+<i>67</i>&nbsp;        }
+<b class="fc"><i>68</i>&nbsp;    }</b>
+<i>69</i>&nbsp;
+<i>70</i>&nbsp; /**
+<i>71</i>&nbsp;     * Sets the health
+<i>72</i>&nbsp;     *
+<i>73</i>&nbsp;     * @param health
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    public void setHealth(int h) {
+<b class="nc"><i>76</i>&nbsp;        this.health = h;</b>
+<b class="nc"><i>77</i>&nbsp;    }</b>
+<i>78</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-04-17 21:51</div>
+</div>
+</body>
+</html>

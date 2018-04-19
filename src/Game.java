@@ -33,10 +33,12 @@ import java.util.Observable;
         return Game.instance;
     }
 
+
     /******************************************************
      * The Game constructor.
      * Should only be called from the getInstance() method.
      ******************************************************/
+
     public Game() {
         isRunning = false;
         map = new Map(16, 8);
