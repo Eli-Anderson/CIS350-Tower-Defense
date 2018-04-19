@@ -1,0 +1,9 @@
+ScissorTower.java : 8 item(s)
+File contains tab characters (this is the first instance). (11:1) [FileTabCharacterCheck]
+'5' is a magic number. (11:42) [MagicNumberCheck]
+Parameter col should be final. (18:29) [FinalParametersCheck]
+Parameter row should be final. (18:38) [FinalParametersCheck]
+'15' is a magic number. (23:31) [MagicNumberCheck]
+Parameter monsterType should be final. (33:46) [FinalParametersCheck]
+'0.5' is a magic number. (41:40) [MagicNumberCheck]
+'10' is a magic number. (54:20) [MagicNumberCheck]

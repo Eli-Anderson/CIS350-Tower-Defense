@@ -1,0 +1,7 @@
+PaperMonster.java : 6 item(s)
+Parameter attackBoost should be final. (10:25) [FinalParametersCheck]
+Parameter healthBoost should be final. (10:42) [FinalParametersCheck]
+Line is longer than 80 characters (found 97). (11:0) [LineLengthCheck]
+'4' is a magic number. (11:32) [MagicNumberCheck]
+Line is longer than 80 characters (found 83). (12:0) [LineLengthCheck]
+'15' is a magic number. (13:22) [MagicNumberCheck]

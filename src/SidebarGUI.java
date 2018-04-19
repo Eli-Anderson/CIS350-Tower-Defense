@@ -7,15 +7,30 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class SidebarGUI extends JPanel implements ActionListener{
+/***********************************************
+ * Creates Side Bar for GUI.
+ ***********************************************/
+public class SidebarGUI extends JPanel implements ActionListener {
+
+    /** Creates JButtons. **/
     private JButton rockTower, scissorTower, paperTower, destroyButton;
-    private BufferedImage rockTowerImage, scissorTowerImage, paperTowerImage;
+
+    /** creates JLabels. **/
     private JLabel roundLabel, goldLabel, healthLabel;
+
+    /**************************************
+     * Constructor to create side bar GUI.
+     **************************************/
     SidebarGUI() {
         setLayout(new GridLayout(7, 1));
 
+        BufferedImage rockTowerImage;
+        BufferedImage scissorTowerImage;
+        BufferedImage paperTowerImage;
         try {
-            loadImages();
+            rockTowerImage = ImageIO.read(new File("resources/towers/rockTower.png"));
+            paperTowerImage = ImageIO.read(new File("resources/towers/paperTower.png"));
+            scissorTowerImage = ImageIO.read(new File("resources/towers/scissorTower.png"));
         } catch (IOException e) {
             System.out.println("An error occurred when attempting to load images");
             return;
@@ -25,18 +40,25 @@ public class SidebarGUI extends JPanel implements ActionListener{
         scissorTower = new TowerSelectButton(scissorTowerImage);
         paperTower = new TowerSelectButton(paperTowerImage);
         destroyButton = new JButton("Sell");
-        healthLabel = new JLabel("Lives: "+Game.getInstance().getMap().getBase().getHealth());
-        roundLabel = new JLabel("Round: "+RoundManager.getRound());
-        goldLabel = new JLabel("Gold: "+Game.getInstance().getGold());
+        healthLabel = new JLabel("Lives: " + Game.getInstance().getMap().getBase().getHealth());
+        roundLabel = new JLabel("Round: " + RoundManager.getRound());
+        goldLabel = new JLabel("Gold: " + Game.getInstance().getGold());
 
         rockTower.addActionListener(this);
         scissorTower.addActionListener(this);
         paperTower.addActionListener(this);
         destroyButton.addActionListener(this);
 
-        rockTower.setToolTipText("Rock Tower - " + RockTower.getCost() + " gold");
-        scissorTower.setToolTipText("Scissor Tower - " + ScissorTower.getCost() + " gold");
-        paperTower.setToolTipText("Paper Tower - " + PaperTower.getCost() + " gold");
+        rockTower.setToolTipText("<html><p>Rock Tower</p><br>" +
+                "<p>Cost - " + RockTower.getCost() + "</p><br>" +
+                "<p>Range - " + RockTower.getStaticAttackRange() + "</p></html>");
+
+        scissorTower.setToolTipText("<html><p>Scissor Tower</p><br>" +
+                "<p>Cost - " + ScissorTower.getCost() + "</p><br>" +
+                "<p>Range - " + ScissorTower.getStaticAttackRange() + "</p></html>");
+        paperTower.setToolTipText("<html><p>Paper Tower</p><br>" +
+                "<p>Cost - " + PaperTower.getCost() + "</p><br>" +
+                "<p>Range - " + PaperTower.getStaticAttackRange() + "</p></html>");
 
         add(rockTower);
         add(scissorTower);
@@ -50,12 +72,10 @@ public class SidebarGUI extends JPanel implements ActionListener{
         setVisible(true);
     }
 
-    private void loadImages() throws IOException {
-        rockTowerImage = ImageIO.read(new File("resources/rockTower.png"));
-        paperTowerImage = ImageIO.read(new File("resources/paperTower.png"));
-        scissorTowerImage = ImageIO.read(new File("resources/scissorTower.png"));
-    }
-
+    /*******************************************
+     * Checks to see if action was performed.
+     * @param e - ActionEvent
+     *******************************************/
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == rockTower) {
@@ -74,24 +94,50 @@ public class SidebarGUI extends JPanel implements ActionListener{
             GUI.getInstance().selectedTool = GUI.ToolType.DESTROY;
         }
     }
+
+    /************************
+     * Updates Gold label.
+     ************************/
     public void updateGoldLabel() {
-        goldLabel.setText("Gold: "+Game.getInstance().getGold());
-    }
-    public void updateRoundLabel() {
-        roundLabel.setText("Round: "+RoundManager.getRound());
-    }
-    public void updateHealthLabel() {
-        healthLabel.setText("Lives: "+Game.getInstance().getMap().getBase().getHealth());
+        goldLabel.setText("Gold: " + Game.getInstance().getGold());
     }
 
-    private class TowerSelectButton extends JButton {
+    /*********************************
+     * Updates round label.
+     *********************************/
+    public void updateRoundLabel() {
+        roundLabel.setText("Round: " + RoundManager.getRound());
+    }
+
+    /******************************
+     * Updates health label.
+     ******************************/
+    public void updateHealthLabel() {
+        healthLabel.setText("Lives: " + Game.getInstance().getMap().getBase().getHealth());
+    }
+
+    /*********************************************
+     * Creates tower select button.
+     *********************************************/
+    private static class TowerSelectButton extends JButton {
+
+        /** Tower button image. **/
         private BufferedImage image;
+
+        /***************************************
+         * Constructor for Tower Select Button.
+         * @param img - Tower Image
+         ***************************************/
         TowerSelectButton(BufferedImage img) {
             super();
             image = img;
             setSize(img.getWidth(), img.getHeight());
         }
 
+        /**********************************
+         * Paints the tower select button.
+         * @param g
+         **********************************/
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);

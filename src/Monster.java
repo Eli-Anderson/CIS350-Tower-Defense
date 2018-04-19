@@ -9,60 +9,57 @@
 import java.awt.*;
 import java.util.*;
 
+/****************************************
+ * Class to create monsters for game.
+ ****************************************/
 public class Monster {
 
     /**
-     * Monster's attack
+     * Monster's attack.
      **/
     private int attack;
-
     /**
-     * Angle
+     * Angle.
      **/
     private double rotation;
-
     /**
-     * Monster's health
+     * Monster's health.
      **/
     private double health;
-
     /**
-     * Position in the path that the monster is
+     * Position in the path that the monster is.
      **/
     private int pathIndex;
-
     /**
-     * Hold Position X
+     * Hold Position Y.
      **/
     private int col;
-
     /**
-     * Holds position Y
+     * Holds position X.
      **/
     private int row;
-
     /**
-     * Movement speed
+     * Movement speed.
      **/
     private int moveSpeed;
-
     /**
-     * Reward for killing the monster
+     * Reward for killing the monster.
      **/
     private int reward;
-
+    /** Tower type. **/
     private TowerType type;
-
+    /** decides when to delete monster. **/
     private boolean deleteOnNextFrame;
-
+    /** frames since monster last travelled. **/
     private int framesSinceLastTravel = 0;
 
     /*****************************************************************
-     * Creates the monster
+     * Creates the monster.
      * @param attack - attack value of monster
      * @param health - health of monster
-     * @param col - x position of monster
-     * @param row - y position of monster
+     * @param col - y position of monster
+     * @param row - x position of monster
+     * @param type - monster type
      *****************************************************************/
     public Monster(int attack, int health, int col, int row, TowerType type) {
         this.attack = attack;
@@ -76,31 +73,39 @@ public class Monster {
     }
 
     /**************************************************
-     * gets X position of monster on map
-     * @return posX - x position of monster on map
+     * gets Y position of monster on map.
+     * @return col - y position of monster on map
      **************************************************/
     public int getCol() {
         return col;
     }
 
     /**************************************************
-     * gets Y position of monster on map
-     * @return posY - y position of monster on map
+     * Gets X position of monster on map.
+     * @return row - X position of monster on map
      **************************************************/
     public int getRow() {
         return row;
     }
 
+    /********************************************
+     * Gets path index of monster.
+     * @return pathIndex - index of path
+     ********************************************/
     public int getPathIndex() {
         return pathIndex;
     }
 
+    /***************************************
+     * Gets Tower Type.
+     * @return type - tower type
+     ***************************************/
     public TowerType getType() {
         return type;
     }
 
     /**********************************************
-     * gets the monster's attack
+     * Gets the monster's attack.
      * @return attack - monster's attack strength
      ***********************************************/
     public int getAttack() {
@@ -109,7 +114,7 @@ public class Monster {
 
 
     /***********************************************
-     * gets the reward
+     * Gets the reward.
      * @return reward - reward for killing monster
      ***********************************************/
     public int getReward() {
@@ -117,37 +122,53 @@ public class Monster {
     }
 
     /**************************************
-     * gets the monster's health
+     * Gets the monster's health.
      * @return health - monster's health
      **************************************/
     public double getHealth() {
         return health;
     }
 
-    public double getRotation() {return rotation;}
+    /****************************************
+     * Gets monster's rotation.
+     * @return rotation
+     ****************************************/
+    public double getRotation() {
+        return rotation;
+    }
 
     /*****************************************
-     * Checks if monster is alive
+     * Checks if monster is alive.
      * @return true if monster dead
      *****************************************/
     public boolean isDead() {
         return health <= 0 || deleteOnNextFrame;
     }
 
+    /****************************************
+     * Decides if monster should be deleted.
+     * @return deleteOnNextFrame
+     ****************************************/
     public boolean getDeleteOnNextFrame() {
         return deleteOnNextFrame;
     }
 
+    /*************************************
+     * Sets monster's speed.
+     * @param speed - movement speed
+     *************************************/
     protected void setMoveSpeed(int speed) {
         moveSpeed = speed;
     }
 
     /************************************
-     * when the monster is attacked
+     * When the monster is attacked.
      * @param damage - health points lost
      *************************************/
     public void hurt(double damage) {
-        if (deleteOnNextFrame) return; // monster is already dead
+        if (deleteOnNextFrame) {
+            return; // monster is already dead
+        }
         health -= damage;
         if (Double.compare(health, 0.0) <= 0) {
             //flag for deletion
@@ -156,14 +177,14 @@ public class Monster {
         }
     }
 
-    /***********************************************
-     * Moves the monster one Tile further along the path
-     ***********************************************/
+    /*****************************************************
+     * Moves the monster one Tile further along the path.
+     *****************************************************/
     private void travel() {
         ArrayList<Tile> path = Game.getInstance().getMap().getPath();
         // travels the actual path starting at the tile at the first position
 
-        pathIndex ++;
+        pathIndex++;
         if (pathIndex >= path.size()) {
             // hurt base
             Game.getInstance().getMap().getBase().removeHealth(attack);
@@ -173,7 +194,7 @@ public class Monster {
         }
         col = path.get(pathIndex).col;
         row = path.get(pathIndex).row;
-        switch(Game.getInstance().getMap().getTile(col, row).type) {
+        switch (Game.getInstance().getMap().getTile(col, row).type) {
             case Map.D:
             case Map.DR:
                 rotation = Math.PI / 2;
@@ -187,11 +208,17 @@ public class Monster {
             case Map.RD:
                 rotation = 0.0;
                 break;
+            default:
+                // do nothing
+                break;
         }
     }
 
+    /*********************************
+     * Monster attempts to travel.
+     *********************************/
     public void attemptTravel() {
-        framesSinceLastTravel ++;
+        framesSinceLastTravel++;
         if (framesSinceLastTravel >= moveSpeed) {
             travel();
             framesSinceLastTravel = 0;

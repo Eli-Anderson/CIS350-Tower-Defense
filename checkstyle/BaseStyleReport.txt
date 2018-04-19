@@ -1,0 +1,9 @@
+Base.java : 8 item(s)
+Parameter health should be final. (26:17) [FinalParametersCheck]
+'health' hides a field. (26:21) [HiddenFieldCheck]
+Parameter col should be final. (26:29) [FinalParametersCheck]
+'col' hides a field. (26:33) [HiddenFieldCheck]
+Parameter row should be final. (26:38) [FinalParametersCheck]
+'row' hides a field. (26:42) [HiddenFieldCheck]
+Parameter dmg should be final. (64:30) [FinalParametersCheck]
+Parameter h should be final. (76:27) [FinalParametersCheck]

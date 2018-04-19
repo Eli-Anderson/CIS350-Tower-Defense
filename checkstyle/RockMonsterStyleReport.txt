@@ -1,0 +1,8 @@
+RockMonster.java : 7 item(s)
+Parameter attackBoost should be final. (10:24) [FinalParametersCheck]
+Parameter healthBoost should be final. (10:41) [FinalParametersCheck]
+Line is longer than 80 characters (found 98). (11:0) [LineLengthCheck]
+'5' is a magic number. (11:15) [MagicNumberCheck]
+'15' is a magic number. (11:32) [MagicNumberCheck]
+Line is longer than 80 characters (found 82). (12:0) [LineLengthCheck]
+'45' is a magic number. (13:22) [MagicNumberCheck]

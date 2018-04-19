@@ -1,20 +1,31 @@
 import java.util.ArrayList;
 import java.util.Observable;
 
-public class Game extends Observable {
+/************************************
+ * Class to create the actual game.
+ ************************************/
+ public class Game extends Observable {
+
+    /** Amount of gold. **/
     private int goldCount;
+    /** Game map. **/
     private Map map;
+    /** Targeted frame rate. **/
     private double targetFrameRatePerSec;
+    /** Current game frame. **/
     private int currentFrame;
+    /** Checks if game is still running. **/
     private boolean isRunning;
+    /** Gets game instance. **/
     private static Game instance;
+    /** Gets Monster. **/
     public Monster m;
 
-    /**
+    /*****************************************************************
      * Create a Game object if one is not created yet, then return it.
      * If one is created already, just return it.
      * @return {Game} The Game instance
-     */
+     *****************************************************************/
     public static Game getInstance() {
         if (Game.instance == null) {
             Game.instance = new Game();
@@ -22,9 +33,12 @@ public class Game extends Observable {
         return Game.instance;
     }
 
-    /**
-     * The Game constructor. Should only be called from the getInstance() method.
-     */
+
+    /******************************************************
+     * The Game constructor.
+     * Should only be called from the getInstance() method.
+     ******************************************************/
+
     public Game() {
         isRunning = false;
         map = new Map(16, 8);
@@ -33,42 +47,44 @@ public class Game extends Observable {
         currentFrame = 0;
     }
 
-    /**
-     * Get the current map
+    /*************************************
+     * Get the current map.
      * @return {Map} The current Map
-     */
+     *************************************/
     public Map getMap() {
         return map;
     }
 
-    /**
-     * Get the current gold count
+    /*************************************************
+     * Get the current gold count.
      * @return {int} The amount of gold the Player has
-     */
+     **************************************************/
     public int getGold() {
         return goldCount;
     }
 
-    /**
-     * Remove some gold from the Player's gold count
+    /************************************************
+     * Remove some gold from the Player's gold count.
      * @param cost {int} The amount of gold to remove
-     */
+     ************************************************/
     public void removeGold(int cost) {
         goldCount -= cost;
-        if (goldCount < 0) goldCount = 0;
+        if (goldCount < 0) {
+            goldCount = 0;
+        }
     }
 
-    /**
-     * Add some gold to the Player's gold count
+    /***************************************************
+     * Add some gold to the Player's gold count.
      * @param goldAmount {int} The amount of gold to add
-     */
+     ***************************************************/
     public void claimBounty(int goldAmount) {
         goldCount += goldAmount;
     }
 
-    /**
-     * Starts the game loop if it is not already running
-     */
+    /****************************************************
+     * Starts the game loop if it is not already running.
+     ****************************************************/
     public void start() {
         if (!isRunning) {
             isRunning = true;
@@ -76,13 +92,13 @@ public class Game extends Observable {
         }
     }
 
-    /**
+    /******************************************************************************************
      * The main logic of the game. This contains a while loop with a Thread.sleep() call,
      * which allows us to handle the logic on a frame-by-frame basis. We can customize
      * the rate at which the loop runs, thus altering the frame rate of the game. The
      * loop updates the Monsters and Towers, then updates the GUI through the notifyObservers()
      * call.
-     */
+     ******************************************************************************************/
     private void loop() {
         ArrayList<Monster> monstersToDelete;
         while (true) {
@@ -101,8 +117,9 @@ public class Game extends Observable {
                 }
 
                 for (Monster m : map.getMonsters()) { // check if the monster is dead
-                    if (m.getDeleteOnNextFrame())
-                        monstersToDelete.add(m);      // add it to a different array so we can delete it
+                    if (m.getDeleteOnNextFrame()) {
+                        monstersToDelete.add(m); // add it to a different array so we can delete it
+                    }
                     // we delete at the end of the frame to avoid deleting
                     // a Monster mid-way through a for loop, causing bugs
                 }
@@ -128,18 +145,18 @@ public class Game extends Observable {
         }
     }
 
-    /**
-     * End the game, and notify the Player
-     */
-    public void gameOver () {
+    /****************************************
+     * End the game, and notify the Player.
+     ****************************************/
+    public void gameOver() {
         isRunning = false;
         new GUI.GameOverDialog();
     }
 
-    /**
-     * Reset the game
-     */
-    public void reset () {
+    /***********************
+     * Reset the game.
+     ***********************/
+    public void reset() {
         map = new Map(16, 8);
         goldCount = 20;
         currentFrame = 0;
