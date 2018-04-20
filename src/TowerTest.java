@@ -15,11 +15,15 @@ public class TowerTest {
     @Before
     public void before() {
         map.addTower(new RockTower(0, 0), 0, 0);
+        map.addTower(new ScissorTower(2,2), 2, 2);
+        map.addTower(new PaperTower(3, 3), 3, 3);
     }
 
     @After
     public void after() {
         map.destroyTower(0,0);
+        map.destroyTower(2,2);
+        map.destroyTower(3,3);
     }
 
     @Test
@@ -53,8 +57,11 @@ public class TowerTest {
     @Test
     public void testType() {
         Tower t = map.getTower(0, 0);
-        System.out.println(t.getType());
+        Tower p = map.getTower(3,3);
+        Tower s = map.getTower(2,2);
         assertEquals("Should be a ROCK tower", t.getType(), TowerType.ROCK);
+        assertEquals("Should be a scissor tower", s.getType(), TowerType.SCISSORS);
+        assertEquals("Should be a paper tower", p.getType(), TowerType.PAPER);
     }
 
     @Test
@@ -67,7 +74,13 @@ public class TowerTest {
     @Test
     public void attackModifier() {
         Tower t = map.getTower(0, 0);
+        Tower s = map.getTower(2,2);
+        Tower p = map.getTower(3,3);
+        System.out.println(s.getAttackMultiplier(s.getType()));
+        System.out.println(p.getAttackMultiplier(p.getType()));
         assertEquals("Should be 1.0", t.getAttackMultiplier(t.getType()), 1.0, 0);
+        assertEquals("Should be 1.0", s.getAttackMultiplier(s.getType()), 1.0, 0);
+        assertEquals("Should be 1.0", p.getAttackMultiplier(p.getType()), 1.0, 0);
 
     }
 
@@ -80,7 +93,7 @@ public class TowerTest {
     @Test
     public void towerCost() {
         Tower t = map.getTower(0, 0);
-        assertEquals("Should be 20", t.getCost(), 0);
+        assertEquals("Should be 0", t.getCost(), 0);
     }
 
 
