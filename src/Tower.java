@@ -91,16 +91,13 @@ public abstract class Tower {
 		return rotation;
 	}
 
-<<<<<<< HEAD
-	public Monster getTarget(ArrayList<Monster> targets) {
-=======
+
     /***************************************
      * Tower's current target.
      * @param targets - targeted monsters
      * @return monster targeted
      ****************************************/
-	private Monster getTarget(ArrayList<Monster> targets) {
->>>>>>> 9a034f3860dbd73429363407619472d71d52184e
+	public Monster getTarget(ArrayList<Monster> targets) {
 		targets.sort((o1, o2) -> o2.getPathIndex() - o1.getPathIndex()); // sort by who is furthest along the path
 		for (Monster m : targets) {
 			if (!m.getDeleteOnNextFrame() && // make sure it is not already dead
