@@ -3,12 +3,21 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**********************************
+ * Tests RoundManager class.
+ **********************************/
 public class RoundManagerTest {
 
+    /*******************************
+     * Sets up tests.
+     *******************************/
     @Before
     public void setUp() {
     }
 
+    /********************************
+     * Tests reset method.
+     ********************************/
     @Test
     public void reset() {
         RoundManager.update();
@@ -23,6 +32,9 @@ public class RoundManagerTest {
         assertTrue(Game.getInstance().getMap().getMonsters().size() == 0);
     }
 
+    /**********************************
+     * Tests update method.
+     **********************************/
     @Test
     public void update() {
         RoundManager.update();

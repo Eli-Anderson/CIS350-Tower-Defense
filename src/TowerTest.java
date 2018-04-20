@@ -4,14 +4,24 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/*****************************
+ * Test for tower class.
+ *****************************/
 public class TowerTest {
+    /** Creates a map object. **/
     static Map map;
 
+    /******************************
+     * Sets up a map instance.
+     ******************************/
     @BeforeClass
     public static void setUp() {
         map = Game.getInstance().getMap();
     }
 
+    /************************************
+     * Adds towers to the map.
+     ************************************/
     @Before
     public void before() {
         map.addTower(new RockTower(0, 0), 0, 0);
@@ -19,6 +29,9 @@ public class TowerTest {
         map.addTower(new PaperTower(3, 3), 3, 3);
     }
 
+    /************************************
+     * Removes towers from the map.
+     ************************************/
     @After
     public void after() {
         map.destroyTower(0,0);
@@ -26,6 +39,9 @@ public class TowerTest {
         map.destroyTower(3,3);
     }
 
+    /**************************************
+     * Tests the get target method
+     **************************************/
     @Test
     public void testTarget(){
         ScissorMonster s = new ScissorMonster(0,0);
@@ -38,6 +54,9 @@ public class TowerTest {
 
     }
 
+    /********************************
+     * Tests attempt attack method.
+     ********************************/
     @Test
     public void attemptAttack(){
         ScissorMonster s = new ScissorMonster(0, 0);
@@ -48,12 +67,18 @@ public class TowerTest {
         assertEquals("Monster health should be 7.0", s.getHealth(), 7.0, 0);
     }
 
+    /****************************
+     * Tests rotation.
+     ****************************/
     @Test
     public void testRotation() {
         Tower t = map.getTower(0, 0);
         assertEquals("Rotation should be 0", t.getRotation(), 0, 0);
     }
 
+    /****************************
+     * Tests get type method.
+     ****************************/
     @Test
     public void testType() {
         Tower t = map.getTower(0, 0);
@@ -64,6 +89,9 @@ public class TowerTest {
         assertEquals("Should be a paper tower", p.getType(), TowerType.PAPER);
     }
 
+    /**************************
+     * Tests tower position.
+     **************************/
     @Test
     public void checkPos() {
         Tower t = map.getTower(0, 0);
@@ -71,6 +99,9 @@ public class TowerTest {
         assertEquals("Should be 0", t.getRow(), 0);
     }
 
+    /********************************
+     * Tests attack modifier.
+     ********************************/
     @Test
     public void attackModifier() {
         Tower t = map.getTower(0, 0);
@@ -84,12 +115,18 @@ public class TowerTest {
 
     }
 
+    /***************************
+     * Tests attack range.
+     ***************************/
     @Test
     public void testAttackRange() {
         Tower t = map.getTower(0, 0);
         assertEquals("Should be 2", t.getAttackRange(), 2);
     }
 
+    /*************************
+     * Tests tower cost.
+     *************************/
     @Test
     public void towerCost() {
         Tower t = map.getTower(0, 0);
