@@ -4,23 +4,40 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/*********************************
+ * Tests Monster class.
+ *********************************/
 public class MonsterTest {
     static Map map;
 
+    /*******************************
+     *  Sets up a map.
+     *******************************/
     @BeforeClass
     public static void setUp() {
         map = Game.getInstance().getMap();
     }
 
+    /***********************************
+     * Creates a paper monster and
+     * adds it to the map.
+     ***********************************/
     @Before
     public void before() {
         map.addMonster(new PaperMonster(0,0));
     }
+
+    /****************************************
+     * Removes the monster from the map.
+     ****************************************/
     @After
     public void after() {
         map.removeMonster(map.getMonsters().get(0));
     }
 
+    /*****************************************************
+     * Tests monster's path index.
+     *****************************************************/
     @Test
     public void getPathIndex() {
         assertEquals(0, map.getMonsters().get(0).getPathIndex());
@@ -32,6 +49,9 @@ public class MonsterTest {
         assertEquals(1, map.getMonsters().get(0).getPathIndex());
     }
 
+    /*******************************
+     * Tests monster's rotation.
+     *******************************/
     @Test
     public void getRotation() {
         Monster m = map.getMonsters().get(0);
@@ -54,6 +74,9 @@ public class MonsterTest {
         }
     }
 
+    /**********************************
+     * Tests if monster is dead.
+     **********************************/
     @Test
     public void isDead() {
         Monster m = map.getMonsters().get(0);
@@ -65,6 +88,9 @@ public class MonsterTest {
         assertTrue(m.isDead());
     }
 
+    /*******************************
+     * Tests the hurt function
+     *******************************/
     @Test
     public void hurt() {
         Monster m = map.getMonsters().get(0);
@@ -76,6 +102,9 @@ public class MonsterTest {
         }
     }
 
+    /*******************************
+     * Tests attempt travel method.
+     *******************************/
     @Test
     public void attemptTravel() {
         Monster m = map.getMonsters().get(0);

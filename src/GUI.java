@@ -270,6 +270,8 @@ import java.util.Observer;
             if (monsterImage != null) {
                 int monsterImageWidth = (int) (monsterImage.getWidth(this) * widthPercent);
                 int monsterImageHeight = (int) (monsterImage.getHeight(this) * heightPercent);
+
+
                 g1.drawImage(monsterImage, (getWidth() / 2) - (monsterImageWidth / 2),
                         (getHeight() / 2) - (monsterImageHeight / 2),
                         monsterImageWidth,
