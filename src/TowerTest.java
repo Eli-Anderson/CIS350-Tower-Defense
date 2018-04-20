@@ -44,5 +44,44 @@ public class TowerTest {
         assertEquals("Monster health should be 7.0", s.getHealth(), 7.0, 0);
     }
 
+    @Test
+    public void testRotation() {
+        Tower t = map.getTower(0, 0);
+        assertEquals("Rotation should be 0", t.getRotation(), 0, 0);
+    }
+
+    @Test
+    public void testType() {
+        Tower t = map.getTower(0, 0);
+        System.out.println(t.getType());
+        assertEquals("Should be a ROCK tower", t.getType(), TowerType.ROCK);
+    }
+
+    @Test
+    public void checkPos() {
+        Tower t = map.getTower(0, 0);
+        assertEquals("Should be 0", t.getCol(), 0);
+        assertEquals("Should be 0", t.getRow(), 0);
+    }
+
+    @Test
+    public void attackModifier() {
+        Tower t = map.getTower(0, 0);
+        assertEquals("Should be 1.0", t.getAttackMultiplier(t.getType()), 1.0, 0);
+
+    }
+
+    @Test
+    public void testAttackRange() {
+        Tower t = map.getTower(0, 0);
+        assertEquals("Should be 2", t.getAttackRange(), 2);
+    }
+
+    @Test
+    public void towerCost() {
+        Tower t = map.getTower(0, 0);
+        assertEquals("Should be 20", t.getCost(), 0);
+    }
+
 
 }
